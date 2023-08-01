@@ -15,9 +15,17 @@ namespace SimpleActionFramework.Core
         
         public void SetState(string stateName)
         {
-            if (States.ContainsKey(stateName))
+            CurrentState = States.ContainsKey(stateName) ? States[stateName] : DefaultState;
+        }
+
+        public void UpdateState(float dt)
+        {
+            CurrentState.UpdateState(dt);
+            
+            if (CurrentState.IsFinished)
             {
-                CurrentState = States[stateName];
+                SetState(CurrentState.ReservedState);
+                CurrentState.ResetState();
             }
         }
     }

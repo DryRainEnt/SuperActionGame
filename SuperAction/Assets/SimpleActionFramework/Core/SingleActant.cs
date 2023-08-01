@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace SimpleActionFramework.Core
 {
     [System.Serializable]
@@ -5,6 +7,12 @@ namespace SimpleActionFramework.Core
     {
         public ushort StartFrame;
         public ushort Duration;
+        public bool UsedOnce => Duration == 0;
         public ushort EndFrame => (ushort)(StartFrame + Duration);
+
+        public virtual void Act(float dt)
+        {
+            
+        }
     }
 }
