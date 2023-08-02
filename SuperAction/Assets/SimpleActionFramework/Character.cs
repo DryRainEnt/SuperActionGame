@@ -6,6 +6,13 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     public ActionStateMachine ActionStateMachine;
+
+
+    public void Initiate()
+    {
+        ActionStateMachine = Instantiate(ActionStateMachine);
+        ActionStateMachine.Init(this);
+    }
     
     // Start is called before the first frame update
     void Start()

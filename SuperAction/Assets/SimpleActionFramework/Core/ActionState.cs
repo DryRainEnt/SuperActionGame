@@ -5,14 +5,15 @@ using UnityEngine;
 namespace SimpleActionFramework.Core
 {
 	[System.Serializable]
+	[CreateAssetMenu(fileName = "New Action State", menuName = "Simple Action Framework/Create New Action State", order = 2)]
 	public class ActionState : ScriptableObject
 	{
-		public List<SingleActant> Actants;
+		public List<SingleActant> Actants = new List<SingleActant>();
 
 		public Character Character { get; set; }
 		public SerializedDictionary<string, string> Data { get; set; }
 
-		public ushort TotalDuration => Actants.Max(actant => actant.EndFrame);
+		public ushort TotalDuration => (ushort)(Actants.Count > 0 ? Actants.Max(actant => actant.EndFrame) : 0);
 
 		private float _innerTimer;
 		public ushort CurrentFrame => (ushort)(_innerTimer * 30);
