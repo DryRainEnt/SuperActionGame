@@ -25,11 +25,12 @@ public class CreateActantScript : Editor {
 				writer.WriteLine("using UnityEngine;");
 				writer.WriteLine("using SimpleActionFramework.Core;");
 				writer.WriteLine("");
+				writer.WriteLine("[System.Serializable]");
 				writer.WriteLine($"public class {className} : SingleActant");
 				writer.WriteLine("{");
-				writer.WriteLine("\tpublic override void Act(float dt)");
+				writer.WriteLine("\tpublic override void Act(ActionStateMachine machine, float progress, bool isFirstFrame = false)");
 				writer.WriteLine("\t{");
-				writer.WriteLine("\t \tbase.Act(dt);");
+				writer.WriteLine("\t \tbase.Act(machine, progress, isFirstFrame);");
 				writer.WriteLine("\t \t// Put your code here");
 				writer.WriteLine("\t}");
 				writer.WriteLine("}");

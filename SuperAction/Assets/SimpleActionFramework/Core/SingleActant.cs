@@ -10,9 +10,11 @@ namespace SimpleActionFramework.Core
         public bool UsedOnce => Duration == 0;
         public ushort EndFrame => (ushort)(StartFrame + Duration);
 
-        public virtual void Act(float dt)
+        protected float InnerProgress;
+
+        public virtual void Act(ActionStateMachine machine, float progress, bool isFirstFrame = false)
         {
-            
+            InnerProgress = progress;
         }
     }
 }
