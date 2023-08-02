@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4fbb331e0840ba4ea66020cae1b4f24, type: 3}
+  m_Name: SampleActionMachine
+  m_EditorClassIdentifier: 
+  States:
+    keys:
+    - NewState1
+    - NewState2
+    - NewState3
+    values:
+    - {fileID: 11400000, guid: 89e5dca05696ac44389251c6853442ee, type: 2}
+    - {fileID: 11400000, guid: b1042487e6bdeea498390182652b9b5a, type: 2}
+    - {fileID: 11400000, guid: b1042487e6bdeea498390182652b9b5a, type: 2}
+  Data:
+    keys: []
+    values: []
+  DefaultStateName: 
