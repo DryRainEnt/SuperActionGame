@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace Editor.SimpleActionEditor.ActantEditor
 {
-    [CustomPropertyDrawer(typeof(TransformMoveActant))]
-    public class TransformMoveActantDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(TransformRotateActant))]
+    public class TransformRotateActantDrawer : PropertyDrawer
     {
         // 각 propertyPath에 대한 별도의 foldout 상태를 저장하는 Dictionary
         private Dictionary<string, bool> foldouts = new Dictionary<string, bool>();
@@ -24,7 +24,7 @@ namespace Editor.SimpleActionEditor.ActantEditor
             bool foldout = foldouts.TryGetValue(property.propertyPath, out bool storedFoldout) && storedFoldout;
             return foldout ? 24f * PropertyCount : 20;
         }
-        
+
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.BeginProperty(position, label, property);
@@ -35,7 +35,7 @@ namespace Editor.SimpleActionEditor.ActantEditor
             SerializedProperty startFrameProperty = property.FindPropertyRelative("StartFrame");
             SerializedProperty durationProperty = property.FindPropertyRelative("Duration");
 
-            foldout = EditorGUI.Foldout(position, foldout, $"{startFrameProperty.intValue} ~ TransformMoveActant [{durationProperty.intValue}]", true);
+            foldout = EditorGUI.Foldout(position, foldout, $"{startFrameProperty.intValue} ~ TransformRotateActant [{durationProperty.intValue}]", true);
             pCount++;
             
             // save foldout state on Dictionary
@@ -55,15 +55,9 @@ namespace Editor.SimpleActionEditor.ActantEditor
                 pCount++;
                 
                 drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
-                SerializedProperty moveDirectionProperty = property.FindPropertyRelative("MoveDirection");
+                SerializedProperty moveDirectionProperty = property.FindPropertyRelative("RotationAngle");
                 EditorGUI.PropertyField(drawRect, moveDirectionProperty, 
-                    new GUIContent("MoveDirection"), true);
-                pCount++;
-                
-                drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
-                SerializedProperty moveRelativeProperty = property.FindPropertyRelative("IsRelative");
-                EditorGUI.PropertyField(drawRect, moveRelativeProperty, 
-                    new GUIContent("IsRelative"), true);
+                    new GUIContent("RotationAngle"), true);
                 pCount++;
             }
             EditorGUI.indentLevel--;

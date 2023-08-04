@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using SimpleActionFramework.Core;
 using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 
 namespace Editor.SimpleActionEditor
@@ -11,12 +12,59 @@ namespace Editor.SimpleActionEditor
     [CustomEditor(typeof(ActionState))]
     public class ActionStateEditor : UnityEditor.Editor
     {
+        private ReorderableList reorderableList;
+        
         SerializedProperty listProp;
+        ActionState state;
+        [SerializeReference] List<SingleActant> actList;
         public bool foldout = true;
 
         void OnEnable()
         {
+            state = serializedObject.targetObject as ActionState;
             listProp = serializedObject.FindProperty("Actants");
+            actList = state.Actants;
+            
+            reorderableList = new ReorderableList(serializedObject, listProp, true, false, true, true);
+
+            reorderableList.drawElementCallback = (Rect rect, int index, bool isActive, bool isFocused) =>
+            {
+                var element = reorderableList.serializedProperty.GetArrayElementAtIndex(index);
+                rect.y += 2;
+                EditorGUI.PropertyField(new Rect(rect.x + 16f, rect.y, rect.width - 16f, 
+                        EditorGUIUtility.singleLineHeight * 1.2f), 
+                    element, 
+                    GUIContent.none, 
+                    true);
+            };
+            
+            reorderableList.elementHeightCallback = (index) =>
+            {
+                var element = reorderableList.serializedProperty.GetArrayElementAtIndex(index);
+                return EditorGUI.GetPropertyHeight(element, true);
+            };
+            
+            reorderableList.onAddDropdownCallback = (Rect buttonRect, ReorderableList l) =>
+            {
+                GenericMenu menu = new GenericMenu();
+
+                // SingleActant의 모든 자식 타입을 찾아서 메뉴에 추가합니다.
+                foreach (var type in GetDerivedTypes<SingleActant>())
+                {
+                    menu.AddItem(new GUIContent(type.Name), false, () =>
+                    {
+                        // 선택한 타입의 Actant를 추가합니다.
+                        actList.Add((SingleActant)Activator.CreateInstance(type));
+
+                        serializedObject.Update();
+                            
+                        serializedObject.ApplyModifiedProperties();
+                    });
+                }
+
+                menu.ShowAsContext();
+            };
+
         }
 
         public override void OnInspectorGUI()
@@ -31,7 +79,12 @@ namespace Editor.SimpleActionEditor
             EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.Separator();
-
+            
+            reorderableList.DoLayoutList();
+    
+            serializedObject.ApplyModifiedProperties();
+            
+/*
             List<int> killList = new List<int>();
 
             EditorGUILayout.BeginHorizontal();
@@ -52,10 +105,11 @@ namespace Editor.SimpleActionEditor
                         menu.AddItem(new GUIContent(type.Name), false, () =>
                         {
                             // 선택한 타입의 Actant를 추가합니다.
-                            //TODO: 이렇게 하면 Actant의 생성자가 호출되지 않습니다.
-                            listProp.InsertArrayElementAtIndex(listProp.arraySize);
-                            listProp.GetArrayElementAtIndex(listProp.arraySize - 1).managedReferenceValue 
-                                = Activator.CreateInstance(type);
+                            actList.Add((SingleActant)Activator.CreateInstance(type));
+
+                            serializedObject.Update();
+                            
+                            serializedObject.ApplyModifiedProperties();
                         });
                     }
 
@@ -65,11 +119,15 @@ namespace Editor.SimpleActionEditor
                 for (int i = 0; i < listProp.arraySize; i++)
                 {
                     SerializedProperty actantProp = listProp.GetArrayElementAtIndex(i);
-                    
-                    EditorGUILayout.BeginHorizontal(GUILayout.Height(24f));
+
+                    EditorGUILayout.BeginHorizontal(GUILayout.ExpandHeight(true));
+
                     EditorGUILayout.LabelField(i.ToString(), GUILayout.Width(16f));
-                    EditorGUILayout.PropertyField(actantProp, GUIContent.none);
                     EditorGUILayout.Space(2f);
+
+                    EditorGUILayout.BeginVertical();
+                    EditorGUILayout.PropertyField(actantProp, GUIContent.none, true, GUILayout.ExpandWidth(true));
+                    EditorGUILayout.EndVertical();
                     
                     GUI.backgroundColor = Color.red;
                     GUIStyle simpleStyle = new GUIStyle(GUI.skin.button)
@@ -77,14 +135,14 @@ namespace Editor.SimpleActionEditor
                         alignment = TextAnchor.MiddleCenter,
                         fixedWidth = 20f,
                     };
-                    
-                    if (GUILayout.Button("-", simpleStyle))
+
+                    if (GUILayout.Button("-", simpleStyle, GUILayout.Width(20f)))
                     {
                         killList.Add(i);
                     }
-                    
+
                     GUI.backgroundColor = defaultColor;
-                    
+
                     EditorGUILayout.EndHorizontal();
                 }
                 
@@ -101,6 +159,8 @@ namespace Editor.SimpleActionEditor
             }
             
             serializedObject.ApplyModifiedProperties();
+            
+            */
         }
         
         // T를 상속받는 모든 타입을 찾는 메서드입니다.
