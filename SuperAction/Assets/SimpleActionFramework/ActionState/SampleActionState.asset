@@ -13,8 +13,21 @@ MonoBehaviour:
   m_Name: SampleActionState
   m_EditorClassIdentifier: 
   Actants:
-  - StartFrame: 0
-    Duration: 2
-  - StartFrame: 4
-    Duration: 0
+  - rid: 1989145269089599720
+  - rid: 1989145269089599721
   ReservedState: 
+  references:
+    version: 2
+    RefIds:
+    - rid: 1989145269089599720
+      type: {class: TransformRotateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 30
+        RotationAngle: 90
+    - rid: 1989145269089599721
+      type: {class: SetStateActant, ns: , asm: Assembly-CSharp}
+      data:
+        StartFrame: 60
+        Duration: 0
+        StateKey: NewState1

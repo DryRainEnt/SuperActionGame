@@ -9,16 +9,22 @@ namespace SimpleActionFramework.Actant
 		public float RotationAngle;
 	
 		private float _startRotation;
+		private Transform _transform;
 
 		public override void Act(ActionStateMachine machine, float progress, bool isFirstFrame = false)
 		{
 			base.Act(machine, progress, isFirstFrame);
-			// Put your code here
+			
 			if (isFirstFrame)
-				_startRotation = machine.Character.transform.eulerAngles.z;
+			{
+				_transform = machine.Character.transform;
+				_startRotation = _transform.eulerAngles.z;
+			}
 
 			machine.Character.transform.rotation
-				= Quaternion.Euler(0, 0, _startRotation + RotationAngle * progress);
+				= Quaternion.Euler(0, 0, _startRotation + RotationAngle * InnerProgress);
+			
+			machine.CurrentState.CurrentActantName = "TransformRotateActant";
 		}
 	}
 }
