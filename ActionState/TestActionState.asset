@@ -13,8 +13,31 @@ MonoBehaviour:
   m_Name: TestActionState
   m_EditorClassIdentifier: 
   Actants:
-  - StartFrame: 2
-    Duration: 4
-  - StartFrame: 3
-    Duration: 5
+  - rid: 1989145269089599717
+  - rid: 1989145269089599718
+  - rid: 1989145269089599719
   ReservedState: 
+  CurrentActantName: NullActant
+  references:
+    version: 2
+    RefIds:
+    - rid: 1989145269089599717
+      type: {class: TransformMoveActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 30
+        MoveDirection: {x: 3, y: 0, z: 0}
+        IsRelative: 1
+    - rid: 1989145269089599718
+      type: {class: TransformMoveActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 60
+        Duration: 30
+        MoveDirection: {x: 0, y: 3, z: 0}
+        IsRelative: 1
+    - rid: 1989145269089599719
+      type: {class: SetStateActant, ns: , asm: Assembly-CSharp}
+      data:
+        StartFrame: 120
+        Duration: 0
+        StateKey: NewState2

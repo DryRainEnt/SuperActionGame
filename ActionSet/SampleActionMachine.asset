@@ -16,12 +16,10 @@ MonoBehaviour:
     keys:
     - NewState1
     - NewState2
-    - NewState3
     values:
-    - {fileID: 11400000, guid: 89e5dca05696ac44389251c6853442ee, type: 2}
-    - {fileID: 11400000, guid: b1042487e6bdeea498390182652b9b5a, type: 2}
-    - {fileID: 11400000, guid: b1042487e6bdeea498390182652b9b5a, type: 2}
+    - {fileID: 11400000, guid: 5e7d10b9ba739ef49a641c93e34ef886, type: 2}
+    - {fileID: 11400000, guid: 83ab5f1bc234c184cbed85bdb89f71a3, type: 2}
   Data:
     keys: []
     values: []
-  DefaultStateName: 
+  DefaultStateName: NewState1

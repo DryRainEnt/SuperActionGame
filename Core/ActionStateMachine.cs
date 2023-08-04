@@ -3,7 +3,7 @@ using UnityEngine;
 namespace SimpleActionFramework.Core
 {
     [System.Serializable]
-    [CreateAssetMenu(fileName = "New Action Machine", menuName = "Simple Action Framework/Create New Action Machine", order = 1)]
+    [CreateAssetMenu(fileName = "NewActionMachine", menuName = "Simple Action Framework/Create New Action Machine", order = 1)]
     public class ActionStateMachine : ScriptableObject
     {
         public SerializedDictionary<string, ActionState> States = new SerializedDictionary<string, ActionState>();
@@ -21,20 +21,24 @@ namespace SimpleActionFramework.Core
         {
             Character = character;
             Data.Clear();
+            
+            SetState(DefaultStateName);
         }
         
         public void SetState(string stateName)
         {
-            CurrentState = States.ContainsKey(stateName) ? States[stateName] : States[DefaultStateName];
+            var targetState = States.ContainsKey(stateName) ? States[stateName] : States[DefaultStateName];
 
-            if (!CurrentState)
+            if (!targetState)
             {
                 Debug.LogWarning($"State is null for {name}!" +
                                  $" \n called: {stateName} \n default: {DefaultStateName}");
                 return;
             }
             
-            CurrentState.ResetState(Character, Data);
+            CurrentState = Instantiate(targetState);
+            // CurrentState = targetState;
+            CurrentState.ResetState(this, Data);
         }
 
         public void UpdateState(float dt)
