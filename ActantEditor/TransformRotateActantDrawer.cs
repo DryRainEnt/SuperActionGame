@@ -59,6 +59,12 @@ namespace Editor.SimpleActionEditor.ActantEditor
                 EditorGUI.PropertyField(drawRect, moveDirectionProperty, 
                     new GUIContent("RotationAngle"), true);
                 pCount++;
+                
+                drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
+                SerializedProperty interpolationProperty = property.FindPropertyRelative("InterpolationType");
+                EditorGUI.PropertyField(drawRect, interpolationProperty, 
+                    new GUIContent("InterpolationType"), true);
+                pCount++;
             }
             EditorGUI.indentLevel--;
 

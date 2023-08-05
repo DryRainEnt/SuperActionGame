@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Editor.SimpleActionEditor
 {
-    [CustomEditor(typeof(Character))]
+    [CustomEditor(typeof(Actor))]
     public class CharacterEditor : UnityEditor.Editor
     {
         public bool foldout = true;
