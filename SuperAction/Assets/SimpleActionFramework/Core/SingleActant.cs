@@ -50,8 +50,6 @@ namespace SimpleActionFramework.Core
 
         public virtual void Act(ActionStateMachine machine, float progress, bool isFirstFrame = false)
         {
-            if (isFirstFrame)
-                Debug.Log($"First Frame : {GetType()}");
             InnerProgress = progress;
         }
         

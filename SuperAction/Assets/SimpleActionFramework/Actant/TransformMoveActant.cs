@@ -7,31 +7,30 @@ namespace SimpleActionFramework.Actant
 	public class TransformMoveActant : SingleActant
 	{
 		public Vector3 MoveDirection;
+		public InterpolationType InterpolationType;
 		public bool IsRelative;
 	
-		private Vector3 _startPosition;
 		private Transform _transform;
 
 		public override void Act(ActionStateMachine machine, float progress, bool isFirstFrame = false)
 		{
-			base.Act(machine, progress, isFirstFrame);
+			var prevProgress = InnerProgress;
+			InnerProgress = InterpolationType.Interpolate(progress);
+			var deltaProgress = InnerProgress - prevProgress;
 
 			if (isFirstFrame)
 			{
-				_transform = machine.Character.transform;
-				_startPosition = _transform.position;
+				_transform = machine.Actor.transform;
 			}
 
 			if (IsRelative)
 			{
-				var localDirection = machine.Character.transform.TransformDirection(MoveDirection);
-				machine.Character.transform.position
-					= Vector3.Lerp(_startPosition, _startPosition + localDirection, InnerProgress);
+				var localDirection = machine.Actor.transform.TransformDirection(MoveDirection);
+				_transform.position += localDirection * deltaProgress;
 			}
 			else
 			{
-				machine.Character.transform.position
-					= Vector3.Lerp(_startPosition, _startPosition + MoveDirection, InnerProgress);	
+				_transform.position += MoveDirection * deltaProgress;	
 			}
 			
 			

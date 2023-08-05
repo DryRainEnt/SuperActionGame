@@ -484,3 +484,4 @@ MonoBehaviour:
   ActionStateMachine: {fileID: 11400000, guid: 6c3dd5403f9e1a64a888976eb7bede30, type: 2}
   CurrentState: 
   CurrentActantName: 
+  CurrentFrame: 0

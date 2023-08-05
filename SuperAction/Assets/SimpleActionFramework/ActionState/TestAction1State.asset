@@ -10,34 +10,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fbde9c5a9c2101848864b10bf87feeaa, type: 3}
-  m_Name: TestActionState
+  m_Name: TestAction1State
   m_EditorClassIdentifier: 
   Actants:
-  - rid: 1989145269089599717
-  - rid: 1989145269089599718
-  - rid: 1989145269089599719
+  - rid: 1989145291710005248
+  - rid: 1989145291710005249
+  - rid: 1989145291710005250
   ReservedState: 
   CurrentActantName: NullActant
   references:
     version: 2
     RefIds:
-    - rid: 1989145269089599717
+    - rid: 1989145291710005248
       type: {class: TransformMoveActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
         StartFrame: 0
-        Duration: 30
-        MoveDirection: {x: 3, y: 0, z: 0}
+        Duration: 15
+        MoveDirection: {x: 0, y: 3, z: 0}
+        InterpolationType: 1
         IsRelative: 1
-    - rid: 1989145269089599718
+    - rid: 1989145291710005249
       type: {class: TransformMoveActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
-        StartFrame: 60
-        Duration: 30
-        MoveDirection: {x: 0, y: 3, z: 0}
+        StartFrame: 15
+        Duration: 15
+        MoveDirection: {x: 3, y: 0, z: 0}
+        InterpolationType: 2
         IsRelative: 1
-    - rid: 1989145269089599719
-      type: {class: SetStateActant, ns: , asm: Assembly-CSharp}
+    - rid: 1989145291710005250
+      type: {class: SetActionStateActant, ns: , asm: Assembly-CSharp}
       data:
-        StartFrame: 120
+        StartFrame: 45
         Duration: 0
         StateKey: NewState2

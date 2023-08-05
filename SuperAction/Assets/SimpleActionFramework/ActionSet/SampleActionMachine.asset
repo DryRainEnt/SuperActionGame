@@ -16,9 +16,11 @@ MonoBehaviour:
     keys:
     - NewState1
     - NewState2
+    - NewState3
     values:
-    - {fileID: 11400000, guid: 5e7d10b9ba739ef49a641c93e34ef886, type: 2}
-    - {fileID: 11400000, guid: 83ab5f1bc234c184cbed85bdb89f71a3, type: 2}
+    - {fileID: 11400000, guid: b6bc3b803a9273e41a25421d023c2af3, type: 2}
+    - {fileID: 11400000, guid: fa6684dde2361a4429605349faf3fbde, type: 2}
+    - {fileID: 11400000, guid: 06b0de0b920aa55478f0c920c761e4d3, type: 2}
   Data:
     keys: []
     values: []

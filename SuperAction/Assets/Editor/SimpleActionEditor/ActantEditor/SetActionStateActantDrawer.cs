@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace Editor.SimpleActionEditor.ActantEditor
 {
-	[CustomPropertyDrawer(typeof(SetStateActant))]
-	public class SetStateActantDrawer : PropertyDrawer
+	[CustomPropertyDrawer(typeof(SetActionStateActant))]
+	public class SetActionStateActantDrawer : PropertyDrawer
 	{
 	 	private Dictionary<string, bool> foldouts = new Dictionary<string, bool>();
 	 	private int _propertyCount;
@@ -32,7 +32,7 @@ namespace Editor.SimpleActionEditor.ActantEditor
 	 	 	SerializedProperty startFrameProperty = property.FindPropertyRelative("StartFrame");
 	 	 	SerializedProperty keyProperty = property.FindPropertyRelative("StateKey");
 	 	 	
-	 	 	foldout = EditorGUI.Foldout(position, foldout, $"{startFrameProperty.intValue} ~ SetStateActant", true);
+	 	 	foldout = EditorGUI.Foldout(position, foldout, $"{startFrameProperty.intValue} ~ SetActionStateActant", true);
 	 	 	pCount++;
 	 	 	
 	 	 	// save foldout state on Dictionary

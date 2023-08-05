@@ -10,24 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fbde9c5a9c2101848864b10bf87feeaa, type: 3}
-  m_Name: SampleActionState
+  m_Name: TestAction2State
   m_EditorClassIdentifier: 
   Actants:
-  - rid: 1989145269089599720
-  - rid: 1989145269089599721
+  - rid: 1989145291710005251
+  - rid: 1989145291710005252
   ReservedState: 
+  CurrentActantName: NullActant
   references:
     version: 2
     RefIds:
-    - rid: 1989145269089599720
+    - rid: 1989145291710005251
       type: {class: TransformRotateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
         StartFrame: 0
         Duration: 30
         RotationAngle: 90
-    - rid: 1989145269089599721
-      type: {class: SetStateActant, ns: , asm: Assembly-CSharp}
+        InterpolationType: 3
+    - rid: 1989145291710005252
+      type: {class: SetActionStateActant, ns: , asm: Assembly-CSharp}
       data:
-        StartFrame: 60
+        StartFrame: 45
         Duration: 0
-        StateKey: NewState1
+        StateKey: NewState3

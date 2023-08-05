@@ -2,7 +2,7 @@ using UnityEngine;
 using SimpleActionFramework.Core;
 
 [System.Serializable]
-public class SetStateActant : SingleActant
+public class SetActionStateActant : SingleActant
 {
 	public string StateKey;
 	

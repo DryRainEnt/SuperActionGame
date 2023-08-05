@@ -61,6 +61,12 @@ namespace Editor.SimpleActionEditor.ActantEditor
                 pCount++;
                 
                 drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
+                SerializedProperty interpolationProperty = property.FindPropertyRelative("InterpolationType");
+                EditorGUI.PropertyField(drawRect, interpolationProperty, 
+                    new GUIContent("InterpolationType"), true);
+                pCount++;
+                
+                drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
                 SerializedProperty moveRelativeProperty = property.FindPropertyRelative("IsRelative");
                 EditorGUI.PropertyField(drawRect, moveRelativeProperty, 
                     new GUIContent("IsRelative"), true);
