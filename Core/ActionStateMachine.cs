@@ -15,11 +15,11 @@ namespace SimpleActionFramework.Core
 
         public string DefaultStateName;
         public ActionState CurrentState { get; private set; }
-        public Character Character { get; set; }
+        public Actor Actor { get; set; }
 
-        public void Init(Character character)
+        public void Init(Actor actor)
         {
-            Character = character;
+            Actor = actor;
             Data.Clear();
             
             SetState(DefaultStateName);

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using SimpleActionFramework.Core;
 using UnityEngine;
 
-public class Character : MonoBehaviour
+public class Actor : MonoBehaviour
 {
     [SerializeField]
     public ActionStateMachine ActionStateMachine;

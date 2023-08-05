@@ -7,22 +7,23 @@ namespace SimpleActionFramework.Actant
 	public class TransformRotateActant : SingleActant
 	{
 		public float RotationAngle;
+		public InterpolationType InterpolationType;
 	
 		private float _startRotation;
 		private Transform _transform;
 
 		public override void Act(ActionStateMachine machine, float progress, bool isFirstFrame = false)
 		{
-			base.Act(machine, progress, isFirstFrame);
+			var prevProgress = InnerProgress;
+			InnerProgress = InterpolationType.Interpolate(progress);
+			var deltaProgress = InnerProgress - prevProgress;
 			
 			if (isFirstFrame)
 			{
-				_transform = machine.Character.transform;
-				_startRotation = _transform.eulerAngles.z;
+				_transform = machine.Actor.transform;
 			}
 
-			machine.Character.transform.rotation
-				= Quaternion.Euler(0, 0, _startRotation + RotationAngle * InnerProgress);
+			_transform.Rotate(0, 0, RotationAngle * deltaProgress);
 			
 			machine.CurrentState.CurrentActantName = "TransformRotateActant";
 		}
