@@ -39,7 +39,9 @@ namespace SimpleActionFramework.Core
         
         protected ActionStateMachine Machine;
 
+        public InterpolationType InterpolationType;
         protected float InnerProgress;
+        protected float PrevProgress;
         
         public void Init(ActionStateMachine machine)
         {
@@ -50,7 +52,8 @@ namespace SimpleActionFramework.Core
 
         public virtual void Act(ActionStateMachine machine, float progress, bool isFirstFrame = false)
         {
-            InnerProgress = progress;
+            PrevProgress = InnerProgress;
+            InnerProgress = InterpolationType.Interpolate(progress);
         }
         
         public virtual void OnFinished() { }

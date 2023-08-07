@@ -7,16 +7,14 @@ namespace SimpleActionFramework.Actant
 	public class TransformRotateActant : SingleActant
 	{
 		public float RotationAngle;
-		public InterpolationType InterpolationType;
 	
 		private float _startRotation;
 		private Transform _transform;
 
 		public override void Act(ActionStateMachine machine, float progress, bool isFirstFrame = false)
 		{
-			var prevProgress = InnerProgress;
-			InnerProgress = InterpolationType.Interpolate(progress);
-			var deltaProgress = InnerProgress - prevProgress;
+			base.Act(machine, progress, isFirstFrame);
+			var deltaProgress = InnerProgress - PrevProgress;
 			
 			if (isFirstFrame)
 			{

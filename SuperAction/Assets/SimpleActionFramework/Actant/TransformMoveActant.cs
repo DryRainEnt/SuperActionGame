@@ -7,16 +7,14 @@ namespace SimpleActionFramework.Actant
 	public class TransformMoveActant : SingleActant
 	{
 		public Vector3 MoveDirection;
-		public InterpolationType InterpolationType;
 		public bool IsRelative;
 	
 		private Transform _transform;
 
 		public override void Act(ActionStateMachine machine, float progress, bool isFirstFrame = false)
 		{
-			var prevProgress = InnerProgress;
-			InnerProgress = InterpolationType.Interpolate(progress);
-			var deltaProgress = InnerProgress - prevProgress;
+			base.Act(machine, progress, isFirstFrame);
+			var deltaProgress = InnerProgress - PrevProgress;
 
 			if (isFirstFrame)
 			{
