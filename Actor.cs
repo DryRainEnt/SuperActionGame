@@ -12,6 +12,8 @@ public class Actor : MonoBehaviour
     public string CurrentState;
     public string CurrentActantName;
     public int CurrentFrame;
+    
+    public float StateSpeed = 1f;
 
     public void Initiate()
     {
@@ -33,7 +35,7 @@ public class Actor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var dt = Time.deltaTime;
+        var dt = StateSpeed * Time.deltaTime;
         
         ActionStateMachine.UpdateState(dt);
         

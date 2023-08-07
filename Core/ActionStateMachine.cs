@@ -11,7 +11,7 @@ namespace SimpleActionFramework.Core
         public SerializedDictionary<string, string> Data = new SerializedDictionary<string, string>();
 
         public string CurrentStateName
-            => States.ContainsValue(CurrentState) ? States.GetKey(CurrentState) : "NullState";
+            => CurrentState ? CurrentState.name : "NullState";
 
         public string DefaultStateName;
         public ActionState CurrentState { get; private set; }
