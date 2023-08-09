@@ -9,14 +9,18 @@ public class Actor : MonoBehaviour
     [SerializeField]
     public ActionStateMachine ActionStateMachine;
     
+    public SpriteRenderer SpriteRenderer;
+    
     public string CurrentState;
     public string CurrentActantName;
     public int CurrentFrame;
     
     public float StateSpeed = 1f;
 
-    public void Initiate()
+    private void Initiate()
     {
+        SpriteRenderer = GetComponent<SpriteRenderer>();
+        
         ActionStateMachine = Instantiate(ActionStateMachine);
         ActionStateMachine.Init(this);
     }
@@ -43,4 +47,16 @@ public class Actor : MonoBehaviour
         CurrentActantName = ActionStateMachine.CurrentState.CurrentActantName;
         CurrentFrame = ActionStateMachine.CurrentState.CurrentFrame;
     }
+
+
+    #region SpriteSetters
+    
+    public void SetSprite(Sprite sprite)
+    {
+        SpriteRenderer.sprite = sprite;
+    }
+
+    
+
+    #endregion
 }
