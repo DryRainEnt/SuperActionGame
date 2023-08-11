@@ -84,7 +84,7 @@ namespace Editor.SimpleActionEditor
 					writer.WriteLine("\t \t \tSerializedProperty durationProperty = property.FindPropertyRelative(\"Duration\");");
 					writer.WriteLine("\t \t \tEditorGUI.BeginProperty(position, label, property);");
 					writer.WriteLine("\t \t \t");
-					writer.WriteLine("\t \t \tfoldout = EditorGUI.Foldout(position, foldout, $\"{startFrameProperty.intValue} ~ TransformRotateActant [{durationProperty.intValue}]\", true);");
+					writer.WriteLine($"\t \t \tfoldout = EditorGUI.Foldout(position, foldout, $\"{{startFrameProperty.intValue}} ~ {className} [{{durationProperty.intValue}}]\", true);");
 					writer.WriteLine("\t \t \tpCount++;");
 					writer.WriteLine("\t \t \t");
 					writer.WriteLine("\t \t \t// save foldout state on Dictionary");

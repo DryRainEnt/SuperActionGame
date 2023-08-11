@@ -13,23 +13,16 @@ MonoBehaviour:
   m_Name: TestAction2State
   m_EditorClassIdentifier: 
   Actants:
-  - rid: 1989145291710005251
   - rid: 1989145291710005252
   ReservedState: 
   CurrentActantName: NullActant
   references:
     version: 2
     RefIds:
-    - rid: 1989145291710005251
-      type: {class: TransformRotateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
-      data:
-        StartFrame: 0
-        Duration: 30
-        RotationAngle: 90
-        InterpolationType: 3
     - rid: 1989145291710005252
       type: {class: SetActionStateActant, ns: , asm: Assembly-CSharp}
       data:
-        StartFrame: 45
+        StartFrame: 30
         Duration: 0
+        InterpolationType: 0
         StateKey: NewState3
