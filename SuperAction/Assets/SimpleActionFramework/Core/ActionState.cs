@@ -47,7 +47,8 @@ namespace SimpleActionFramework.Core
 				if (act.State == ActantState.Finished || act.StartFrame > CurrentFrame)
 					continue;
 				
-				var progress = Mathf.Clamp01((_innerTimer - act.StartFrame / 30f) / ((float)act.Duration / 30f));
+				var progress = Mathf.Clamp01((_innerTimer - act.StartFrame / Constants.DefaultActionFrameRate)
+				                             / ((float)act.Duration / Constants.DefaultActionFrameRate));
 				var isFirst = _previousFrame <= act.StartFrame
 				              && act.StartFrame <= CurrentFrame
 				              && act.State == ActantState.NotStarted;

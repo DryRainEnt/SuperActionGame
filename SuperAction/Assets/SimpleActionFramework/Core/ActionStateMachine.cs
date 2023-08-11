@@ -27,7 +27,7 @@ namespace SimpleActionFramework.Core
         
         public void SetState(string stateName)
         {
-            var targetState = States.ContainsKey(stateName) ? States[stateName] : States[DefaultStateName];
+            var targetState = States.TryGetValue(stateName, out var state) ? state : States[DefaultStateName];
 
             if (!targetState)
             {
