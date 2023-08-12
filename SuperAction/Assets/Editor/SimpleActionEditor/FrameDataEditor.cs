@@ -100,7 +100,7 @@ namespace SimpleActionFramework.Core.Editor
 					
 					foreach (var key in frameDataSet.FrameData.Keys)
 					{
-						if (searchKey != string.Empty && !key.Contains(searchKey, StringComparison.Ordinal))
+						if (searchKey is not null && searchKey != string.Empty && !key.Contains(searchKey, StringComparison.Ordinal))
 							continue;
 					
 						EditorGUILayout.BeginHorizontal();

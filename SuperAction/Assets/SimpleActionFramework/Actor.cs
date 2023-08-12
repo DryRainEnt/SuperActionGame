@@ -7,15 +7,20 @@ using UnityEngine;
 public class Actor : MonoBehaviour
 {
     [SerializeField]
+    public FrameDataSet FrameDataSet;
+    
+    [SerializeField]
     public ActionStateMachine ActionStateMachine;
     
     public SpriteRenderer SpriteRenderer;
+    public BoxCollider PhysicsCollider;
     
     public string CurrentState;
     public string CurrentActantName;
     public int CurrentFrame;
     
     public float StateSpeed = 1f;
+    
 
     private void Initiate()
     {
@@ -56,7 +61,10 @@ public class Actor : MonoBehaviour
         SpriteRenderer.sprite = sprite;
     }
 
+    public void SetFrame(FrameData frameData)
+    {
+        SetSprite(frameData.Sprite);
+    }
     
-
     #endregion
 }

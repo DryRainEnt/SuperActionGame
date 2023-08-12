@@ -45,6 +45,11 @@ namespace SimpleActionFramework.Core
             ((IDictionary<TKey, TValue>)dictionary).Add(item);
         }
 
+        public void Add(TKey key, TValue value)
+        {
+            ((IDictionary<TKey, TValue>)dictionary).Add(key, value);
+        }
+
         public void Clear()
         {
             keys.Clear();
