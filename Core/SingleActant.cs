@@ -32,10 +32,11 @@ namespace SimpleActionFramework.Core
             }
         }
         
-        public ushort StartFrame;
-        public ushort Duration;
+        public int StartFrame;
+        public int Duration;
         public bool UsedOnce => Duration == 0;
-        public ushort EndFrame => (ushort)(StartFrame + Duration);
+        public int EndFrame => StartFrame + Duration;
+        public int DrawnFrame => Mathf.Max(StartFrame + 1, StartFrame + Duration);
         
         protected ActionStateMachine Machine;
 

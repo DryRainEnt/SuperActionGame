@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SimpleActionFramework.Core
@@ -8,7 +9,7 @@ namespace SimpleActionFramework.Core
     {
         public SerializedDictionary<string, ActionState> States = new SerializedDictionary<string, ActionState>();
     
-        public SerializedDictionary<string, string> Data = new SerializedDictionary<string, string>();
+        public SerializedDictionary<string, object> Data = new SerializedDictionary<string, object>();
 
         public string CurrentStateName
             => CurrentState ? CurrentState.name : "NullState";
@@ -17,6 +18,11 @@ namespace SimpleActionFramework.Core
         public ActionState CurrentState { get; private set; }
         public Actor Actor { get; set; }
 
+        public void Add(string key, ActionState data)
+        {
+            States.Add(new KeyValuePair<string, ActionState>(key, data));
+        }
+        
         public void Init(Actor actor)
         {
             Actor = actor;
@@ -55,6 +61,11 @@ namespace SimpleActionFramework.Core
             {
                 SetState(CurrentState.ReservedState);
             }
+        }
+
+        public void UpdateData(string key, object value)
+        {
+            Data[key] = value;
         }
     }
 }

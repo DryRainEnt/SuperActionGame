@@ -11,23 +11,35 @@ namespace SimpleActionFramework.Core
 	{
 		[SerializeReference]
 		public List<SingleActant> Actants = new List<SingleActant>();
+		
+		[SerializeReference]
+		public List<SingleActant> actantWrapper = new List<SingleActant>();
+		[SerializeField]
+		public ActantWrapper actantWrapperB = new ActantWrapper();
 
-		public SerializedDictionary<string, string> Data { get; set; }
+		public SerializedDictionary<string, object> Data { get; set; }
 
-		public ushort TotalDuration => (ushort)(Actants.Count > 0 ? Actants.Max(actant => actant.EndFrame) : 0);
+		public int TotalDuration => (Actants.Count > 0 ? Actants.Max(actant => actant.EndFrame) : 0);
 
 		private float _innerTimer;
-		public ushort CurrentFrame => (ushort)Mathf.FloorToInt(_innerTimer * 30f);
-		private ushort _previousFrame = 0;
+		public int CurrentFrame => Mathf.FloorToInt(_innerTimer * 30f);
+		private int _previousFrame = 0;
 		
 		public bool IsFinished => _innerTimer >= TotalDuration;
 
 		public string ReservedState;
 		public string CurrentActantName = "NullActant";
 
-		public void ResetState(ActionStateMachine machine = null, SerializedDictionary<string, string> data = null)
+		public int[] GetActantByFrame(int frame)
 		{
-			Data = data ?? new SerializedDictionary<string, string>();
+			return Actants.Select((actant, idx) => new { idx, actant })
+				.Where(pair => pair.actant.StartFrame <= frame && frame <= pair.actant.EndFrame)
+				.Select(pair => pair.idx).ToArray();
+		}
+		
+		public void ResetState(ActionStateMachine machine = null, SerializedDictionary<string, object> data = null)
+		{
+			Data = data ?? new SerializedDictionary<string, object>();
 			_innerTimer = 0f;
 			_previousFrame = CurrentFrame;
 
@@ -62,5 +74,11 @@ namespace SimpleActionFramework.Core
 			_previousFrame = CurrentFrame;
 			_innerTimer += dt;
 		}
+	}
+
+	[Serializable]
+	public class ActantWrapper : UnityEngine.Object
+	{
+		public SingleActant actant;
 	}
 }
