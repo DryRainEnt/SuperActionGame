@@ -1,8 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CMF;
+using Proto.BasicExtensionUtils;
+using SimpleActionFramework.Implements;
 using SimpleActionFramework.Core;
 using UnityEngine;
+using Constants = Proto.BasicExtensionUtils.Constants;
 
 public class Actor : MonoBehaviour
 {
@@ -11,6 +15,8 @@ public class Actor : MonoBehaviour
     
     [SerializeField]
     public ActionStateMachine ActionStateMachine;
+    
+    private ActorController _actorController;
     
     public SpriteRenderer SpriteRenderer;
     public BoxCollider PhysicsCollider;
@@ -25,6 +31,7 @@ public class Actor : MonoBehaviour
     private void Initiate()
     {
         SpriteRenderer = GetComponent<SpriteRenderer>();
+        _actorController = GetComponent<ActorController>();
         
         ActionStateMachine = Instantiate(ActionStateMachine);
         ActionStateMachine.Init(this);
@@ -45,6 +52,10 @@ public class Actor : MonoBehaviour
     void Update()
     {
         var dt = StateSpeed * Time.deltaTime;
+
+        var dx = _actorController.GetMovementVelocity().x;
+        ActionStateMachine.UpdateData("MoveDirection", 
+            dx.Abs() < Constants.Epsilon ? 0f : dx.Sign());
         
         ActionStateMachine.UpdateState(dt);
         
@@ -55,10 +66,11 @@ public class Actor : MonoBehaviour
 
 
     #region SpriteSetters
-    
-    public void SetSprite(Sprite sprite)
+
+    public void SetSprite(Sprite sprite, bool xFlip = false)
     {
         SpriteRenderer.sprite = sprite;
+        SpriteRenderer.flipX = xFlip;
     }
 
     public void SetFrame(FrameData frameData)

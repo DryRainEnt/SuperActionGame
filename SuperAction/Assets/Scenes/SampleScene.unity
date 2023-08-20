@@ -1207,7 +1207,7 @@ GameObject:
   - component: {fileID: 5717643074618882326}
   - component: {fileID: 5704078696817639475}
   - component: {fileID: 5656357318128626329}
-  - component: {fileID: 5703824849176209931}
+  - component: {fileID: 5717643074618882328}
   - component: {fileID: 5703118944059227675}
   m_Layer: 0
   m_Name: Actor
@@ -1283,22 +1283,6 @@ MonoBehaviour:
   extrapolatePosition: 0
   updateType: 0
   smoothType: 1
---- !u!114 &5703824849176209931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5672425042177741443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a380e2958019be4289ebe9d5bf5d649, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementSpeed: 12
-  jumpSpeed: 24
-  gravity: 98
-  cameraTransform: {fileID: 0}
 --- !u!114 &5704078696817639475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1343,6 +1327,7 @@ MonoBehaviour:
   FrameDataSet: {fileID: 0}
   ActionStateMachine: {fileID: 11400000, guid: 6c3dd5403f9e1a64a888976eb7bede30, type: 2}
   SpriteRenderer: {fileID: 187440497}
+  PhysicsCollider: {fileID: 0}
   CurrentState: 
   CurrentActantName: 
   CurrentFrame: 0
@@ -1368,6 +1353,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.5, z: 1}
   m_Center: {x: 0, y: 1.25, z: 0}
+--- !u!114 &5717643074618882328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5672425042177741443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ca8639d0c621eb45841f49e53544117, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 16
+  jumpSpeed: 36
+  gravity: 98
+  cameraTransform: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

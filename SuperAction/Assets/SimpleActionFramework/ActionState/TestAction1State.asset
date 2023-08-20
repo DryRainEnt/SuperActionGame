@@ -13,16 +13,62 @@ MonoBehaviour:
   m_Name: TestAction1State
   m_EditorClassIdentifier: 
   Actants:
-  - rid: 1989145291710005250
+  - rid: 1989145605986582530
+  - rid: 1989145605986582536
+  - rid: 1989145605986582585
+  - rid: 1989145605986582634
+  actantWrapper:
+  - rid: 1989145605986582634
+  actantWrapperB: {fileID: 0}
   ReservedState: 
   CurrentActantName: NullActant
   references:
     version: 2
     RefIds:
-    - rid: 1989145291710005250
-      type: {class: SetActionStateActant, ns: , asm: Assembly-CSharp}
+    - rid: 1989145605986582530
+      type: {class: TransformMoveActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
-        StartFrame: 45
-        Duration: 0
+        StartFrame: 0
+        Duration: 3
         InterpolationType: 0
-        StateKey: NewState2
+        MoveDirection: {x: 0, y: 0, z: 0}
+        IsRelative: 0
+    - rid: 1989145605986582536
+      type: {class: GetInputActant, ns: , asm: Assembly-CSharp}
+      data:
+        StartFrame: 2
+        Duration: 4
+        InterpolationType: 0
+        StateKey: 
+        InputCommand: []
+    - rid: 1989145605986582585
+      type: {class: TransformMoveActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 5
+        Duration: 17
+        InterpolationType: 0
+        MoveDirection: {x: 0, y: 0, z: 0}
+        IsRelative: 0
+    - rid: 1989145605986582634
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 6
+        InterpolationType: 0
+        ConditionKeys:
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        ConditionValues:
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        StateKey: 

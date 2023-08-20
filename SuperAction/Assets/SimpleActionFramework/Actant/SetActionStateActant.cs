@@ -1,19 +1,25 @@
-using UnityEngine;
+using System.Collections.Generic;
 using SimpleActionFramework.Core;
+using UnityEngine;
 
-[System.Serializable]
-public class SetActionStateActant : SingleActant
+namespace SimpleActionFramework.Actant
 {
-	public string StateKey;
-	
-	public override void Act(ActionStateMachine machine, float progress, bool isFirstFrame = false)
+	[System.Serializable]
+	public class SetActionStateActant : SingleActant
 	{
-	 	base.Act(machine, progress, isFirstFrame);
+		public List<string> ConditionKeys = new List<string>();
+		public List<string> ConditionValues = new List<string>();
+		public string StateKey;
+	
+		public override void Act(ActionStateMachine machine, float progress, bool isFirstFrame = false)
+		{
+			base.Act(machine, progress, isFirstFrame);
 	    
-	    machine.CurrentState.CurrentActantName = "SetStateActant";
+			machine.CurrentState.CurrentActantName = "SetStateActant";
 	 	
-	    Debug.Log($"Set State: {StateKey}");
+			Debug.Log($"Set State: {StateKey}");
 	    
-	    machine.SetState(StateKey);
+			machine.SetState(StateKey);
+		}
 	}
 }
