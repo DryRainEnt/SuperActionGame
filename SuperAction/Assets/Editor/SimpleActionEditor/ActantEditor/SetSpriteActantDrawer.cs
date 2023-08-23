@@ -26,13 +26,10 @@ namespace Editor.SimpleActionEditor.ActantEditor
 	 	 	SerializedProperty startFrameProperty = property.FindPropertyRelative("StartFrame");
 	 	 	SerializedProperty durationProperty = property.FindPropertyRelative("Duration");
 	 	 	SerializedProperty spriteProperty = property.FindPropertyRelative("sprite");
+	 	 	SerializedProperty offsetProperty = property.FindPropertyRelative("offset");
 	 	 	EditorGUI.BeginProperty(position, label, property);
 	 	 	
 		    var drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
-		    EditorGUI.LabelField(drawRect, "SetSpriteActantDrawer");
-		    pCount++;
-		    
-	 	    drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
 	 	    EditorGUI.PropertyField(drawRect, startFrameProperty, 
 	 	        new GUIContent("StartFrame"), true);
 	 	    pCount++;
@@ -45,6 +42,12 @@ namespace Editor.SimpleActionEditor.ActantEditor
 	        drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height * 8f);
 	        EditorGUI.ObjectField(drawRect, spriteProperty, typeof(Sprite));
 	        pCount += 8;
+	 	    
+	 	    drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
+	 	    EditorGUI.PropertyField(drawRect, offsetProperty,
+	 	        new GUIContent("offset"), true);
+	 	    pCount++;
+	 	    pCount++;
 	 	    
              
 	 	 	PropertyCount = pCount;

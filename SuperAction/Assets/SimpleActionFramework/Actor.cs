@@ -3,16 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using CMF;
 using Proto.BasicExtensionUtils;
+using Proto.EventSystem;
 using SimpleActionFramework.Implements;
 using SimpleActionFramework.Core;
 using UnityEngine;
 using Constants = Proto.BasicExtensionUtils.Constants;
 
-public class Actor : MonoBehaviour
+public class Actor : MonoBehaviour, IEventListener
 {
-    [SerializeField]
-    public FrameDataSet FrameDataSet;
-    
     [SerializeField]
     public ActionStateMachine ActionStateMachine;
     
@@ -26,11 +24,12 @@ public class Actor : MonoBehaviour
     public int CurrentFrame;
     
     public float StateSpeed = 1f;
-    
+
+    public Vector2 LastDirection;
+    public bool IsLeft;
 
     private void Initiate()
     {
-        SpriteRenderer = GetComponent<SpriteRenderer>();
         _actorController = GetComponent<ActorController>();
         
         ActionStateMachine = Instantiate(ActionStateMachine);
@@ -56,8 +55,11 @@ public class Actor : MonoBehaviour
         var dx = _actorController.GetMovementVelocity().x;
         ActionStateMachine.UpdateData("MoveDirection", 
             dx.Abs() < Constants.Epsilon ? 0f : dx.Sign());
+        LastDirection = _actorController.GetMovementVelocity().normalized;
         
-        ActionStateMachine.UpdateState(dt);
+        IsLeft = LastDirection.x > 0f ? false : LastDirection.x < 0f ? true : IsLeft;
+        
+        ActionStateMachine.UpdateState(this, dt);
         
         CurrentState = ActionStateMachine.CurrentStateName;
         CurrentActantName = ActionStateMachine.CurrentState.CurrentActantName;
@@ -70,13 +72,22 @@ public class Actor : MonoBehaviour
     public void SetSprite(Sprite sprite, bool xFlip = false)
     {
         SpriteRenderer.sprite = sprite;
-        SpriteRenderer.flipX = xFlip;
-    }
-
-    public void SetFrame(FrameData frameData)
-    {
-        SetSprite(frameData.Sprite);
+        SpriteRenderer.flipX = IsLeft;
     }
     
     #endregion
+
+    private void OnDrawGizmos()
+    {
+        if (!Application.isPlaying || !ActionStateMachine || !ActionStateMachine.CurrentState)
+            return;
+        //TODO: debug condition
+        ActionStateMachine.OnDrawGizmos();
+    }
+
+    public bool OnEvent(IEvent e)
+    {
+        
+        return false;
+    }
 }

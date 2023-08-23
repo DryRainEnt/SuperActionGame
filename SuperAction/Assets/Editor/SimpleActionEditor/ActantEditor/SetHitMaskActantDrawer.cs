@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace Editor.SimpleActionEditor.ActantEditor
 {
-	[CustomPropertyDrawer(typeof(GetInputActant))]
-	public class GetInputActantDrawer : PropertyDrawer
+	[CustomPropertyDrawer(typeof(SetHitMaskActant))]
+	public class SetHitMaskActantDrawer : PropertyDrawer
 	{
 	 	private int _propertyCount;
 	 	public int PropertyCount
@@ -25,9 +25,11 @@ namespace Editor.SimpleActionEditor.ActantEditor
 	 	 	var pCount = 0;
 	 	 	SerializedProperty startFrameProperty = property.FindPropertyRelative("StartFrame");
 	 	 	SerializedProperty durationProperty = property.FindPropertyRelative("Duration");
+	 	 	SerializedProperty maskTypeProperty = property.FindPropertyRelative("MaskType");
+	 	 	SerializedProperty positionProperty = property.FindPropertyRelative("Position");
+	 	 	SerializedProperty sizeProperty = property.FindPropertyRelative("Size");
 	 	 	EditorGUI.BeginProperty(position, label, property);
-             
-
+	 	 	
 		    var drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
 		    EditorGUI.PropertyField(drawRect, startFrameProperty, 
 			    new GUIContent("StartFrame"), true);
@@ -36,6 +38,27 @@ namespace Editor.SimpleActionEditor.ActantEditor
 		    drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
 		    EditorGUI.PropertyField(drawRect, durationProperty, 
 			    new GUIContent("Duration"), true);
+		    pCount++;
+	 	 	    
+		    // Put your code here
+	 	 	    
+		    drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
+		    EditorGUI.PropertyField(drawRect, maskTypeProperty, 
+			    new GUIContent("Type"), true);
+		    pCount++;
+
+	 	 	    
+		    drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
+		    EditorGUI.PropertyField(drawRect, positionProperty, 
+			    new GUIContent("Offset"), true);
+		    pCount++;
+		    pCount++;
+
+	 	 	    
+		    drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
+		    EditorGUI.PropertyField(drawRect, sizeProperty, 
+			    new GUIContent("Size"), true);
+		    pCount++;
 		    pCount++;
 	 	 	
 	 	 	PropertyCount = pCount;

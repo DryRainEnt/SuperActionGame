@@ -31,10 +31,6 @@ namespace Editor.SimpleActionEditor.ActantEditor
 
 
             var drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
-            EditorGUI.LabelField(drawRect, "TransformRotateActantDrawer");
-            pCount++;
-            
-            drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
             EditorGUI.PropertyField(drawRect, startFrameProperty, 
                 new GUIContent("StartFrame"), true);
             pCount++;

@@ -12,11 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbde9c5a9c2101848864b10bf87feeaa, type: 3}
   m_Name: TestIdle
   m_EditorClassIdentifier: 
-  Actants: []
-  actantWrapper: []
+  Actants:
+  - rid: 1989145605986582702
+  - rid: 1989145683958956041
+  actantWrapper:
+  - rid: 1989145683958956041
   actantWrapperB: {fileID: 0}
   ReservedState: 
   CurrentActantName: NullActant
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 1989145605986582702
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 32
+        InterpolationType: 0
+        sprite: {fileID: -9025390970422906611, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+    - rid: 1989145683958956041
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 40
+        Duration: 0
+        InterpolationType: 0
+        ConditionKeys: []
+        ConditionValues: []
+        StateKey: Move

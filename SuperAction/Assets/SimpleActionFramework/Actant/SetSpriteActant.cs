@@ -7,18 +7,36 @@ namespace SimpleActionFramework.Actant
 	public class SetSpriteActant : SingleActant
 	{
 		public Sprite sprite;
+		public Vector2 offset;
 	
-		public override void Act(ActionStateMachine machine, float progress, bool isFirstFrame = false)
+		public override void Act(Actor actor, float progress, bool isFirstFrame = false)
 		{
-			base.Act(machine, progress, isFirstFrame);
+			base.Act(actor, progress, isFirstFrame);
 			// Put your code here
 	    
-			machine.CurrentState.CurrentActantName = "SetFrameActant";
-	 	
-			Debug.Log($"Set Sprite : {sprite.name}");
-	    
+			actor.ActionStateMachine.CurrentState.CurrentActantName = "SetFrameActant";
+			
 			// Set the frame
-			machine.Actor.SetSprite(sprite);
+			actor.SetSprite(sprite);
+		}
+
+		public override void OnGUI(Rect position, float scale, float progress) 
+		{
+			float xPos = position.width / 2 + (-sprite.rect.width + sprite.pivot.x + offset.x) * scale;
+			float yPos = position.height / 2 + (-sprite.rect.height + sprite.pivot.y + offset.y) * scale;
+
+			Rect spriteRect = new Rect(xPos, yPos,
+				sprite.rect.width * scale,
+				sprite.rect.height * scale);
+            
+			// 스프라이트의 UV 좌표 계산
+			Rect spriteUV = new Rect(sprite.textureRect.x / sprite.texture.width,
+				sprite.textureRect.y / sprite.texture.height,
+				sprite.textureRect.width / sprite.texture.width,
+				sprite.textureRect.height / sprite.texture.height);
+
+			// 스프라이트 표시
+			GUI.DrawTextureWithTexCoords(spriteRect, sprite.texture, spriteUV);
 		}
 	}
 }

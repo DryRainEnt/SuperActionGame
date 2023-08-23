@@ -38,20 +38,21 @@ namespace SimpleActionFramework.Core
         public int EndFrame => StartFrame + Duration;
         public int DrawnFrame => Mathf.Max(StartFrame + 1, StartFrame + Duration);
         
-        protected ActionStateMachine Machine;
+        protected Actor Actor;
+        protected ActionStateMachine Machine => Actor.ActionStateMachine;
 
         public InterpolationType InterpolationType;
         protected float InnerProgress;
         protected float PrevProgress;
         
-        public void Init(ActionStateMachine machine)
+        public void Init(Actor actor)
         {
             State = ActantState.NotStarted;
-            Machine = machine;
+            Actor = actor;
             OnReset();
         }
 
-        public virtual void Act(ActionStateMachine machine, float progress, bool isFirstFrame = false)
+        public virtual void Act(Actor actor, float progress, bool isFirstFrame = false)
         {
             PrevProgress = InnerProgress;
             InnerProgress = InterpolationType.Interpolate(progress);
@@ -62,5 +63,14 @@ namespace SimpleActionFramework.Core
         public virtual void OnStart() { }
         
         public virtual void OnReset() { }
+        
+        public virtual void OnGUI(Rect position, float scale, float progress) { }
+        
+        public virtual void OnDrawGizmos() { }
+
+        public override string ToString()
+        {
+            return this.GetType().ToString().Split('.')[^1].Replace("Actant", "");
+        }
     }
 }

@@ -25,7 +25,7 @@ namespace Proto.PoolingSystem
             if (_poolList.ContainsKey(poolName))
                 return _poolList[poolName];
             
-            var prefab = Resources.Load<GameObject>(Utils.BuildString("Prefabs/", bundle, "/", poolName));
+            var prefab = UnityEngine.Resources.Load<GameObject>(Utils.BuildString("Prefabs/", bundle, "/", poolName));
 
             if (prefab != null)
             {
