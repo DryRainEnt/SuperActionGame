@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbde9c5a9c2101848864b10bf87feeaa, type: 3}
+  m_Name: TesterAttack
+  m_EditorClassIdentifier: 
+  Actants:
+  - rid: 1989145699285991430
+  - rid: 1989145699285991433
+  - rid: 1989145699285991434
+  - rid: 1989145699285991452
+  actantWrapper:
+  - rid: 1989145699285991433
+  ReservedState: 
+  CurrentActantName: NullActant
+  references:
+    version: 2
+    RefIds:
+    - rid: 1989145699285991430
+      type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 41
+        InterpolationType: 0
+        MaskType: 4
+        Position: {x: 0, y: 1.6}
+        Size: {x: 2, y: 3.2}
+    - rid: 1989145699285991433
+      type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
+      data:
+        StartFrame: 12
+        Duration: 16
+        InterpolationType: 0
+        MaskType: 1
+        Position: {x: 1, y: 2}
+        Size: {x: 2, y: 1}
+    - rid: 1989145699285991434
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 41
+        Duration: 0
+        InterpolationType: 0
+        ConditionKeys: []
+        ConditionValues: []
+        StateKey: Guard
+    - rid: 1989145699285991452
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 40
+        InterpolationType: 0
+        sprite: {fileID: 248368975335015255, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: 0, y: 0}

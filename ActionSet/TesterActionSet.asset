@@ -10,15 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4fbb331e0840ba4ea66020cae1b4f24, type: 3}
-  m_Name: SampleActionMachine
+  m_Name: TesterActionSet
   m_EditorClassIdentifier: 
   States:
     keys:
     - Idle
-    - Move
+    - Attack
+    - Guard
     values:
-    - {fileID: 11400000, guid: 396f82d9ec3096747af5556bbd81dbe0, type: 2}
-    - {fileID: 11400000, guid: bfdb97be59f82af49bab4de77ed0b7d9, type: 2}
+    - {fileID: 11400000, guid: 882474ada1915af47b1bfcdb73d51481, type: 2}
+    - {fileID: 11400000, guid: 917a20adb068e04458bb6785e1135aea, type: 2}
+    - {fileID: 11400000, guid: 2adfb2ca416ac7f48ae570f3301e98b6, type: 2}
   Data:
     keys: []
   DefaultStateName: Idle

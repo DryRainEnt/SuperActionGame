@@ -7,17 +7,17 @@ public class GetInputActant : SingleActant
 	public string StateKey;
 	public string[] InputCommand;
 	
-	public override void Act(ActionStateMachine machine, float progress, bool isFirstFrame = false)
+	public override void Act(Actor actor, float progress, bool isFirstFrame = false)
 	{
-	 	base.Act(machine, progress, isFirstFrame);
+	 	base.Act(actor, progress, isFirstFrame);
 	 	// Put your code here
 	    
-	    machine.CurrentState.CurrentActantName = "GetInputActant";
+	    actor.ActionStateMachine.CurrentState.CurrentActantName = "GetInputActant";
 	 	
 	    Debug.Log($"Set State: {StateKey}");
 	    
 	    // Check if the input command is satisfied
 	    if (false)
-			machine.SetState(StateKey);
+		    actor.ActionStateMachine.SetState(StateKey);
 	}
 }

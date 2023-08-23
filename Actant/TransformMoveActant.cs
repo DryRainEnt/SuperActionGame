@@ -11,28 +11,25 @@ namespace SimpleActionFramework.Actant
 	
 		private Transform _transform;
 
-		public override void Act(ActionStateMachine machine, float progress, bool isFirstFrame = false)
+		public override void Act(Actor actor, float progress, bool isFirstFrame = false)
 		{
-			base.Act(machine, progress, isFirstFrame);
+			base.Act(actor, progress, isFirstFrame);
 			var deltaProgress = InnerProgress - PrevProgress;
 
 			if (isFirstFrame)
 			{
-				_transform = machine.Actor.transform;
+				_transform = actor.transform;
 			}
 
 			if (IsRelative)
 			{
-				var localDirection = machine.Actor.transform.TransformDirection(MoveDirection);
+				var localDirection = actor.transform.TransformDirection(MoveDirection);
 				_transform.position += localDirection * deltaProgress;
 			}
 			else
 			{
 				_transform.position += MoveDirection * deltaProgress;	
 			}
-			
-			
-			machine.CurrentState.CurrentActantName = "TransformMoveActant";
 		}
 	}
 }

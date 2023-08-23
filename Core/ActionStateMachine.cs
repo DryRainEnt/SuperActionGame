@@ -44,10 +44,24 @@ namespace SimpleActionFramework.Core
             
             CurrentState = Instantiate(targetState);
             // CurrentState = targetState;
-            CurrentState.ResetState(this, Data);
+            CurrentState.ResetState(Actor, Data);
+        }
+        
+        public void SetState(Actor actor, ActionState state)
+        {
+            if (!state)
+            {
+                Debug.LogWarning($"State is null for {name}!" +
+                                 $" \n called: {state} \n default: {DefaultStateName}");
+                return;
+            }
+            
+            CurrentState = Instantiate(state);
+            // CurrentState = targetState;
+            CurrentState.ResetState(actor, Data);
         }
 
-        public void UpdateState(float dt)
+        public void UpdateState(Actor actor, float dt)
         {
             if (!CurrentState)
             {
@@ -55,7 +69,7 @@ namespace SimpleActionFramework.Core
                 return;
             }
 
-            CurrentState.UpdateState(this, dt);
+            CurrentState.UpdateState(actor, dt);
             
             if (CurrentState.IsFinished)
             {
@@ -66,6 +80,11 @@ namespace SimpleActionFramework.Core
         public void UpdateData(string key, object value)
         {
             Data[key] = value;
+        }
+
+        public void OnDrawGizmos()
+        {
+            CurrentState?.OnDrawGizmos();
         }
     }
 }

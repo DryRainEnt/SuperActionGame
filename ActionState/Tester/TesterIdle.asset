@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbde9c5a9c2101848864b10bf87feeaa, type: 3}
+  m_Name: TesterIdle
+  m_EditorClassIdentifier: 
+  Actants:
+  - rid: 1989145699285991443
+  - rid: 1989145699285991448
+  - rid: 1989145699285991449
+  - rid: 1989145699285991450
+  - rid: 1989145699285991427
+  - rid: 1989145699285991428
+  actantWrapper:
+  - rid: 1989145699285991427
+  ReservedState: 
+  CurrentActantName: NullActant
+  references:
+    version: 2
+    RefIds:
+    - rid: 1989145699285991427
+      type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 60
+        InterpolationType: 0
+        MaskType: 4
+        Position: {x: 0, y: 2}
+        Size: {x: 1, y: 4}
+    - rid: 1989145699285991428
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 60
+        Duration: 0
+        InterpolationType: 0
+        ConditionKeys: []
+        ConditionValues: []
+        StateKey: Attack
+    - rid: 1989145699285991443
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 27
+        InterpolationType: 0
+        sprite: {fileID: -9025390970422906611, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: 0, y: 0}
+    - rid: 1989145699285991448
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 27
+        Duration: 3
+        InterpolationType: 0
+        sprite: {fileID: 5816991550370761563, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: 0, y: 0}
+    - rid: 1989145699285991449
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 30
+        Duration: 27
+        InterpolationType: 0
+        sprite: {fileID: 211846762212507646, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: 0, y: 0}
+    - rid: 1989145699285991450
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 57
+        Duration: 3
+        InterpolationType: 0
+        sprite: {fileID: 6622902748593212413, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: 0, y: 0}

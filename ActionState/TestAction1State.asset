@@ -18,7 +18,7 @@ MonoBehaviour:
   - rid: 1989145605986582585
   - rid: 1989145605986582634
   actantWrapper:
-  - rid: 1989145605986582634
+  - rid: 1989145605986582585
   actantWrapperB: {fileID: 0}
   ReservedState: 
   CurrentActantName: NullActant
@@ -45,7 +45,7 @@ MonoBehaviour:
       type: {class: TransformMoveActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
         StartFrame: 5
-        Duration: 17
+        Duration: 6
         InterpolationType: 0
         MoveDirection: {x: 0, y: 0, z: 0}
         IsRelative: 0
