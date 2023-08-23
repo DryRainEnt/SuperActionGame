@@ -34,10 +34,6 @@ namespace Editor.SimpleActionEditor.ActantEditor
 		    SerializedProperty durationProperty = property.FindPropertyRelative("Duration");
 
 		    var drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
-		    EditorGUI.LabelField(drawRect, "SetActionStateActantDrawer");
-		    pCount++;
-
-		    drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
 		    EditorGUI.PropertyField(drawRect, startFrameProperty, 
 			    new GUIContent("StartFrame"), true);
 		    pCount++;
