@@ -13,13 +13,15 @@ MonoBehaviour:
   m_Name: TestMove
   m_EditorClassIdentifier: 
   Actants:
+  - rid: 1989145723172290578
   - rid: 1989145683958956034
   - rid: 1989145683958956039
   - rid: 1989145683958956054
   - rid: 1989145683958956055
   - rid: 1989145683958956061
+  - rid: 1989145723172290579
   actantWrapper:
-  - rid: 1989145683958956054
+  - rid: 1989145723172290579
   ReservedState: 
   CurrentActantName: NullActant
   references:
@@ -40,10 +42,8 @@ MonoBehaviour:
         StartFrame: 43
         Duration: 0
         InterpolationType: 0
-        ConditionKeys: []
-        ConditionValues:
-        - 
         StateKey: Idle
+        ConditionStates: []
     - rid: 1989145683958956054
       type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
       data:
@@ -71,3 +71,25 @@ MonoBehaviour:
         MaskType: 4
         Position: {x: 0, y: 2}
         Size: {x: 1.6, y: 4}
+    - rid: 1989145723172290578
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 40
+        InterpolationType: 0
+        sprite: {fileID: 4405317405355742363, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: 0, y: 0}
+    - rid: 1989145723172290579
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 43
+        InterpolationType: 0
+        StateKey: Idle
+        ConditionStates:
+        - JointType: 0
+          Key: MoveDirection
+          ValueType: 0
+          ConditionType: 0
+          StringValue: 
+          NumberValue: 0

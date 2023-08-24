@@ -14,10 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Actants:
   - rid: 1989145605986582702
+  - rid: 1989145723172290573
+  - rid: 1989145723172290574
+  - rid: 1989145723172290575
   - rid: 1989145683958956041
+  - rid: 1989145723172290576
   actantWrapper:
-  - rid: 1989145683958956041
-  actantWrapperB: {fileID: 0}
+  - rid: 1989145723172290576
   ReservedState: 
   CurrentActantName: NullActant
   references:
@@ -27,15 +30,53 @@ MonoBehaviour:
       type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
         StartFrame: 0
-        Duration: 32
+        Duration: 10
         InterpolationType: 0
         sprite: {fileID: -9025390970422906611, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: 0, y: 0}
     - rid: 1989145683958956041
       type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
         StartFrame: 40
         Duration: 0
         InterpolationType: 0
-        ConditionKeys: []
-        ConditionValues: []
+        StateKey: Idle
+        ConditionStates: []
+    - rid: 1989145723172290573
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 10
+        Duration: 10
+        InterpolationType: 0
+        sprite: {fileID: 5816991550370761563, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: 0, y: 0}
+    - rid: 1989145723172290574
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 20
+        Duration: 10
+        InterpolationType: 0
+        sprite: {fileID: 211846762212507646, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: 0, y: 0}
+    - rid: 1989145723172290575
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 30
+        Duration: 10
+        InterpolationType: 0
+        sprite: {fileID: 6622902748593212413, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: 0, y: 0}
+    - rid: 1989145723172290576
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 40
+        InterpolationType: 0
         StateKey: Move
+        ConditionStates:
+        - JointType: 0
+          Key: MoveDirection
+          ValueType: 0
+          ConditionType: 1
+          StringValue: 
+          NumberValue: 0

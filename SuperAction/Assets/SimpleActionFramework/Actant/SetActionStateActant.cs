@@ -7,15 +7,36 @@ namespace SimpleActionFramework.Actant
 	[System.Serializable]
 	public class SetActionStateActant : SingleActant
 	{
-		public List<string> ConditionKeys = new List<string>();
-		public List<string> ConditionValues = new List<string>();
 		public string StateKey;
-	
+		public List<ConditionState> ConditionStates = new List<ConditionState>();
+
 		public override void Act(Actor actor, float progress, bool isFirstFrame = false)
 		{
 			base.Act(actor, progress, isFirstFrame);
 			
-			actor.ActionStateMachine.SetState(StateKey);
+			if (ConditionStates.Count == 0)
+			{
+				actor.ActionStateMachine.SetState(StateKey);
+				return;
+			}
+
+			var machine = actor.ActionStateMachine;
+			var state = ConditionStates[0].ConditionCheck(machine);
+	    
+			// Check if the conditions are satisfied
+			for (var index = 1; index < ConditionStates.Count; index++)
+			{
+				var condition = ConditionStates[index];
+				if (condition.JointType == JointType.And)
+					state &= condition.ConditionCheck(machine);
+				if (condition.JointType == JointType.Or)
+					state |= condition.ConditionCheck(machine);
+				if (condition.JointType == JointType.Xor)
+					state ^= condition.ConditionCheck(machine);
+			}
+	    
+			if (state)
+				actor.ActionStateMachine.SetState(StateKey);
 		}
 	}
 }
