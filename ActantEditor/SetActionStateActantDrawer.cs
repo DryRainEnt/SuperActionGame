@@ -15,7 +15,7 @@ namespace Editor.SimpleActionEditor.ActantEditor
 	 	public int PropertyCount
 	 	{
 	 	 	get => _propertyCount;
-	 	 	set => _propertyCount = Mathf.Max(value, _propertyCount);
+	 	 	set => _propertyCount = value;
 	 	}
 	 	
 	 	public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
@@ -27,11 +27,11 @@ namespace Editor.SimpleActionEditor.ActantEditor
 	 	{
 	 	 	EditorGUI.BeginProperty(position, label, property);
              
-			DefaultGUIColor = GUI.backgroundColor;
 	 	 	var pCount = 0;
 	 	 	SerializedProperty startFrameProperty = property.FindPropertyRelative("StartFrame");
-	 	 	SerializedProperty keyProperty = property.FindPropertyRelative("StateKey");
 		    SerializedProperty durationProperty = property.FindPropertyRelative("Duration");
+		    SerializedProperty keyProperty = property.FindPropertyRelative("StateKey");
+		    SerializedProperty conditionList = property.FindPropertyRelative("ConditionStates");
 
 		    var drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
 		    EditorGUI.PropertyField(drawRect, startFrameProperty, 
@@ -48,48 +48,11 @@ namespace Editor.SimpleActionEditor.ActantEditor
 			    new GUIContent("StateKey"), true);
 		    pCount++;
              
-		    var keyList = property.FindPropertyRelative("ConditionKeys");
-		    var valueList = property.FindPropertyRelative("ConditionValues");
-		    
 		    drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
-		    EditorGUI.LabelField(drawRect, "Conditions");
-		    drawRect = new Rect(position.x + position.width - 96f, position.y + 24f * pCount, 48, position.height);
-		    if (GUI.Button(drawRect, "+"))
-		    {
-			    keyList.InsertArrayElementAtIndex(keyList.arraySize);
-			    valueList.InsertArrayElementAtIndex(valueList.arraySize);
-		    }
-		    GUI.backgroundColor = Color.red;
-		    drawRect = new Rect(position.x + position.width - 36f, position.y + 24f * pCount, 24, position.height);
-		    if (GUI.Button(drawRect, "-"))
-		    {
-			    keyList.DeleteArrayElementAtIndex(keyList.arraySize - 1);
-			    valueList.DeleteArrayElementAtIndex(keyList.arraySize - 1);
-		    }
-		    GUI.backgroundColor = DefaultGUIColor;
-		    pCount++;
+		    EditorGUI.PropertyField(drawRect, conditionList, 
+			    new GUIContent("Conditions"), true);
 
-		    EditorGUI.indentLevel++;
-		    
-		    drawRect = new Rect(position.x, position.y + 24f * pCount, position.width / 2f - 2f, position.height);
-		    EditorGUI.LabelField(drawRect, "Key");
-		    drawRect = new Rect(position.x + position.width / 2f + 2f, position.y + 24f * pCount, position.width / 2f - 4f, position.height);
-		    EditorGUI.LabelField(drawRect, "Value");
-		    pCount++;
-		    
-		    for (int i = 0; i < keyList.arraySize; i++)
-		    {
-			    drawRect = new Rect(position.x - 24f, position.y + 24f * pCount, 24f, position.height);
-			    EditorGUI.LabelField(drawRect, i.ToString());
-			    drawRect = new Rect(position.x, position.y + 24f * pCount, position.width / 2f - 2f, position.height);
-			    keyList.GetArrayElementAtIndex(i).stringValue = EditorGUI.TextField(drawRect, keyList.GetArrayElementAtIndex(i).stringValue);
-			    drawRect = new Rect(position.x + position.width / 2f + 2f, position.y + 24f * pCount, position.width / 2f - 4f, position.height);
-			    valueList.GetArrayElementAtIndex(i).stringValue = EditorGUI.TextField(drawRect, valueList.GetArrayElementAtIndex(i).stringValue);
-			    pCount++;
-		    }
-		    EditorGUI.indentLevel--;
-		    
-		    pCount++;
+		    pCount += (conditionList.arraySize + 1) * 3;
 		    
 	 	 	PropertyCount = pCount;
 	 	 	

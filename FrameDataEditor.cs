@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Proto.BasicExtensionUtils;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
@@ -31,7 +32,6 @@ namespace SimpleActionFramework.Core.Editor
 		private Vector2 dataScrollPosition;
 		
 		private float listAreaWidth = 320f;
-		private float timelineAreaHeight = 240f;
 		private float dataAreaWidth = 320f;
 
 		[MenuItem("Window/Frame Data Editor")]
@@ -229,7 +229,7 @@ namespace SimpleActionFramework.Core.Editor
 				EditorGUILayout.BeginVertical(GUILayout.Width(44f));
 					GUILayout.Button(">>", GUILayout.Width(42f));
 					
-					EditorGUILayout.BeginScrollView(timelineScroll, GUIStyle.none, GUIStyle.none, GUILayout.Width(42f), GUILayout.Height(192f));
+					EditorGUILayout.BeginScrollView(timelineScroll.GetYFlat(), GUIStyle.none, GUIStyle.none, GUILayout.Width(42f), GUILayout.Height(timelineHeight - 42f));
 					for (var index = 0; index < selectedActionState.Actants.Count; index++)
 					{
 						EditorGUILayout.BeginHorizontal();
@@ -266,7 +266,7 @@ namespace SimpleActionFramework.Core.Editor
 				EditorGUILayout.BeginVertical();
 						
 				var totalDuration = selectedActionState.TotalDuration;
-	            EditorGUILayout.BeginScrollView(timelineScroll, GUIStyle.none, GUIStyle.none, GUILayout.Width(position.width - 384f), GUILayout.Height(20f));
+	            EditorGUILayout.BeginScrollView(timelineScroll.GetXFlat(), GUIStyle.none, GUIStyle.none, GUILayout.Width(position.width - 384f), GUILayout.Height(20f));
 					EditorGUILayout.BeginHorizontal();
 						for (int i = 0; i <= totalDuration; i++)
 						{
