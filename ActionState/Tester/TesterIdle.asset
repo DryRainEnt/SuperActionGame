@@ -20,7 +20,7 @@ MonoBehaviour:
   - rid: 1989145699285991427
   - rid: 1989145699285991428
   actantWrapper:
-  - rid: 1989145699285991427
+  - rid: 1989145699285991428
   ReservedState: 
   CurrentActantName: NullActant
   references:
@@ -41,9 +41,8 @@ MonoBehaviour:
         StartFrame: 60
         Duration: 0
         InterpolationType: 0
-        ConditionKeys: []
-        ConditionValues: []
         StateKey: Attack
+        ConditionStates: []
     - rid: 1989145699285991443
       type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:

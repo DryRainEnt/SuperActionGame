@@ -22,6 +22,9 @@ namespace SimpleActionFramework.Actant
 
 		public override void OnGUI(Rect position, float scale, float progress) 
 		{
+			if (!sprite)
+				return;
+			
 			float xPos = position.width / 2 + (-sprite.rect.width + sprite.pivot.x + offset.x) * scale;
 			float yPos = position.height / 2 + (-sprite.rect.height + sprite.pivot.y + offset.y) * scale;
 
