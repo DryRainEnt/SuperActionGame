@@ -300,7 +300,7 @@ public class GlobalInputController : MonoBehaviour
         callback(target);
     }
 
-    public float GetReleased(string key)
+    public bool GetReleased(string key)
     {
         return key switch
         {
@@ -312,9 +312,9 @@ public class GlobalInputController : MonoBehaviour
                 InputDeviceType.Gamepad => GetDirectReleased(_gamepadInputMap[key]),
                 _ => 0f
             }
-        };
+        } > 0.5f;
     }
-    public float GetPressed(string key)
+    public bool GetPressed(string key)
     {
         return key switch
         {
@@ -326,7 +326,21 @@ public class GlobalInputController : MonoBehaviour
                 InputDeviceType.Gamepad => GetDirectPressed(_gamepadInputMap[key]),
                 _ => 0f
             }
-        };
+        } > 0.5f;
+    }
+    public bool GetInput(string key)
+    {
+        return key switch
+        {
+            "horizontal" => (GetValue("right") - GetValue("left")).GetFilteredFloat(0.1f),
+            "vertical" => GetValue("up") - GetValue("down"),
+            _ => type switch
+            {
+                InputDeviceType.Keyboard => GetDirectValue(_keyboardInputMap[key]),
+                InputDeviceType.Gamepad => GetDirectValue(_gamepadInputMap[key]),
+                _ => 0f
+            }
+        } > 0.5f;
     }
     
     public float GetValue(string key)
