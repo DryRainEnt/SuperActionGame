@@ -30,9 +30,9 @@ namespace Editor.SimpleActionEditor
 					writer.WriteLine("[System.Serializable]");
 					writer.WriteLine($"public class {className} : SingleActant");
 					writer.WriteLine("{");
-					writer.WriteLine("\tpublic override void Act(ActionStateMachine machine, float progress, bool isFirstFrame = false)");
+					writer.WriteLine("\tpublic override void Act(Actor actor, float progress, bool isFirstFrame = false)");
 					writer.WriteLine("\t{");
-					writer.WriteLine("\t \tbase.Act(machine, progress, isFirstFrame);");
+					writer.WriteLine("\t \tbase.Act(actor, progress, isFirstFrame);");
 					writer.WriteLine("\t \t// Put your code here");
 					writer.WriteLine("\t}");
 					writer.WriteLine("}");

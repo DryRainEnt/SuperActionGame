@@ -13,8 +13,6 @@ namespace SimpleActionFramework.Actant
 		{
 			base.Act(actor, progress, isFirstFrame);
 			// Put your code here
-	    
-			actor.ActionStateMachine.CurrentState.CurrentActantName = "SetFrameActant";
 			
 			// Set the frame
 			actor.SetSprite(sprite);
@@ -25,8 +23,8 @@ namespace SimpleActionFramework.Actant
 			if (!sprite)
 				return;
 			
-			float xPos = position.width / 2 + (-sprite.rect.width + sprite.pivot.x + offset.x) * scale;
-			float yPos = position.height / 2 + (-sprite.rect.height + sprite.pivot.y + offset.y) * scale;
+			float xPos = position.width / 2 + (-sprite.rect.width + sprite.pivot.x + offset.x * Constants.DefaultPPU) * scale;
+			float yPos = position.height / 2 + (-sprite.rect.height + sprite.pivot.y + offset.y * Constants.DefaultPPU) * scale;
 
 			Rect spriteRect = new Rect(xPos, yPos,
 				sprite.rect.width * scale,
@@ -40,6 +38,15 @@ namespace SimpleActionFramework.Actant
 
 			// 스프라이트 표시
 			GUI.DrawTextureWithTexCoords(spriteRect, sprite.texture, spriteUV);
+		}
+
+		public override void CopyFrom(SingleActant actant)
+		{
+			base.CopyFrom(actant);
+			if (actant is not SetSpriteActant setSpriteActant) return;
+			
+			sprite = setSpriteActant.sprite;
+			offset = setSpriteActant.offset;
 		}
 	}
 }

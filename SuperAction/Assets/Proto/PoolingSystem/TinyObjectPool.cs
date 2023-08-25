@@ -47,6 +47,16 @@ namespace Proto.PoolingSystem
             TinyPools.Add(this);
             existCount = 0;
         }
+        
+        public TinyObjectPool(int count)
+        {
+            TinyPools.Add(this);
+            existCount = count;
+            for (int i = 0; i < count; i++)
+            {
+                pool.Push(new T());
+            }
+        }
 
         public T GetOrCreate()
         {

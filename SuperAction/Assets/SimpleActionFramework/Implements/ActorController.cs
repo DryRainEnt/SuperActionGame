@@ -19,6 +19,9 @@ namespace SimpleActionFramework.Implements
 
 		Vector3 lastVelocity = Vector3.zero;
 
+		public bool useGravity = true;
+		public bool useCharacterInput = true;
+		
 		public Transform cameraTransform;
         CharacterInput characterInput;
         Transform tr;
@@ -49,7 +52,7 @@ namespace SimpleActionFramework.Implements
             _velocity += CalculateMovementDirection() * movementSpeed;
             
             //Handle gravity;
-            if (!isGrounded)
+            if (!isGrounded && useGravity)
             {
                 currentVerticalSpeed -= gravity * Time.deltaTime;
             }
@@ -60,7 +63,7 @@ namespace SimpleActionFramework.Implements
             }
 
             //Handle jumping;
-            if ((characterInput != null) && isGrounded && characterInput.IsJumpKeyPressed())
+            if (useCharacterInput && (characterInput != null) && isGrounded && characterInput.IsJumpKeyPressed())
             {
                 OnJumpStart();
                 currentVerticalSpeed = jumpSpeed;
@@ -80,7 +83,7 @@ namespace SimpleActionFramework.Implements
         private Vector3 CalculateMovementDirection()
         {
             //If no character input script is attached to this object, return no input;
-			if(characterInput == null)
+			if(characterInput == null || !useCharacterInput)
 				return Vector3.zero;
 
 			Vector3 _direction = Vector3.zero;
@@ -144,6 +147,26 @@ namespace SimpleActionFramework.Implements
 		{
 			currentVerticalSpeed = speed;
 		}
+        
+        public void ToggleGravity(bool toggle)
+		{
+			useGravity = toggle;
+		}
+        
+        public void ToggleCharacterInput(bool toggle)
+		{
+			useCharacterInput = toggle;
+		}
+
+        public void SetMovementVelocity(Vector3 velocity)
+        {
+	        //Save current velocity for next frame;
+	        lastVelocity = velocity;
+
+	        isGrounded = mover.IsGrounded();
+	        mover.SetExtendSensorRange(isGrounded);
+	        mover.SetVelocity(velocity);
+        }
     }
 
 }

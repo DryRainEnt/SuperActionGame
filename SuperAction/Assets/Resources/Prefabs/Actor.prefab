@@ -330,8 +330,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1.5, z: 1}
-  m_Center: {x: 0, y: 1.25, z: 0}
+  m_Size: {x: 1, y: 2.25, z: 1}
+  m_Center: {x: 0, y: 1.875, z: 0}
 --- !u!114 &9062735408026339385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,14 +344,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 219ea7b3eb6cd9c40996b4748f2ae163, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FrameDataSet: {fileID: 0}
-  ActionStateMachine: {fileID: 11400000, guid: 6c3dd5403f9e1a64a888976eb7bede30, type: 2}
+  ActionStateMachine: {fileID: 11400000, guid: c08008054254e9447b9e84cd640ffd54, type: 2}
   SpriteRenderer: {fileID: 8285347137796838297}
   PhysicsCollider: {fileID: 0}
   CurrentState: 
   CurrentActantName: 
   CurrentFrame: 0
   StateSpeed: 1
+  LastDirection: {x: 0, y: 0}
+  IsLeft: 0
+  _debugText: {fileID: 0}
 --- !u!114 &868540737618247302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,7 +367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stepHeightRatio: 0.25
-  colliderHeight: 2
+  colliderHeight: 3
   colliderThickness: 1
   colliderOffset: {x: 0, y: 0.5, z: 0}
   sensorType: 0

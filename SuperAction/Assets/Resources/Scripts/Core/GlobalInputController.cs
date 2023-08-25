@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Proto.BasicExtensionUtils;
+using Proto.PoolingSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
@@ -18,16 +19,21 @@ public class InputData : IDisposable
     public string KeyName;
     public float Value;
 
-    public InputData(string name, float value)
+    private static readonly TinyObjectPool<InputData> pool = new TinyObjectPool<InputData>();
+    
+    public static InputData Create(string name, float value)
     {
-        KeyName = name;
-        Value = value;
+        var e = pool.GetOrCreate();
+
+        e.KeyName = name;
+        e.Value = value; 
+        
+        return e;
     }
-
-
+    
     public void Dispose()
     {
-        
+        pool.Dispose(this);
     }
 }
 
@@ -117,8 +123,8 @@ public class GlobalInputController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var timer = new Timer();
-        timer.Reset();
+        // var timer = new Timer();
+        // timer.Reset();
 
         _stringBuilder.Clear();
         PressedInputDataDictionary.Clear();
@@ -132,13 +138,13 @@ public class GlobalInputController : MonoBehaviour
             {
                 if (input.wasPressedThisFrame)
                 {
-                    InputDataDictionary.Add(new InputData($"kb_{input.name}", 1f));
-                    PressedInputDataDictionary.Add(new InputData($"kb_{input.name}", 1f));
+                    InputDataDictionary.Add(InputData.Create($"kb_{input.name}", 1f));
+                    PressedInputDataDictionary.Add(InputData.Create($"kb_{input.name}", 1f));
                 }
                 if (!input.isPressed)
                 {
                     InputDataDictionary.Remove($"kb_{input.name}");
-                    ReleasedInputDataDictionary.Add(new InputData($"kb_{input.name}", 1f));
+                    ReleasedInputDataDictionary.Add(InputData.Create($"kb_{input.name}", 1f));
                 }
             }
 
@@ -152,14 +158,14 @@ public class GlobalInputController : MonoBehaviour
                         {
                             var ik = $"gp_{input.name}_{key.name}";
                             if (!InputDataDictionary.ContainsKey(ik)) continue;
-                            ReleasedInputDataDictionary.Add(new InputData(ik, 1f));
+                            ReleasedInputDataDictionary.Add(InputData.Create(ik, 1f));
                             InputDataDictionary.Remove(ik);
                         }
                     else
                     {
                         var ik = $"gp_{input.name}";
                         if (!InputDataDictionary.ContainsKey(ik)) continue;
-                        ReleasedInputDataDictionary.Add(new InputData(ik, 1f));
+                        ReleasedInputDataDictionary.Add(InputData.Create(ik, 1f));
                         InputDataDictionary.Remove(ik);
                     }
                 }
@@ -168,15 +174,15 @@ public class GlobalInputController : MonoBehaviour
                     if (input.children.Count > 0)
                         foreach (var key in input.children)
                         {
-                            InputDataDictionary.Add(new InputData($"gp_{input.name}_{key.name}", key.EvaluateMagnitude()));
+                            InputDataDictionary.Add(InputData.Create($"gp_{input.name}_{key.name}", key.EvaluateMagnitude()));
                             if (input.EvaluateMagnitude() > 0.7f)
-                                PressedInputDataDictionary.Add(new InputData($"gp_{input.name}_{key.name}", key.EvaluateMagnitude()));
+                                PressedInputDataDictionary.Add(InputData.Create($"gp_{input.name}_{key.name}", key.EvaluateMagnitude()));
                         }
                     else
                     {
-                        InputDataDictionary.Add(new InputData($"gp_{input.name}", input.EvaluateMagnitude()));
+                        InputDataDictionary.Add(InputData.Create($"gp_{input.name}", input.EvaluateMagnitude()));
                         if (input.EvaluateMagnitude() > 0.7f)
-                            PressedInputDataDictionary.Add(new InputData($"gp_{input.name}", input.EvaluateMagnitude()));
+                            PressedInputDataDictionary.Add(InputData.Create($"gp_{input.name}", input.EvaluateMagnitude()));
                     }
                 }
                 
@@ -192,9 +198,9 @@ public class GlobalInputController : MonoBehaviour
 
         _text.text = _stringBuilder.ToString();
         
-        timer.Stop();
+        // timer.Stop();
         // Debug.Log($"Input Checker Calc Time : {timer}");
-        timer.Dispose();
+        // timer.Dispose();
     }
 
     public InputDeviceType ToggleInputDevice()

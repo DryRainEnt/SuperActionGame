@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace SimpleActionFramework.Core
 {
@@ -7,6 +9,9 @@ namespace SimpleActionFramework.Core
 	{
 		Number,
 		String,
+		NumberList,
+		StringList,
+		Input,
 	}
 	
 	[Serializable]
@@ -47,10 +52,16 @@ namespace SimpleActionFramework.Core
 		
 		public bool ConditionCheck(ActionStateMachine machine)
 		{
+			if (!machine.Data.ContainsKey(Key))
+			{
+				Debug.Log($"{Key} is not in the data list.");
+				return false;
+			}
+			
 			switch (ValueType)
 			{
 				case ValueType.Number:
-					if (machine.Data.TryGetValue(Key, out var nValue) && nValue is float number)
+					if (machine.Data[Key] is float number)
 					{
 						switch (ConditionType)
 						{
@@ -70,7 +81,7 @@ namespace SimpleActionFramework.Core
 					}
                     return false;
 				case ValueType.String:
-					if (machine.Data.TryGetValue(Key, out var sValue) && sValue is string str)
+					if (machine.Data[Key] is string str)
 					{
 						switch (ConditionType)
 						{
@@ -84,9 +95,37 @@ namespace SimpleActionFramework.Core
 								return !str.Contains(StringValue);
 						}
 					}
-					else if (machine.Data.TryGetValue(Key, out var lValue) && lValue is object[] value)
+					return false;
+				case ValueType.NumberList:
+					if (machine.Data[Key] is List<float> nList)
 					{
-						var lstr = string.Join(",", value);
+						var nstr = string.Join(",", nList);
+						StringValue = StringValue.Replace(" ", "");
+						switch (ConditionType)
+						{
+							case ConditionType.Equal:
+								return nstr == StringValue;
+							case ConditionType.NotEqual:
+								return nstr != StringValue;
+							case ConditionType.Greater:
+								return nList.Count > NumberValue;
+							case ConditionType.Less:
+								return nList.Count < NumberValue;
+							case ConditionType.GreaterOrEqual:
+								return nList.Count >= NumberValue;
+							case ConditionType.LessOrEqual:
+								return nList.Count <= NumberValue;
+							case ConditionType.Contains:
+								return nList.Contains(NumberValue);
+							case ConditionType.Exclusive:
+								return !nList.Contains(NumberValue);
+						}
+					}
+					return false;
+				case ValueType.StringList:
+					if (machine.Data[Key] is IEnumerator<string> sList)
+					{
+						var lstr = string.Join(",", sList);
 						StringValue = StringValue.Replace(" ", "");
 						
 						switch (ConditionType)
@@ -99,6 +138,29 @@ namespace SimpleActionFramework.Core
 								return lstr.Contains(StringValue);
 							case ConditionType.Exclusive:
 								return !lstr.Contains(StringValue);
+						}
+					}
+					return false;
+				case ValueType.Input:
+					if (machine.Data[Key] is List<InputRecord> iList)
+					{
+						var istr = string.Join(",", iList);
+						StringValue = StringValue.Replace(" ", "");
+						
+						switch (ConditionType)
+						{
+							case ConditionType.Equal:
+								if (istr != StringValue) return false;
+								iList.Clear();
+								return true;
+							case ConditionType.NotEqual:
+								return istr != StringValue;
+							case ConditionType.Contains:
+								if (!istr.Contains(StringValue)) return false;
+								iList.RemoveAll(input => input.Key == StringValue);
+								return true;
+							case ConditionType.Exclusive:
+								return !istr.Contains(StringValue);
 						}
 					}
 					return false;

@@ -30,19 +30,18 @@ public class SetHitMaskActant : SingleActant
 	{
 	 	base.Act(actor, progress, isFirstFrame);
 	 	// Put your code here
-	}
-
-	public override void OnStart()
-	{
-		_mask?.Dispose();
-		_mask = HitMask.Create(MaskType,
-			new Bounds(Position, Size), Machine.Actor);
+	    
+	    if (isFirstFrame)
+	    {
+		    _mask?.Dispose();
+		    _mask = HitMask.Create(MaskType,
+			    new Bounds(Position, Size), actor);
+	    }
 	}
 
 	public override void OnFinished()
 	{
-		_mask?.Dispose();
-		_mask = null;
+		ResetMask();
 	}
 
 	public void ResetMask()
@@ -72,5 +71,11 @@ public class SetHitMaskActant : SingleActant
 		Gizmos.color = GetColor;
 		var center = Mask.Bounds.center;
 		Gizmos.DrawCube(center, Mask.Bounds.size);
+	}
+
+	public override void Dispose()
+	{
+		if (_mask is not null)
+			ResetMask();
 	}
 }
