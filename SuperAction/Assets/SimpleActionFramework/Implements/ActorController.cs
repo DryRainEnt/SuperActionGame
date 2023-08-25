@@ -18,12 +18,14 @@ namespace SimpleActionFramework.Implements
         public float gravity = 10f;
 
 		Vector3 lastVelocity = Vector3.zero;
+		Vector3 overridenVelocity = Vector3.zero;
 
 		public bool useGravity = true;
 		public bool useCharacterInput = true;
 		
 		public Transform cameraTransform;
-        CharacterInput characterInput;
+		public CharacterInput CharacterInput { get; private set; }
+
         Transform tr;
 
         // Use this for initialization
@@ -31,7 +33,7 @@ namespace SimpleActionFramework.Implements
         {
             tr = transform;
             mover = GetComponent<Mover>();
-            characterInput = GetComponent<CharacterInput>();
+            CharacterInput = GetComponent<CharacterInput>();
         }
 
         void FixedUpdate()
@@ -48,42 +50,49 @@ namespace SimpleActionFramework.Implements
 
             Vector3 _velocity = Vector3.zero;
 
-            //Add player movement to velocity;
-            _velocity += CalculateMovementDirection() * movementSpeed;
-            
-            //Handle gravity;
-            if (!isGrounded && useGravity)
+            if (useCharacterInput)
             {
-                currentVerticalSpeed -= gravity * Time.deltaTime;
-            }
-            else
-            {
-                if (currentVerticalSpeed <= 0f)
-                    currentVerticalSpeed = 0f;
+	            //Add player movement to velocity;
+	            _velocity += CalculateMovementDirection() * movementSpeed;
+
+	            //Handle gravity;
+	            if (!isGrounded && useGravity)
+	            {
+		            currentVerticalSpeed -= gravity * Time.deltaTime;
+	            }
+	            else
+	            {
+		            if (currentVerticalSpeed <= 0f)
+			            currentVerticalSpeed = 0f;
+	            }
+
+	            //Handle jumping;
+	            if (useCharacterInput && (CharacterInput != null) && isGrounded && CharacterInput.IsJumpKeyPressed())
+	            {
+		            OnJumpStart();
+		            currentVerticalSpeed = jumpSpeed;
+		            isGrounded = false;
+	            }
+
+	            //Add vertical velocity;
+	            _velocity += tr.up * currentVerticalSpeed;
+
+	            //Save current velocity for next frame;
             }
 
-            //Handle jumping;
-            if (useCharacterInput && (characterInput != null) && isGrounded && characterInput.IsJumpKeyPressed())
-            {
-                OnJumpStart();
-                currentVerticalSpeed = jumpSpeed;
-                isGrounded = false;
-            }
-
-            //Add vertical velocity;
-            _velocity += tr.up * currentVerticalSpeed;
-
-			//Save current velocity for next frame;
-			lastVelocity = _velocity;
+            _velocity += overridenVelocity;
+            lastVelocity = _velocity;
 
             mover.SetExtendSensorRange(isGrounded);
             mover.SetVelocity(_velocity);
+            
+            overridenVelocity = Vector3.zero;
         }
 
         private Vector3 CalculateMovementDirection()
         {
             //If no character input script is attached to this object, return no input;
-			if(characterInput == null || !useCharacterInput)
+			if(CharacterInput == null || !useCharacterInput)
 				return Vector3.zero;
 
 			Vector3 _direction = Vector3.zero;
@@ -91,15 +100,15 @@ namespace SimpleActionFramework.Implements
 			//If no camera transform has been assigned, use the character's transform axes to calculate the movement direction;
 			if(cameraTransform == null)
 			{
-				_direction += tr.right * characterInput.GetHorizontalMovementInput();
-				_direction += tr.forward * characterInput.GetVerticalMovementInput();
+				_direction += tr.right * CharacterInput.GetHorizontalMovementInput();
+				_direction += tr.forward * CharacterInput.GetVerticalMovementInput();
 			}
 			else
 			{
 				//If a camera transform has been assigned, use the assigned transform's axes for movement direction;
 				//Project movement direction so movement stays parallel to the ground;
-				_direction += Vector3.ProjectOnPlane(cameraTransform.right, tr.up).normalized * characterInput.GetHorizontalMovementInput();
-				_direction += Vector3.ProjectOnPlane(cameraTransform.forward, tr.up).normalized * characterInput.GetVerticalMovementInput();
+				_direction += Vector3.ProjectOnPlane(cameraTransform.right, tr.up).normalized * CharacterInput.GetHorizontalMovementInput();
+				_direction += Vector3.ProjectOnPlane(cameraTransform.forward, tr.up).normalized * CharacterInput.GetVerticalMovementInput();
 			}
 
 			//If necessary, clamp movement vector to magnitude of 1f;
@@ -161,11 +170,7 @@ namespace SimpleActionFramework.Implements
         public void SetMovementVelocity(Vector3 velocity)
         {
 	        //Save current velocity for next frame;
-	        lastVelocity = velocity;
-
-	        isGrounded = mover.IsGrounded();
-	        mover.SetExtendSensorRange(isGrounded);
-	        mover.SetVelocity(velocity);
+	        overridenVelocity = velocity;
         }
     }
 

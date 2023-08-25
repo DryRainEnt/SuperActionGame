@@ -27,13 +27,16 @@ namespace Editor.SimpleActionEditor
 					writer.WriteLine("using UnityEngine;");
 					writer.WriteLine("using SimpleActionFramework.Core;");
 					writer.WriteLine("");
-					writer.WriteLine("[System.Serializable]");
-					writer.WriteLine($"public class {className} : SingleActant");
+					writer.WriteLine("namespace SimpleActionFramework.Actant");
 					writer.WriteLine("{");
-					writer.WriteLine("\tpublic override void Act(Actor actor, float progress, bool isFirstFrame = false)");
+					writer.WriteLine("\t[System.Serializable]");
+					writer.WriteLine($"\tpublic class {className} : SingleActant");
 					writer.WriteLine("\t{");
-					writer.WriteLine("\t \tbase.Act(actor, progress, isFirstFrame);");
-					writer.WriteLine("\t \t// Put your code here");
+					writer.WriteLine("\t \tpublic override void Act(Actor actor, float progress, bool isFirstFrame = false)");
+					writer.WriteLine("\t \t{");
+					writer.WriteLine("\t \t \tbase.Act(actor, progress, isFirstFrame);");
+					writer.WriteLine("\t \t \t// Put your code here");
+					writer.WriteLine("\t \t}");
 					writer.WriteLine("\t}");
 					writer.WriteLine("}");
 				}

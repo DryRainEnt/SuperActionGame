@@ -49,12 +49,13 @@ namespace SimpleActionFramework.Core
 		public ConditionType ConditionType;
 		public string StringValue;
 		public float NumberValue;
+
+		public bool ConsumeInput = true;
 		
 		public bool ConditionCheck(ActionStateMachine machine)
 		{
 			if (!machine.Data.ContainsKey(Key))
 			{
-				Debug.Log($"{Key} is not in the data list.");
 				return false;
 			}
 			
@@ -151,13 +152,17 @@ namespace SimpleActionFramework.Core
 						{
 							case ConditionType.Equal:
 								if (istr != StringValue) return false;
-								iList.Clear();
+								if (ConsumeInput) iList.Clear();
 								return true;
 							case ConditionType.NotEqual:
 								return istr != StringValue;
 							case ConditionType.Contains:
 								if (!istr.Contains(StringValue)) return false;
-								iList.RemoveAll(input => input.Key == StringValue);
+								if (!ConsumeInput) return true;
+								foreach (var iv in StringValue.Split(","))
+								{
+									iList.Remove(iList.Find(input => input.Key == iv));
+								}
 								return true;
 							case ConditionType.Exclusive:
 								return !istr.Contains(StringValue);

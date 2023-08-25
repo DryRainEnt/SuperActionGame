@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using SimpleActionFramework.Core;
 using UnityEngine;
 
 namespace CMF
@@ -13,5 +14,6 @@ namespace CMF
         public abstract float GetVerticalMovementInput();
 
         public abstract bool IsJumpKeyPressed();
+        public abstract void InputCheck(Actor actor, string key);
     }
 }

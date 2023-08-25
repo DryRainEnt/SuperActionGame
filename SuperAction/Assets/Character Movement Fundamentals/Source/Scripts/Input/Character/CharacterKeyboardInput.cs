@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using SimpleActionFramework.Core;
 using UnityEngine;
 
 namespace CMF
@@ -33,6 +34,31 @@ namespace CMF
 		public override bool IsJumpKeyPressed()
 		{
 			return Input.GetKey(jumpKey);
+		}
+        
+		public override void InputCheck(Actor actor, string key)
+		{
+			var aKey = key switch
+			{
+				"forward" => actor.IsLeft ? "left" : "right",
+				"backward" => actor.IsLeft ? "right" : "left",
+				_ => key
+			};
+            
+			if (GlobalInputController.Instance.GetPressed(aKey))
+			{
+				actor.RecordedInputs.Add(new InputRecord(key, Time.realtimeSinceStartup));
+			}
+			if (GlobalInputController.Instance.GetReleased(aKey) && actor.RecordedInputs.Exists(input => input.Key == key))
+			{
+				var idx = actor.RecordedInputs.FindIndex(input => input.Key == key);
+				var input = actor.RecordedInputs[idx];
+                    
+				if (!input.IsPressed) return;
+                    
+				input.ReleaseTime = Time.realtimeSinceStartup - Time.deltaTime;
+				actor.RecordedInputs[idx] = input;
+			}
 		}
     }
 }

@@ -1,15 +1,21 @@
-using UnityEngine;
+using Proto.BasicExtensionUtils;
 using SimpleActionFramework.Core;
+using UnityEngine;
 
-[System.Serializable]
-public class SetVelocityActant : SingleActant
+namespace SimpleActionFramework.Actant
 {
-	public Vector2 velocity;
-	public override void Act(Actor actor, float progress, bool isFirstFrame = false)
+	[System.Serializable]
+	public class SetVelocityActant : SingleActant
 	{
-	 	base.Act(actor, progress, isFirstFrame);
-	 	// Put your code here
+		public Vector2 Velocity;
+		public bool RelativeToActor = true;
+		
+		public override void Act(Actor actor, float progress, bool isFirstFrame = false)
+		{
+			base.Act(actor, progress, isFirstFrame);
+			// Put your code here
 	    
-	    actor.SetVelocity(velocity * InterpolationType.Interpolate(progress));
+			actor.SetVelocity(((RelativeToActor && actor.IsLeft) ? Velocity.FlipX() : Velocity) * InnerProgress);
+		}
 	}
 }

@@ -47,7 +47,7 @@ namespace SimpleActionFramework.Core
 					var other = HitMaskList[j];
 					if (!mask.CheckCollision(HitMaskList[j])) continue;
 					
-					HitDataList.Add(new HitData(){GiverMask = mask, ReceiverMask = other});
+					HitDataList.Add(new HitData(){GiverMask = mask, ReceiverMask = other, DamageInfo = mask.Info});
 				}
 			}
 
@@ -56,6 +56,8 @@ namespace SimpleActionFramework.Core
 				var data = HitDataList[0];
 				var other = data.ReceiverMask;
 				var mask = data.GiverMask;
+
+				IEvent e;
 
 				switch (other.Type)
 				{
@@ -68,6 +70,8 @@ namespace SimpleActionFramework.Core
 						=> other.Owner == hit.ReceiverMask.Owner
 						   && hit.ReceiverMask.Type == MaskType.Hit):
 						HitDataList.RemoveAll(hit => other.Owner == hit.ReceiverMask.Owner && hit.ReceiverMask.Type == MaskType.Hit);
+						data.DamageInfo = other.Info;
+						e = OnAttackGuardEvent.Create(data);
 						continue;
 					// 중복된 Hit판정에 대해 하나만 남기는 경우
 					// 서로 다른 두 충돌에 대해서
@@ -81,7 +85,11 @@ namespace SimpleActionFramework.Core
 						   && hit.ReceiverMask.Type == MaskType.Hit):
 						HitDataList.RemoveAll(hit => mask.Owner == hit.GiverMask.Owner && other.Owner == hit.ReceiverMask.Owner && hit.ReceiverMask.Type == MaskType.Hit);
 						HitDataList.Insert(0, data);
+						e = OnAttackHitEvent.Create(data);
 						break;
+					default:
+						HitDataList.RemoveAt(0);
+						continue;
 				}
 
 				mask.Record(other);
@@ -90,7 +98,6 @@ namespace SimpleActionFramework.Core
 				// 필요한 예외 사항은 전부 체크했으므로 이제 충돌 이벤트를 발생시키고 리스트에서 제거한다.
 				// TODO: 이미 레코드 된 서로 같은 관계에 대해서는 이후에는 충돌 판정을 다시 하지 않는다.
 
-				var e = OnAttackHitEvent.Create(data);
 				MessageSystem.Publish(e);
 				
 				HitDataList.RemoveAt(0);

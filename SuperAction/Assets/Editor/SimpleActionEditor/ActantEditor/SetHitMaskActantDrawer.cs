@@ -28,6 +28,7 @@ namespace Editor.SimpleActionEditor.ActantEditor
 	 	 	SerializedProperty maskTypeProperty = property.FindPropertyRelative("MaskType");
 	 	 	SerializedProperty positionProperty = property.FindPropertyRelative("Position");
 	 	 	SerializedProperty sizeProperty = property.FindPropertyRelative("Size");
+	 	 	SerializedProperty infoProperty = property.FindPropertyRelative("Info");
 	 	 	EditorGUI.BeginProperty(position, label, property);
 	 	 	
 		    var drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
@@ -60,6 +61,13 @@ namespace Editor.SimpleActionEditor.ActantEditor
 			    new GUIContent("Size"), true);
 		    pCount++;
 		    pCount++;
+		    
+		    pCount++;
+	 	 	    
+		    drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
+		    EditorGUI.PropertyField(drawRect, infoProperty, 
+			    new GUIContent("Info"), true);
+		    pCount += 10;
 	 	 	
 	 	 	PropertyCount = pCount;
 	 	 	

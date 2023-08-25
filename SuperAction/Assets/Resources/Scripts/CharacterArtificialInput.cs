@@ -1,4 +1,5 @@
 ﻿using CMF;
+using SimpleActionFramework.Core;
 using UnityEngine;
 
 namespace Resources.Scripts
@@ -21,6 +22,12 @@ namespace Resources.Scripts
 		{
 			//TODO: Implement jump key
 			return false;
+		}
+		
+        
+		public override void InputCheck(Actor actor, string key)
+		{
+			//TODO: Implement InputCheck
 		}
 	}
 }

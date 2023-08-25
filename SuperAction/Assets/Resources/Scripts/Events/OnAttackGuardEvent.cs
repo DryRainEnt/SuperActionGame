@@ -30,6 +30,17 @@ namespace Resources.Scripts.Events
 			return e;
 		}
 
+		public static OnAttackGuardEvent Create(HitData data)
+		{
+			var e = pool.GetOrCreate();
+
+			e.giverMask = data.GiverMask;
+			e.takerMask = data.ReceiverMask; 
+			e.info = data.DamageInfo;
+        
+			return e;
+		}
+
 		public override void Dispose()
 		{
 			pool.Dispose(this);

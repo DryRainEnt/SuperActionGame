@@ -10,7 +10,8 @@ namespace SimpleActionFramework.Core
         EaseInOutQuad,
         EaseInCubic,
         EaseOutCubic,
-        EaseInOutCubic
+        EaseInOutCubic,
+        Constant,
     }
     
     /// <summary>
@@ -22,6 +23,7 @@ namespace SimpleActionFramework.Core
         {
             return type switch
             {
+                InterpolationType.Constant => Constant(t, a, b),
                 InterpolationType.Linear => Linear(t, a, b),
                 InterpolationType.EaseInQuad => EaseInQuad(t, a, b),
                 InterpolationType.EaseOutQuad => EaseOutQuad(t, a, b),
@@ -31,6 +33,11 @@ namespace SimpleActionFramework.Core
                 InterpolationType.EaseInOutCubic => EaseInOutCubic(t, a, b),
                 _ => Linear(t, a, b)
             };
+        }
+
+        private static float Constant(float t, float a = 0f, float b = 1f)
+        {
+            return 1;
         }
 
         private static float Linear(float t, float a = 0f, float b = 1f)

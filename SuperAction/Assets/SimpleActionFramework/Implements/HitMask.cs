@@ -43,18 +43,15 @@ namespace SimpleActionFramework.Core
         public HitMask firstHit { get; private set; }
 
         public DamageInfo Info;
-    
-        public Action OnHit;
-        public Action OnMiss;
         
         private static TinyObjectPool<HitMask> pool
             = new TinyObjectPool<HitMask>();
 
-        public static HitMask Create(MaskType type, Bounds bound, Actor owner, Action onHit = null, Action onMiss = null)
+        public static HitMask Create(MaskType type, Bounds bound, Actor owner, DamageInfo info)
         {
             var e = pool.GetOrCreate();
 
-            e.SetMask(type, bound, owner, onHit, onMiss);
+            e.SetMask(type, bound, owner, info);
             MaskManager.RegisterMask(e);
         
             return e;
@@ -65,19 +62,16 @@ namespace SimpleActionFramework.Core
             MaskManager.UnregisterMask(this);
             ResetHitRecord();
             Owner = null;
-            OnHit = null;
-            OnMiss = null;
             StartTime = -1f;
             pool.Dispose(this);
         }
     
-        private void SetMask(MaskType type, Bounds bound, Actor owner, Action onHit = null, Action onMiss = null)
+        private void SetMask(MaskType type, Bounds bound, Actor owner, DamageInfo info)
         {
             Type = type;
             Owner = owner;
             _bounds = bound;
-            OnHit = onHit;
-            OnMiss = onMiss;
+            Info = info;
             
             StartTime = Time.realtimeSinceStartup;
         }
@@ -86,9 +80,6 @@ namespace SimpleActionFramework.Core
         void Update()
         {
             _hitThisFrame.Clear();
-        
-            if (Info == null)
-                return;
         }
 
         public void ResetHitRecord()

@@ -1,0 +1,220 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbde9c5a9c2101848864b10bf87feeaa, type: 3}
+  m_Name: TestManIdleState
+  m_EditorClassIdentifier: 
+  Actants:
+  - rid: 1989145723172290581
+  - rid: 1989145723172290582
+  - rid: 1989145723172290583
+  - rid: 1989145723172290584
+  - rid: 1989145723172290585
+  - rid: 1989145723172290601
+  - rid: 1989145723172290608
+  - rid: 1989145723172290609
+  - rid: 1989145723172290610
+  - rid: 1989145723172290620
+  - rid: 1989145723172290654
+  - rid: 1989145723172290671
+  - rid: 1989145723172290672
+  - rid: 1989145753598033938
+  - rid: 1989145753598034094
+  - rid: 1989145753598034217
+  actantWrapper:
+  - rid: 1989145753598034217
+  references:
+    version: 2
+    RefIds:
+    - rid: 1989145723172290581
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 4
+        InterpolationType: 0
+        sprite: {fileID: -9025390970422906611, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: -0.5, y: 0}
+    - rid: 1989145723172290582
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 4
+        Duration: 4
+        InterpolationType: 0
+        sprite: {fileID: 5816991550370761563, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: -0.5, y: 0}
+    - rid: 1989145723172290583
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 8
+        Duration: 4
+        InterpolationType: 0
+        sprite: {fileID: 211846762212507646, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: -0.5, y: 0}
+    - rid: 1989145723172290584
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 12
+        Duration: 4
+        InterpolationType: 0
+        sprite: {fileID: 6622902748593212413, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: -0.5, y: 0}
+    - rid: 1989145723172290585
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 16
+        Duration: 2
+        InterpolationType: 0
+        sprite: {fileID: 4405317405355742363, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: -0.5, y: 0}
+    - rid: 1989145723172290601
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 18
+        Duration: 2
+        InterpolationType: 0
+        sprite: {fileID: 6101414447195401763, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: -0.5, y: 0}
+    - rid: 1989145723172290608
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 20
+        Duration: 2
+        InterpolationType: 0
+        sprite: {fileID: 3056810897146314910, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: -0.5, y: 0}
+    - rid: 1989145723172290609
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 22
+        Duration: 2
+        InterpolationType: 0
+        sprite: {fileID: 3411856314309249508, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: -0.5, y: 0}
+    - rid: 1989145723172290610
+      type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 24
+        InterpolationType: 0
+        MaskType: 4
+        Position: {x: 0, y: 2}
+        Size: {x: 1, y: 4}
+    - rid: 1989145723172290620
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 24
+        InterpolationType: 0
+        StateKey: Move
+        ConditionStates:
+        - JointType: 0
+          Key: MoveDirection
+          ValueType: 0
+          ConditionType: 1
+          StringValue: 
+          NumberValue: 0
+          ConsumeInput: 1
+    - rid: 1989145723172290654
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 24
+        InterpolationType: 0
+        StateKey: A
+        ConditionStates:
+        - JointType: 0
+          Key: Inputs
+          ValueType: 4
+          ConditionType: 6
+          StringValue: button1
+          NumberValue: 0
+          ConsumeInput: 1
+    - rid: 1989145723172290671
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 24
+        InterpolationType: 0
+        StateKey: Rising
+        ConditionStates:
+        - JointType: 0
+          Key: IsGrounded
+          ValueType: 0
+          ConditionType: 0
+          StringValue: 
+          NumberValue: 0
+          ConsumeInput: 1
+        - JointType: 0
+          Key: VerticalSpeed
+          ValueType: 0
+          ConditionType: 2
+          StringValue: 
+          NumberValue: 0
+          ConsumeInput: 1
+    - rid: 1989145723172290672
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 24
+        InterpolationType: 0
+        StateKey: Falling
+        ConditionStates:
+        - JointType: 0
+          Key: IsGrounded
+          ValueType: 0
+          ConditionType: 0
+          StringValue: 
+          NumberValue: 0
+          ConsumeInput: 1
+        - JointType: 0
+          Key: VerticalSpeed
+          ValueType: 0
+          ConditionType: 3
+          StringValue: 
+          NumberValue: 0
+          ConsumeInput: 1
+    - rid: 1989145753598033938
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 24
+        InterpolationType: 0
+        StateKey: Guard
+        ConditionStates:
+        - JointType: 0
+          Key: Inputs
+          ValueType: 4
+          ConditionType: 6
+          StringValue: down
+          NumberValue: 0
+          ConsumeInput: 0
+    - rid: 1989145753598034094
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 24
+        InterpolationType: 0
+        StateKey: B
+        ConditionStates:
+        - JointType: 0
+          Key: Inputs
+          ValueType: 4
+          ConditionType: 6
+          StringValue: button2
+          NumberValue: 0
+          ConsumeInput: 1
+    - rid: 1989145753598034217
+      type: {class: ToggleInput, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 24
+        InterpolationType: 0
+        useCharacterInput: 1

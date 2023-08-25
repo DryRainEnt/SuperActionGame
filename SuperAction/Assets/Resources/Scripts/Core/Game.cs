@@ -9,6 +9,7 @@ using UnityEngine;
 
 public class Game : MonoBehaviour, IEventListener
 {
+    public Actor Player;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +19,10 @@ public class Game : MonoBehaviour, IEventListener
     // Update is called once per frame
     void Update()
     {
+        if (GlobalInputController.Instance.GetInput("reset"))
+        {
+            Player.transform.position = Vector3.up * 6;
+        }
     }
 
     private void FixedUpdate()

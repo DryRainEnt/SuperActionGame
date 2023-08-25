@@ -52,7 +52,7 @@ namespace Editor.SimpleActionEditor.ActantEditor
 		    EditorGUI.PropertyField(drawRect, conditionList, 
 			    new GUIContent("Conditions"), true);
 
-		    pCount += (conditionList.arraySize + 1) * 3;
+		    pCount += (conditionList.arraySize + 1) * 4;
 		    
 	 	 	PropertyCount = pCount;
 	 	 	
