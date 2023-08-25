@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace Editor.SimpleActionEditor.ActantEditor
 {
-	[CustomPropertyDrawer(typeof(SetVelocityActant))]
-	public class SetCharacterVelocityActantDrawer : PropertyDrawer
+	[CustomPropertyDrawer(typeof(ToggleGravityActant))]
+	public class ToggleGravityActantDrawer : PropertyDrawer
 	{
 	 	private int _propertyCount;
 	 	public int PropertyCount
@@ -25,9 +25,7 @@ namespace Editor.SimpleActionEditor.ActantEditor
 	 	 	var pCount = 0;
 	 	 	SerializedProperty startFrameProperty = property.FindPropertyRelative("StartFrame");
 	 	 	SerializedProperty durationProperty = property.FindPropertyRelative("Duration");
-	 	 	SerializedProperty interpolationProperty = property.FindPropertyRelative("InterpolationType");
-	 	 	SerializedProperty velocityProperty = property.FindPropertyRelative("Velocity");
-	 	 	SerializedProperty relativeToProperty = property.FindPropertyRelative("RelativeToActor");
+	 	 	SerializedProperty useGravityProperty = property.FindPropertyRelative("useGravity");
 	 	 	EditorGUI.BeginProperty(position, label, property);
 	 	 	
 	 	 	var drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
@@ -41,22 +39,10 @@ namespace Editor.SimpleActionEditor.ActantEditor
 	 	 	pCount++;
 	 	 	
 	 	 	// Put your code here
-	 	 	
-		    drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
-		    EditorGUI.PropertyField(drawRect, interpolationProperty, 
-			    new GUIContent("Interpolation"), true);
-		    pCount++;
-	 	 	
-		    drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
-		    EditorGUI.PropertyField(drawRect, velocityProperty, 
-			    new GUIContent("Velocity"), true);
-		    pCount++;
-		    pCount++;
-	 	 	
-		    drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
-		    EditorGUI.PropertyField(drawRect, relativeToProperty, 
-			    new GUIContent("Relative To Actor"), true);
-		    pCount++;
+	 	 	drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, position.height);
+	 	 	EditorGUI.PropertyField(drawRect, useGravityProperty, 
+	 	 	    new GUIContent("UseGravity"), true);
+	 	 	pCount++;
 	 	 	
 	 	 	PropertyCount = pCount;
 	 	 	
