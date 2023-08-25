@@ -1,0 +1,180 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbde9c5a9c2101848864b10bf87feeaa, type: 3}
+  m_Name: TestManMoveState
+  m_EditorClassIdentifier: 
+  Actants:
+  - rid: 1989145723172290621
+  - rid: 1989145723172290622
+  - rid: 1989145723172290623
+  - rid: 1989145723172290624
+  - rid: 1989145723172290625
+  - rid: 1989145723172290626
+  - rid: 1989145723172290627
+  - rid: 1989145723172290628
+  - rid: 1989145723172290629
+  - rid: 1989145723172290630
+  - rid: 1989145723172290673
+  - rid: 1989145723172290674
+  - rid: 1989145753598034001
+  actantWrapper:
+  - rid: 1989145753598034001
+  references:
+    version: 2
+    RefIds:
+    - rid: 1989145723172290621
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 3
+        InterpolationType: 0
+        sprite: {fileID: -4422786366676880893, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: -1, y: 0}
+    - rid: 1989145723172290622
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 3
+        Duration: 3
+        InterpolationType: 0
+        sprite: {fileID: 7344287165153746031, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: -1, y: 0}
+    - rid: 1989145723172290623
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 6
+        Duration: 3
+        InterpolationType: 0
+        sprite: {fileID: -3249316727141686794, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: -1, y: 0}
+    - rid: 1989145723172290624
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 9
+        Duration: 3
+        InterpolationType: 0
+        sprite: {fileID: -4080805687796375675, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: -1, y: 0}
+    - rid: 1989145723172290625
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 12
+        Duration: 3
+        InterpolationType: 0
+        sprite: {fileID: 3753761768772248639, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: -1, y: 0}
+    - rid: 1989145723172290626
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 15
+        Duration: 3
+        InterpolationType: 0
+        sprite: {fileID: 2690195352835344123, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: -1, y: 0}
+    - rid: 1989145723172290627
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 18
+        Duration: 3
+        InterpolationType: 0
+        sprite: {fileID: -2336548755984774821, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: -1, y: 0}
+    - rid: 1989145723172290628
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 21
+        Duration: 3
+        InterpolationType: 0
+        sprite: {fileID: 2219875372238404126, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+        offset: {x: -1, y: 0}
+    - rid: 1989145723172290629
+      type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 24
+        InterpolationType: 0
+        MaskType: 4
+        Position: {x: 0, y: 2}
+        Size: {x: 1, y: 3.6}
+    - rid: 1989145723172290630
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 24
+        InterpolationType: 0
+        StateKey: Idle
+        ConditionStates:
+        - JointType: 0
+          Key: MoveDirection
+          ValueType: 0
+          ConditionType: 0
+          StringValue: 
+          NumberValue: 0
+          ConsumeInput: 1
+    - rid: 1989145723172290673
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 24
+        InterpolationType: 0
+        StateKey: Rising
+        ConditionStates:
+        - JointType: 0
+          Key: IsGrounded
+          ValueType: 0
+          ConditionType: 0
+          StringValue: 
+          NumberValue: 0
+          ConsumeInput: 1
+        - JointType: 0
+          Key: VerticalSpeed
+          ValueType: 0
+          ConditionType: 2
+          StringValue: 
+          NumberValue: 0
+          ConsumeInput: 1
+    - rid: 1989145723172290674
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 24
+        InterpolationType: 0
+        StateKey: Falling
+        ConditionStates:
+        - JointType: 0
+          Key: IsGrounded
+          ValueType: 0
+          ConditionType: 0
+          StringValue: 
+          NumberValue: 0
+          ConsumeInput: 1
+        - JointType: 0
+          Key: VerticalSpeed
+          ValueType: 0
+          ConditionType: 3
+          StringValue: 
+          NumberValue: 0
+          ConsumeInput: 1
+    - rid: 1989145753598034001
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 24
+        InterpolationType: 0
+        StateKey: Dash
+        ConditionStates:
+        - JointType: 0
+          Key: Inputs
+          ValueType: 4
+          ConditionType: 6
+          StringValue: forward,forward
+          NumberValue: 0
+          ConsumeInput: 1

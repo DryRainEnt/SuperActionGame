@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4fbb331e0840ba4ea66020cae1b4f24, type: 3}
+  m_Name: TestMan
+  m_EditorClassIdentifier: 
+  States:
+    keys:
+    - Idle
+    - Move
+    - A
+    - Rising
+    - Falling
+    - Guard
+    - Dash
+    - DashA
+    - DashB
+    - ForwardA
+    - DownA
+    - UpA
+    - BackwardA
+    - B
+    - ForwardB
+    - DownB
+    - UpB
+    - BackwardB
+    - HitSmall
+    - HitMedium
+    - HitLarge
+    - Stun
+    - AirA
+    - AirB
+    values:
+    - {fileID: 11400000, guid: ccb7669584ef8404b9f237843a90628c, type: 2}
+    - {fileID: 11400000, guid: 6c80f5bcb87e2d44b8f729ad2da06a55, type: 2}
+    - {fileID: 11400000, guid: c556efff065f4c54fac9bc141acd05b2, type: 2}
+    - {fileID: 11400000, guid: df0d440b21be6134db0845a098a430ad, type: 2}
+    - {fileID: 11400000, guid: f9616a3fa40a3ae43828b55cadb7a465, type: 2}
+    - {fileID: 11400000, guid: 401a5efdda3bfcc4292fa1959ed20bbb, type: 2}
+    - {fileID: 11400000, guid: d799d0d6b062a234eb5d4f17da47d23d, type: 2}
+    - {fileID: 11400000, guid: 55d8f8a592785fd4988570750fa78042, type: 2}
+    - {fileID: 11400000, guid: 16150e0f5e2a93148b3eea95cbf8390a, type: 2}
+    - {fileID: 11400000, guid: df1cce7526adf7d41a842c8d2494b83f, type: 2}
+    - {fileID: 11400000, guid: cb3c91fc33ad45a4da388dac4eb943b0, type: 2}
+    - {fileID: 11400000, guid: 0e631c3c5df3cc24584b71606c39ddfb, type: 2}
+    - {fileID: 11400000, guid: 1a6cf458cc5b0fd49aecc73b358b93a9, type: 2}
+    - {fileID: 11400000, guid: ae92c2ea08f2aec4d9aec9f761832c81, type: 2}
+    - {fileID: 11400000, guid: 478a1f5c6f666b64ebe70bd1db1b19ff, type: 2}
+    - {fileID: 11400000, guid: d768401ae53e8c646a64b3ed224709a9, type: 2}
+    - {fileID: 11400000, guid: 9769d3e9cacb52f4e997bb4227acf077, type: 2}
+    - {fileID: 11400000, guid: 2332821abb085db409024800e6064e84, type: 2}
+    - {fileID: 11400000, guid: e5f2e90981184a94281a89885faa6c16, type: 2}
+    - {fileID: 11400000, guid: 011e239864031844aac9217b57f95cb5, type: 2}
+    - {fileID: 11400000, guid: 028bb4c5de5d63c4d989faea834972a2, type: 2}
+    - {fileID: 11400000, guid: 5cd0f1cf70d42b443a3171514c2747ec, type: 2}
+    - {fileID: 11400000, guid: 6963a767eed30c3419ec461ef726430a, type: 2}
+    - {fileID: 11400000, guid: 8a7cb58f5212e3546906e273a2220cfe, type: 2}
+  DefaultStateName: Idle

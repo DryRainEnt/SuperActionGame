@@ -84,7 +84,7 @@ namespace SimpleActionFramework.Core
             RecordedInputs.Sort();
             foreach (var key in ActionKeys)
             {
-                InputCheck(key);
+                _actorController.CharacterInput.InputCheck(this, key);
             }
             RecordedInputs.Sort();
 
@@ -111,31 +111,6 @@ namespace SimpleActionFramework.Core
                 {
                     _debugText.text += input.Key + " : " + input.PressTime + " ~ " + input.ReleaseTime + "\n";
                 }
-            }
-        }
-
-        private void InputCheck(string key)
-        {
-            var aKey = key switch
-            {
-                "forward" => IsLeft ? "left" : "right",
-                "backward" => IsLeft ? "right" : "left",
-                _ => key
-            };
-            
-            if (GlobalInputController.Instance.GetPressed(aKey))
-            {
-                RecordedInputs.Add(new InputRecord(key, Time.realtimeSinceStartup));
-            }
-            if (GlobalInputController.Instance.GetReleased(aKey) && RecordedInputs.Exists(input => input.Key == key))
-            {
-                var idx = RecordedInputs.FindIndex(input => input.Key == key);
-                var input = RecordedInputs[idx];
-                    
-                if (!input.IsPressed) return;
-                    
-                input.ReleaseTime = Time.realtimeSinceStartup - Time.deltaTime;
-                RecordedInputs[idx] = input;
             }
         }
         

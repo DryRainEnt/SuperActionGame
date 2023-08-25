@@ -5,19 +5,16 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 [Serializable]
-public class DamageInfo
+public struct DamageInfo
 {
-    public Actor Owner;
     public float Damage;
     public float GuardDamage;
     public Vector2 Direction;
-    public bool GuardCrash;
-    public DamageInfo Clone => new DamageInfo
-    {
-        Owner = Owner,
-        Damage = Damage,
-        GuardDamage = GuardDamage,
-        Direction = Direction,
-        GuardCrash = GuardCrash,
-    };
+    public float KnockbackPower;
+    public float GuardCrash;
+
+    public string NextSelfStateOnHit;
+    public string NextOtherStateOnHit;
+    public string NextSelfStateOnGuard;
+    public string NextOtherStateOnGuard;
 }
