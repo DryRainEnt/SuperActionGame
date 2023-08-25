@@ -20,23 +20,24 @@ namespace SimpleActionFramework.Actant
 				return;
 			}
 
-			var machine = actor.ActionStateMachine;
-			var state = ConditionStates[0].ConditionCheck(machine);
+			var state = ConditionStates[0].ConditionCheck(actor.ActionStateMachine);
 	    
 			// Check if the conditions are satisfied
 			for (var index = 1; index < ConditionStates.Count; index++)
 			{
 				var condition = ConditionStates[index];
 				if (condition.JointType == JointType.And)
-					state &= condition.ConditionCheck(machine);
+					state &= condition.ConditionCheck(actor.ActionStateMachine);
 				if (condition.JointType == JointType.Or)
-					state |= condition.ConditionCheck(machine);
+					state |= condition.ConditionCheck(actor.ActionStateMachine);
 				if (condition.JointType == JointType.Xor)
-					state ^= condition.ConditionCheck(machine);
+					state ^= condition.ConditionCheck(actor.ActionStateMachine);
 			}
 	    
 			if (state)
+			{
 				actor.ActionStateMachine.SetState(StateKey);
+			}
 		}
 	}
 }

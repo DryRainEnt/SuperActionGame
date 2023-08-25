@@ -46,8 +46,7 @@ namespace SimpleActionFramework.Core
     
         public Action OnHit;
         public Action OnMiss;
-
-    
+        
         private static TinyObjectPool<HitMask> pool
             = new TinyObjectPool<HitMask>();
 
@@ -121,10 +120,7 @@ namespace SimpleActionFramework.Core
                     return false;
                 default: break;
             }
-            if (_hitRecord.Exists(mask => mask.Owner == other.Owner))
-                return false;
-
-            return Bounds.Intersects(other.Bounds);
+            return !_hitRecord.Exists(mask => mask.Owner == other.Owner) && Bounds.Intersects(other.Bounds);
         }
 
         public override string ToString()

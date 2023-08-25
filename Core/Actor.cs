@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Proto.BasicExtensionUtils;
 using Proto.EventSystem;
 using SimpleActionFramework.Implements;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace SimpleActionFramework.Core
@@ -10,6 +11,9 @@ namespace SimpleActionFramework.Core
     {
         [SerializeField]
         public ActionStateMachine ActionStateMachine;
+        
+        [ShowInInspector]
+        public Dictionary<string, object> Data => ActionStateMachine ? ActionStateMachine.Data : null;
     
         private ActorController _actorController;
     
@@ -53,11 +57,10 @@ namespace SimpleActionFramework.Core
 
             InputUpdate();
         
-            ActionStateMachine.UpdateState(this, dt);
+            ActionStateMachine.OnUpdate(this, dt);
         
             CurrentState = ActionStateMachine.CurrentStateName;
-            CurrentActantName = ActionStateMachine.CurrentState.CurrentActantName;
-            CurrentFrame = ActionStateMachine.CurrentState.CurrentFrame;
+            CurrentFrame = ActionStateMachine.CurrentFrame;
         }
 
         private readonly string[] ActionKeys = new[]
@@ -90,7 +93,7 @@ namespace SimpleActionFramework.Core
                 RecordedInputs.RemoveAt(RecordedInputs.Count - 1);
             }
             
-            ActionStateMachine.UpdateData("RecordedInputs", RecordedInputs);
+            ActionStateMachine.UpdateData("Inputs", RecordedInputs);
 
             ActionStateMachine.UpdateData("MoveDirection", 
                 _actorController.GetMovementVelocity().x.Abs() < Constants.Epsilon ? 0f : _actorController.GetMovementVelocity().x.Sign());
@@ -98,6 +101,8 @@ namespace SimpleActionFramework.Core
         
             IsLeft = LastDirection.x > Constants.Epsilon ? false : LastDirection.x < -Constants.Epsilon ? true : IsLeft;
             ActionStateMachine.UpdateData("FaceDirection", IsLeft ? -1f : 1f);
+            ActionStateMachine.UpdateData("VerticalSpeed", _actorController.GetMovementVelocity().y);
+            ActionStateMachine.UpdateData("IsGrounded", _actorController.IsGrounded() ? 1f : 0f);
 
             if (_debugText)
             {
@@ -133,6 +138,21 @@ namespace SimpleActionFramework.Core
                 RecordedInputs[idx] = input;
             }
         }
+        
+        public void SetVelocity(Vector2 velocity)
+        {
+            _actorController.SetMovementVelocity(velocity);
+        }
+        
+        public void ToggleGravity(bool toggle)
+        {
+            _actorController.ToggleGravity(toggle);
+        }
+        
+        public void ToggleCharacterInput(bool toggle)
+        {
+            _actorController.ToggleCharacterInput(toggle);
+        }
 
         #region SpriteSetters
 
@@ -149,7 +169,7 @@ namespace SimpleActionFramework.Core
             if (!Application.isPlaying || !ActionStateMachine || !ActionStateMachine.CurrentState)
                 return;
             //TODO: debug condition
-            ActionStateMachine.OnDrawGizmos();
+            ActionStateMachine.CurrentState.DrawGizmos(ActionStateMachine.CurrentFrame);
         }
 
         public bool OnEvent(IEvent e)

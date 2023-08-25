@@ -94,6 +94,7 @@ namespace SimpleActionFramework.Core
         
             values.RemoveAt(keys.FindIndex(x => x.Equals(key)));
             keys.Remove(key);
+            dictionary.Remove(key);
             return true;
         }
     
