@@ -33,12 +33,37 @@ namespace SimpleActionFramework.Core.Editor
 		
 		private float listAreaWidth = 320f;
 		private float dataAreaWidth = 320f;
+		
+        private float StartTime = 0f;
+        private float InnerTimer = 0f;
+		private bool IsPlaying = false;
+
 
 		[MenuItem("Window/Frame Data Editor")]
 		static void Init()
 		{
 			FrameDataEditor window = (FrameDataEditor)GetWindow(typeof(FrameDataEditor), false, "Frame Data Editor");
 			window.Show();
+		}
+
+		private void OnEnable()
+		{
+			selectedKey = "";
+			selectedActionState = null;
+			serializedActionState = null;
+			selectedActant = null;
+			selectedFrame = 0;
+			selectedActantIndex = -1;
+		}
+
+		private void Update()
+		{
+			if (IsPlaying)
+			{
+				InnerTimer = (float)EditorApplication.timeSinceStartup - StartTime;
+				selectedFrame = Mathf.FloorToInt(InnerTimer * 30f) % selectedActionState.TotalDuration;
+				Repaint();
+			}
 		}
 
 		private void OnGUI()
@@ -72,6 +97,10 @@ namespace SimpleActionFramework.Core.Editor
             
 			GUI.backgroundColor = DefaultGUIColor;
 		}
+
+		private bool IsAddMode = false;
+		private string newName = "";
+		private string newKey = "";
 		
 		private void DrawListArea()
 		{
@@ -91,19 +120,82 @@ namespace SimpleActionFramework.Core.Editor
 			// 선택한 FrameDataSet이 있는 경우 키 목록 표시
 			if (ASM is not null)
 			{
+				EditorGUILayout.Separator();
 				EditorGUILayout.BeginHorizontal();
+				GUILayout.Label("Default State Key: ", GUILayout.Width(128f));
+				ASM.DefaultStateName = GUILayout.TextField(ASM.DefaultStateName);
+				EditorGUILayout.EndHorizontal();
+
+				Handles.DrawLine(
+					new Vector3(0f, IsAddMode ? 138f: 76f, 0), 
+					new Vector3(320f, IsAddMode ? 138f: 76f, 0)
+				);
+				Handles.DrawLine(
+					new Vector3(0f, IsAddMode ? 140f: 78f, 0), 
+					new Vector3(320f, IsAddMode ? 140f: 78f, 0)
+				);
 				
-				searchKey = GUILayout.TextField(searchKey);
-				if (GUILayout.Button("Add", GUILayout.Width(80f)) && !ASM.States.ContainsKey(searchKey))
+				EditorGUILayout.Separator();
+
+				if (IsAddMode)
 				{
-					// TODO: Add new ActionState with menu or something
-					ASM.Add(searchKey, new ActionState());
-					EditorUtility.SetDirty(ASM);
-					AssetDatabase.SaveAssets();
+					EditorGUILayout.BeginHorizontal();
+					GUILayout.Label("New Key: ", GUILayout.Width(64f));
+					newKey = GUILayout.TextField(newKey);
+					EditorGUILayout.EndHorizontal();
+					
+					EditorGUILayout.BeginHorizontal();
+					newName = GUILayout.TextField(newName);
+					
+					GUI.backgroundColor = Color.green;
+					if (GUILayout.Button("Add", GUILayout.Width(80f)) && newKey != string.Empty && !ASM.States.ContainsKey(newKey))
+					{
+						if (newName == string.Empty)
+							newName = $"{ASM.name}{newKey}State";
+						ActionState newState = CreateInstance<ActionState>();
+						string path = $"Assets/SimpleActionFramework/ActionState/{ASM.name}";
+						if (!AssetDatabase.IsValidFolder(path))
+							AssetDatabase.CreateFolder($"Assets/SimpleActionFramework/ActionState", ASM.name);
+						path += $"/{newName}.asset";
+						AssetDatabase.CreateAsset(newState, path);
+						ASM.Add(newKey, newState);
+						EditorUtility.SetDirty(ASM);
+						AssetDatabase.SaveAssets();
+						AssetDatabase.Refresh();
+						EditorUtility.FocusProjectWindow();
+						Selection.activeObject = newState;
+						
+						newKey = "";
+						newName = "";
+						IsAddMode = false;
+					}
+					GUI.backgroundColor = Color.red;
+					if (GUILayout.Button("Cancel", GUILayout.Width(80f)))
+					{
+						newKey = "";
+						newName = "";
+						IsAddMode = false;
+					}
+					GUI.backgroundColor = DefaultGUIColor;
+					EditorGUILayout.EndHorizontal();
+					
+					EditorGUILayout.HelpBox("Enter new key name above, new state name below. \nThen press Add button to create new action state.", MessageType.Info);
 				}
+				else
+				{
+					if (GUILayout.Button("New State"))
+					{
+						IsAddMode = true;
+					}
+				}
+				
+				EditorGUILayout.Separator();
+				
+				EditorGUILayout.BeginHorizontal();
+				GUILayout.Label("Frame Data Keys: ", GUILayout.Width(128f));
+				searchKey = GUILayout.TextField(searchKey);
 				EditorGUILayout.EndHorizontal();
 				
-				EditorGUILayout.LabelField("Frame Data Keys:");
 				listScrollPosition = EditorGUILayout.BeginScrollView(listScrollPosition);
 
 				var updateExists = false;
@@ -120,16 +212,22 @@ namespace SimpleActionFramework.Core.Editor
 					
 						EditorGUILayout.BeginHorizontal();
 					
+						GUI.backgroundColor = (key == selectedKey) ? Color.cyan : DefaultGUIColor;
 						if (GUILayout.Button(key))
 						{
 							selectedKey = key;
 							selectedActionState = ASM.States[key];
 							serializedActionState = new SerializedObject(selectedActionState);
+							IsAddMode = false;
+							selectedActant = null;
+							selectedFrame = 0;
+							selectedActantIndex = -1;
 						}
 
 						GUI.backgroundColor = Color.red;
 						if (GUILayout.Button("Remove", GUILayout.Width(80f)))
 						{
+							IsAddMode = false;
 							GenericMenu menu = new GenericMenu();
 
 							menu.AddItem(new GUIContent("Are you sure with removing this action?"), false, () => { });
@@ -137,6 +235,21 @@ namespace SimpleActionFramework.Core.Editor
 							{
 								removeKey = key;
 								updateExists = true;
+								
+								EditorUtility.SetDirty(ASM);
+								var killState = ASM.States[removeKey];
+								ASM.States.Remove(removeKey);
+								AssetDatabase.DeleteAsset($"Assets/SimpleActionFramework/ActionState/{ASM.name}/{killState.name}.asset");
+						
+								AssetDatabase.SaveAssets();
+								AssetDatabase.Refresh();
+								
+								selectedKey = "";
+								selectedActionState = null;
+								serializedActionState = null;
+								selectedActant = null;
+								selectedFrame = 0;
+								selectedActantIndex = -1;
 							});
 							menu.AddItem(new GUIContent("No"), false, () =>
 							{
@@ -153,16 +266,62 @@ namespace SimpleActionFramework.Core.Editor
 						if (updateExists)
 							break;
 					}
-					
-					if (updateExists)
-					{
-						EditorUtility.SetDirty(ASM);
-						ASM.States.Remove(removeKey);
-						AssetDatabase.SaveAssets();
-					}
 				}while (updateExists);
 
 				EditorGUILayout.EndScrollView();
+			}
+			else
+			{
+				selectedKey = "";
+				selectedActionState = null;
+				serializedActionState = null;
+				selectedActant = null;
+				selectedFrame = 0;
+				selectedActantIndex = -1;
+
+				if (IsAddMode)
+				{
+					EditorGUILayout.BeginHorizontal(GUILayout.Width(300f));
+					GUILayout.Label("Name: ", GUILayout.Width(64f));
+					newName = GUILayout.TextField(newName);
+					EditorGUILayout.EndHorizontal();
+					
+					EditorGUILayout.BeginHorizontal(GUILayout.Width(300f));
+					GUI.backgroundColor = Color.green;
+					if (GUILayout.Button("Create"))
+					{
+						ActionStateMachine newStateMachine = CreateInstance<ActionStateMachine>();
+						string path = $"Assets/SimpleActionFramework/ActionState/{newName}";
+						if (!AssetDatabase.IsValidFolder(path))
+							AssetDatabase.CreateFolder($"Assets/SimpleActionFramework/ActionState", newName);
+						path += $"/{newName}.asset";
+						AssetDatabase.CreateAsset(newStateMachine, path);
+						AssetDatabase.SaveAssets();
+						AssetDatabase.Refresh();
+						EditorUtility.FocusProjectWindow();
+						Selection.activeObject = newStateMachine;
+						
+						newName = "";
+						IsAddMode = false;
+
+						ASM = newStateMachine;
+					}
+					GUI.backgroundColor = Color.red;
+					if (GUILayout.Button("Cancel", GUILayout.Width(80f)))
+					{
+						newName = "";
+						IsAddMode = false;
+					}
+					GUI.backgroundColor = DefaultGUIColor;
+					EditorGUILayout.EndHorizontal();
+				}
+                else
+				{
+					if (GUILayout.Button("New State Machine", GUILayout.Width(300f)))
+					{
+						IsAddMode = true;
+					}
+				}
 			}
 		}
 		
@@ -194,6 +353,7 @@ namespace SimpleActionFramework.Core.Editor
 			if (ASM is null || selectedActionState is null)
 			{
 				EditorGUILayout.LabelField("No action state selected");
+				EditorGUILayout.LabelField("", GUILayout.Height(timelineHeight - 12f));
 				return;
 			}
 			
@@ -209,9 +369,13 @@ namespace SimpleActionFramework.Core.Editor
 						menu.AddItem(new GUIContent(type.Name), false, () =>
 						{
 							// 선택한 타입의 Actant를 추가합니다.
-							selectedActionState.Actants.Add((SingleActant)Activator.CreateInstance(type));
+							var newActant = (SingleActant)Activator.CreateInstance(type);
+							newActant.StartFrame = selectedFrame;
+							selectedActionState.Actants.Add(newActant);
 							EditorUtility.SetDirty(ASM);
 							AssetDatabase.SaveAssets();
+							selectedActant = newActant;
+							selectedActantIndex = selectedActionState.Actants.Count - 1;
 						});
 					}
 
@@ -225,13 +389,23 @@ namespace SimpleActionFramework.Core.Editor
 				GUI.skin.horizontalScrollbar = GUIStyle.none;
 				GUI.skin.verticalScrollbar = GUIStyle.none;
 
+				var headerBaseWidth = 192f;
+
 				var swapTarget = (0, 0);
-				EditorGUILayout.BeginVertical(GUILayout.Width(44f));
-					GUILayout.Button(">>", GUILayout.Width(42f));
+				EditorGUILayout.BeginVertical(GUILayout.Width(headerBaseWidth + 2f));
+					if (GUILayout.Button(">>", GUILayout.Width(headerBaseWidth - 4f)))
+					{
+						GenericMenu menu = new GenericMenu();
+
+						menu.AddItem(new GUIContent("There's still no function here... Sorry!"), false, () => { });
+
+						menu.ShowAsContext();
+					}
 					
-					EditorGUILayout.BeginScrollView(timelineScroll.GetYFlat(), GUIStyle.none, GUIStyle.none, GUILayout.Width(42f), GUILayout.Height(timelineHeight - 42f));
+					EditorGUILayout.BeginScrollView(timelineScroll.GetYFlat(), GUIStyle.none, GUIStyle.none, GUILayout.Width(headerBaseWidth), GUILayout.Height(timelineHeight - 42f));
 					for (var index = 0; index < selectedActionState.Actants.Count; index++)
 					{
+						var act = selectedActionState.Actants[index];
 						EditorGUILayout.BeginHorizontal();
 
 						GUI.backgroundColor = Color.red;
@@ -239,24 +413,45 @@ namespace SimpleActionFramework.Core.Editor
 						{
 							alignment = TextAnchor.MiddleCenter,
 						};
-						if (GUILayout.Button("X", simpleStyle, GUILayout.Width(20f), GUILayout.Height(30f)) && index > 0)
+						if (GUILayout.Button("X", simpleStyle, GUILayout.Width(24f), GUILayout.Height(30f)) && index > 0)
 						{
 							killList.Add(index);
 						}
 						GUI.backgroundColor = defaultColor;
 						
+						if (GUILayout.Button(act.ToString(), GUILayout.Width(headerBaseWidth - 88f), GUILayout.Height(30f)))
+						{
+							if (selectedFrame < act.StartFrame || selectedFrame > act.DrawnFrame)
+								selectedFrame = act.StartFrame;
+							selectedActant = act;
+							selectedActantIndex = index;
+						}
+                        
+						if (GUILayout.Button("+", simpleStyle, GUILayout.Width(24f), GUILayout.Height(30f)))
+						{
+							// 선택한 타입의 Actant를 추가합니다.
+							var newActant = (SingleActant)Activator.CreateInstance(act.GetType());
+							newActant.CopyFrom(act);
+							selectedActionState.Actants.Add(newActant);
+							EditorUtility.SetDirty(ASM);
+							AssetDatabase.SaveAssets();
+							selectedActant = newActant;
+							selectedActantIndex = selectedActionState.Actants.Count - 1;
+						}
+						
 						EditorGUILayout.BeginVertical();
-						if (GUILayout.Button("▲", GUILayout.Width(20f), GUILayout.Height(14f)) && index > 0)
+						if (GUILayout.Button("▲", GUILayout.Width(24f), GUILayout.Height(14f)) && index > 0)
 						{
 							swapTarget = (index, index - 1);
 						}
 
-						if (GUILayout.Button("▼", GUILayout.Width(20f), GUILayout.Height(14f)) &&
+						if (GUILayout.Button("▼", GUILayout.Width(24f), GUILayout.Height(14f)) &&
 						    index < selectedActionState.Actants.Count - 1)
 						{
 							swapTarget = (index, index + 1);
 						}
 						EditorGUILayout.EndVertical();
+						
 						EditorGUILayout.EndHorizontal();
 					}
 					EditorGUILayout.EndScrollView();
@@ -264,15 +459,17 @@ namespace SimpleActionFramework.Core.Editor
 				EditorGUILayout.EndVertical();
 
 				EditorGUILayout.BeginVertical();
-						
+				
+				var frameBoxBaseWidth = 30f;
 				var totalDuration = selectedActionState.TotalDuration;
-	            EditorGUILayout.BeginScrollView(timelineScroll.GetXFlat(), GUIStyle.none, GUIStyle.none, GUILayout.Width(position.width - 384f), GUILayout.Height(20f));
+	            EditorGUILayout.BeginScrollView(timelineScroll.GetXFlat(), GUIStyle.none, GUIStyle.none, 
+		            GUILayout.Width(position.width - (320f + headerBaseWidth + 22f)), GUILayout.Height(20f));
 					EditorGUILayout.BeginHorizontal();
 						for (int i = 0; i <= totalDuration; i++)
 						{
 							if (i == selectedFrame)
 								GUI.backgroundColor = Color.yellow;
-							if (GUILayout.Button(i.ToString(), GUILayout.Width(30f)))
+							if (GUILayout.Button(i.ToString(), GUILayout.Width(frameBoxBaseWidth)))
 							{
 								selectedFrame = i;
 								selectedActant = null;
@@ -287,9 +484,9 @@ namespace SimpleActionFramework.Core.Editor
 	            GUI.skin.verticalScrollbar = verticalScrollbar;
 	            
 				// 스크롤뷰 시작
-				timelineScroll = EditorGUILayout.BeginScrollView(timelineScroll, true, true , GUILayout.Width(position.width - 370f), GUILayout.Height(timelineHeight - 30f));
+				timelineScroll = EditorGUILayout.BeginScrollView(timelineScroll, true, true , 
+					GUILayout.Width(position.width - (320f + headerBaseWidth + 8f)), GUILayout.Height(timelineHeight - 30f));
 
-            
 			            for (var index = 0; index < selectedActionState.Actants.Count; index++)
 			            {
 				            var act = selectedActionState.Actants[index];
@@ -301,7 +498,7 @@ namespace SimpleActionFramework.Core.Editor
 					            {
 						            GUI.backgroundColor =
 							            (act == selectedActant) ? Color.cyan : Color.green;
-						            if (GUILayout.Button(act.ToString(), GUILayout.Width(33f * Mathf.Max(1, act.Duration) - 3f), GUILayout.Height(30f)))
+						            if (GUILayout.Button(act.ToString(), GUILayout.Width((frameBoxBaseWidth + 3f) * Mathf.Max(1, act.Duration) - 3f), GUILayout.Height(30f)))
 						            {
 							            if (selectedFrame < act.StartFrame || selectedFrame > act.DrawnFrame)
 											selectedFrame = i;
@@ -313,7 +510,7 @@ namespace SimpleActionFramework.Core.Editor
 					            }
 					            else if (i < act.StartFrame || i > act.DrawnFrame)
 					            {
-						            if (GUILayout.Button("X", GUILayout.Width(30f), GUILayout.Height(30f)))
+						            if (GUILayout.Button("X", GUILayout.Width(frameBoxBaseWidth), GUILayout.Height(30f)))
 						            {
 							            selectedFrame = i;
 							            selectedActant = null;
@@ -388,8 +585,8 @@ namespace SimpleActionFramework.Core.Editor
 		{
 			DrawGrid();
 			
-			selectedActionState.CurrentFrame = selectedFrame;
-            selectedActionState.OnGUIFrame(gRect, 2f * zoom);
+			ASM.CurrentFrame = selectedFrame;
+            selectedActionState.OnGUIFrame(gRect, 2f * zoom, selectedFrame);
 		}
 
 		private void OnDisable()
@@ -404,6 +601,28 @@ namespace SimpleActionFramework.Core.Editor
 			int gridCountY = Mathf.CeilToInt(gSize.y / gridSize);
 
 			EditorGUILayout.LabelField($"Zoom Level : {zoom * 100 : #00.00}%");
+            
+			if (IsPlaying)
+			{
+				if (GUILayout.Button("■", GUILayout.Width(48f)))
+				{
+					StartTime = 0f;
+					InnerTimer = 0f;
+					IsPlaying = false;
+					selectedFrame = 0;
+				}
+			}
+			else
+			{
+				if (GUILayout.Button("▶", GUILayout.Width(48f)))
+				{
+					selectedActant = null;
+					selectedFrame = 0;
+					selectedActantIndex = -1;
+					StartTime = (float)EditorApplication.timeSinceStartup;
+					IsPlaying = true;
+				}
+			}
 			
 			Handles.color = new Color(1f, 1f, 1f, 0.7f); // 격자 색상 설정
 			Handles.DrawLine(
@@ -454,7 +673,7 @@ namespace SimpleActionFramework.Core.Editor
 			
 			if (ASM is null || serializedActionState is null || selectedActant is null)
 			{
-				EditorGUILayout.LabelField("No Actant data selected.");
+				EditorGUILayout.LabelField("  No Actant data selected.");
 				return;
 			}
 			
