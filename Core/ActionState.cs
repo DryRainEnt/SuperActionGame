@@ -35,7 +35,6 @@ namespace SimpleActionFramework.Core
 				.Where(pair => pair.actant.StartFrame <= frame && frame < pair.actant.EndFrame)
 				.Select(pair => pair.idx).ToArray();
 		}
-		
         
 		public void OnGUIFrame(Rect position, float scale, int frame)
 		{

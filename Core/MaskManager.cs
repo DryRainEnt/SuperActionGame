@@ -100,6 +100,7 @@ namespace SimpleActionFramework.Core
 					case MaskType.Hit :
 						HitDataList.RemoveAll(hit => mask.Owner == hit.GiverMask.Owner && other.Owner == hit.ReceiverMask.Owner && hit.GiverMask.Type == MaskType.Attack && hit.ReceiverMask.Type == MaskType.Hit);
 						HitDataList.Insert(0, data);
+						data.DamageInfo = mask.Info;
 						e = OnAttackHitEvent.Create(data);
 						break;
 					default:
@@ -107,7 +108,7 @@ namespace SimpleActionFramework.Core
 						continue;
 				}
 
-				var result = mask.Record(other, mask.Info) && other.Record(mask, other.Info);
+				var result = mask.Record(other, data.DamageInfo) && other.Record(mask, data.DamageInfo);
 				
 				// 필요한 예외 사항은 전부 체크했으므로 이제 충돌 이벤트를 발생시키고 리스트에서 제거한다.
 				// TODO: 이미 레코드 된 서로 같은 관계에 대해서는 이후에는 충돌 판정을 다시 하지 않는다.
@@ -115,6 +116,7 @@ namespace SimpleActionFramework.Core
 				{
 					MessageSystem.Publish(e);
 					Debug.Log("HIT! : " + data.GiverMask.Owner.name + " -> " + data.ReceiverMask.Owner.name);
+					Debug.Log(data.DamageInfo);
 				}
 				
 				HitDataList.RemoveAt(0);

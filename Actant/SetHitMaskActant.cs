@@ -43,10 +43,10 @@ public class SetHitMaskActant : SingleActant
 	public override void OnStart(Actor actor)
 	{
 		var key = GetId(actor);
-		_mask = HitMask.Create(MaskType,
+		var mask = HitMask.Create(MaskType,
 			new Bounds(Position, Size), actor, Info);
-		ActiveActors.TryAdd(key, _mask);
-		actor.ActionStateMachine.RegisterDisposable(_mask);
+		ActiveActors.TryAdd(key, mask);
+		actor.ActionStateMachine.RegisterDisposable(mask);
 	}
 
 	public override void OnFinished(Actor actor)

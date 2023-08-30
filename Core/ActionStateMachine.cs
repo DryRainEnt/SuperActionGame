@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 namespace SimpleActionFramework.Core
@@ -23,6 +24,38 @@ namespace SimpleActionFramework.Core
         public string DefaultStateName;
         public ActionState CurrentState { get; private set; }
         public Actor Actor { get; set; }
+        
+        public ActionState this[string key]
+        {
+            get => States[key];
+            set => States[key] = value;
+        }
+        
+        private ActionState _passiveState;
+
+        public ActionState PassiveState
+        {
+            get
+            {
+                if (_passiveState) return _passiveState;
+                if (States.TryGetValue("Passive", out var state))
+                    return _passiveState = state;
+                
+                var newName = $"{name}PassiveState";
+                ActionState newState = CreateInstance<ActionState>();
+                string path = $"Assets/SimpleActionFramework/ActionState/{name}";
+                path += $"/{newName}.asset";
+                AssetDatabase.CreateAsset(newState, path);
+                States.Add("Passive", newState);
+                EditorUtility.SetDirty(this);
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+                    
+                _passiveState = newState;
+
+                return _passiveState;
+            }
+        }
         
         public int GetId => GetInstanceID();
         
@@ -91,6 +124,13 @@ namespace SimpleActionFramework.Core
                 return;
             }
             
+            foreach (var (act, ast) in ActantStates)
+            {
+                if (ast != ActantState.Running)
+                    continue;
+                act.OnFinished(Actor);
+            }
+            ActantStates.Clear();
             Flush();
             
             if (stateName == CurrentStateName)
@@ -143,6 +183,11 @@ namespace SimpleActionFramework.Core
                                              / ((float)act.Duration / Constants.DefaultActionFrameRate));
 				
                 UpdateActant(act, actor, progress);
+            }
+
+            foreach (var act in PassiveState.Actants)
+            {
+                act.Act(actor, 1f);
             }
         }
 		

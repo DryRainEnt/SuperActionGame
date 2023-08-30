@@ -20,8 +20,12 @@ MonoBehaviour:
   - rid: 1989145753598034228
   - rid: 1989145753598034229
   - rid: 1989145753598034230
+  - rid: 1989145848616583174
+  - rid: 1989145848616583172
+  - rid: 1989145848616583176
+  - rid: 1989145848616583179
   actantWrapper:
-  - rid: 1989145753598034230
+  - rid: 1989145753598034228
   references:
     version: 2
     RefIds:
@@ -31,6 +35,7 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 4
         InterpolationType: 0
+        Idx: 0
         sprite: {fileID: 121162876826116899, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -0.7, y: 0}
     - rid: 1989145753598034225
@@ -39,6 +44,7 @@ MonoBehaviour:
         StartFrame: 4
         Duration: 2
         InterpolationType: 0
+        Idx: 1
         sprite: {fileID: 3465439061623878011, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -0.7, y: 0.3}
     - rid: 1989145753598034226
@@ -47,6 +53,7 @@ MonoBehaviour:
         StartFrame: 6
         Duration: 2
         InterpolationType: 0
+        Idx: 2
         sprite: {fileID: -5951133220277718791, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -0.7, y: 0.6}
     - rid: 1989145753598034227
@@ -55,6 +62,7 @@ MonoBehaviour:
         StartFrame: 8
         Duration: 4
         InterpolationType: 0
+        Idx: 3
         sprite: {fileID: -6172815574105171350, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -0.4, y: 0.6}
     - rid: 1989145753598034228
@@ -63,7 +71,8 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 12
         InterpolationType: 2
-        Velocity: {x: -8, y: 4}
+        Idx: 4
+        Velocity: {x: -6, y: 12}
         RelativeToActor: 1
     - rid: 1989145753598034229
       type: {class: ToggleInput, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
@@ -71,6 +80,7 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 12
         InterpolationType: 0
+        Idx: 5
         useCharacterInput: 0
     - rid: 1989145753598034230
       type: {class: ToggleInput, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
@@ -78,4 +88,45 @@ MonoBehaviour:
         StartFrame: 12
         Duration: 0
         InterpolationType: 0
+        Idx: 6
         useCharacterInput: 1
+    - rid: 1989145848616583172
+      type: {class: SetStateDataActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 12
+        Duration: 0
+        InterpolationType: 0
+        Idx: 8
+        DefaultKey: 5
+        Key: InteractionState
+        ValueType: 1
+        StringValue: Neutral
+        NumberValue: 0
+    - rid: 1989145848616583174
+      type: {class: LockDirectionActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 12
+        InterpolationType: 0
+        Idx: 7
+    - rid: 1989145848616583176
+      type: {class: SetStateDataActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 0
+        InterpolationType: 0
+        Idx: 9
+        DefaultKey: 5
+        Key: InteractionState
+        ValueType: 1
+        StringValue: Delayed
+        NumberValue: 0
+    - rid: 1989145848616583179
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 12
+        Duration: 0
+        InterpolationType: 0
+        Idx: 10
+        StateKey: Falling
+        ConditionStates: []
