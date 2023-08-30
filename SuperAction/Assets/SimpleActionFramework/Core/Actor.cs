@@ -29,6 +29,7 @@ namespace SimpleActionFramework.Core
         public float StateSpeed = 1f;
 
         public Vector2 LastDirection;
+        public bool LockDirection;
         public bool IsLeft;
         
         public List<InputRecord> RecordedInputs = new List<InputRecord>();
@@ -101,7 +102,9 @@ namespace SimpleActionFramework.Core
                 _actorController.GetMovementVelocity().x.Abs() < Constants.Epsilon ? 0f : _actorController.GetMovementVelocity().x.Sign());
             LastDirection = _actorController.GetMovementVelocity().normalized;
         
-            IsLeft = LastDirection.x > Constants.Epsilon ? false : LastDirection.x < -Constants.Epsilon ? true : IsLeft;
+            if (!LockDirection)
+                IsLeft = LastDirection.x > Constants.Epsilon ? false : LastDirection.x < -Constants.Epsilon ? true : IsLeft;
+            
             ActionStateMachine.UpdateData(Constants.DefaultDataKeys[DefaultKeys.FACE], IsLeft ? -1f : 1f);
             ActionStateMachine.UpdateData(Constants.DefaultDataKeys[DefaultKeys.VSPEED], _actorController.GetMovementVelocity().y);
             ActionStateMachine.UpdateData(Constants.DefaultDataKeys[DefaultKeys.GROUND], _actorController.IsGrounded() ? 1f : 0f);

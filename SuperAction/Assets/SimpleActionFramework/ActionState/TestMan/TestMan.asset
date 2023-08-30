@@ -38,6 +38,7 @@ MonoBehaviour:
     - Stun
     - AirA
     - AirB
+    - Passive
     values:
     - {fileID: 11400000, guid: ccb7669584ef8404b9f237843a90628c, type: 2}
     - {fileID: 11400000, guid: 6c80f5bcb87e2d44b8f729ad2da06a55, type: 2}
@@ -63,4 +64,5 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 5cd0f1cf70d42b443a3171514c2747ec, type: 2}
     - {fileID: 11400000, guid: 6963a767eed30c3419ec461ef726430a, type: 2}
     - {fileID: 11400000, guid: 8a7cb58f5212e3546906e273a2220cfe, type: 2}
+    - {fileID: 11400000, guid: b7f4a2af3390a2e46a079cc31f9318c4, type: 2}
   DefaultStateName: Idle

@@ -21,4 +21,11 @@ public struct DamageInfo
     /// 상대를 향한 의도가 적중했을 때, 상대에게 기록할 다음 상태
     /// </summary>
     public string NextStateOnSuccessToReceiver;
+
+    public override string ToString()
+    {
+        return $"Damage: {Damage}\nGuardDamage: {GuardDamage}\nDirection: {Direction}\n" +
+               $"KnockbackPower: {KnockbackPower}\nGuardCrash: {GuardCrash}\n" +
+               $"NextStateOnSuccessToSelf: {NextStateOnSuccessToSelf}\nNextStateOnSuccessToReceiver: {NextStateOnSuccessToReceiver}";
+    }
 }
