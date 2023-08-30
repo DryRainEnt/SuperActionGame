@@ -27,10 +27,8 @@ namespace Editor.SimpleActionEditor
 			SerializedProperty directionProperty = property.FindPropertyRelative("Direction");
 			SerializedProperty knockBackProperty = property.FindPropertyRelative("KnockbackPower");
 			SerializedProperty guardCrashProperty = property.FindPropertyRelative("GuardCrash");
-			SerializedProperty onHitSelfProperty = property.FindPropertyRelative("NextSelfStateOnHit");
-			SerializedProperty onHitOtherProperty = property.FindPropertyRelative("NextOtherStateOnHit");
-			SerializedProperty onGuardSelfProperty = property.FindPropertyRelative("NextSelfStateOnGuard");
-			SerializedProperty onGuardOtherProperty = property.FindPropertyRelative("NextOtherStateOnGuard");
+			SerializedProperty onHitSelfProperty = property.FindPropertyRelative("NextStateOnSuccessToSelf");
+			SerializedProperty onHitOtherProperty = property.FindPropertyRelative("NextStateOnSuccessToReceiver");
             
 			EditorGUI.BeginProperty(position, label, property);
 			
@@ -56,19 +54,11 @@ namespace Editor.SimpleActionEditor
 			pCount++;
 			
 			drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, 24f);
-			EditorGUI.PropertyField(drawRect, onHitSelfProperty, true);
+			EditorGUI.PropertyField(drawRect, onHitSelfProperty, new GUIContent("DataSelf"), true);
 			pCount++;
 			
 			drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, 24f);
-			EditorGUI.PropertyField(drawRect, onHitOtherProperty, true);
-			pCount++;
-			
-			drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, 24f);
-			EditorGUI.PropertyField(drawRect, onGuardSelfProperty, true);
-			pCount++;
-			
-			drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, 24f);
-			EditorGUI.PropertyField(drawRect, onGuardOtherProperty, true);
+			EditorGUI.PropertyField(drawRect, onHitOtherProperty, new GUIContent("DataOther"), true);
 			pCount++;
 			
 			PropertyCount = pCount;

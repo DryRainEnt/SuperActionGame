@@ -13,6 +13,8 @@ namespace Editor.SimpleActionEditor
 			get => _propertyCount;
 			set => _propertyCount = value;
 		}
+		
+		private ValueType _valueType = ValueType.Number;
 	 	
 		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
 		{
@@ -23,6 +25,7 @@ namespace Editor.SimpleActionEditor
 		{
 			var pCount = 0;
 			SerializedProperty jointProperty = property.FindPropertyRelative("JointType");
+			SerializedProperty defaultKeyProperty = property.FindPropertyRelative("DefaultKey");
 			SerializedProperty keyProperty = property.FindPropertyRelative("Key");
 			SerializedProperty valueTypeProperty = property.FindPropertyRelative("ValueType");
 			SerializedProperty conditionTypeProperty = property.FindPropertyRelative("ConditionType");
@@ -36,15 +39,59 @@ namespace Editor.SimpleActionEditor
 			EditorGUI.PropertyField(drawRect, jointProperty, new GUIContent("Joint"), true);
 			pCount++;
 			
-			drawRect = new Rect(position.x, position.y + 24f * pCount, 36f, 24f);
-			EditorGUI.LabelField(drawRect, "Key");
-			
-			drawRect = new Rect(position.x + 40f, position.y + 24f * pCount, 96f, 20f);
-			keyProperty.stringValue = EditorGUI.TextArea(drawRect, valueType == ValueType.Input ? "Inputs" : keyProperty.stringValue);
-			
-			drawRect = new Rect(position.x + 144f, position.y + 24f * pCount, 96f, 24f);
-			EditorGUI.PropertyField(drawRect, valueTypeProperty, new GUIContent(""), true);
+			drawRect = new Rect(position.x, position.y + 24f * pCount, position.width, 24f);
+			EditorGUI.PropertyField(drawRect, defaultKeyProperty, new GUIContent("Preset"), true);
 			pCount++;
+
+			if (defaultKeyProperty.intValue == 999)
+			{
+				drawRect = new Rect(position.x, position.y + 24f * pCount, 36f, 24f);
+				EditorGUI.LabelField(drawRect, "Key");
+			
+				drawRect = new Rect(position.x + 40f, position.y + 24f * pCount, 96f, 20f);
+				keyProperty.stringValue = EditorGUI.TextArea(drawRect, keyProperty.stringValue);
+			
+				drawRect = new Rect(position.x + 144f, position.y + 24f * pCount, 96f, 24f);
+				EditorGUI.PropertyField(drawRect, valueTypeProperty, new GUIContent(""), true);
+				pCount++;
+			}
+			else
+			{
+				var defaultKey = Constants.DefaultDataKeys.TryGetValue((DefaultKeys)defaultKeyProperty.intValue, 
+					out var defaultKeyString) ? defaultKeyString : keyProperty.stringValue;
+				switch ((DefaultKeys)defaultKeyProperty.intValue)
+				{
+					case DefaultKeys.INPUT:
+						_valueType = ValueType.Input;
+						break;
+					case DefaultKeys.MOVE:
+						_valueType = ValueType.Number;
+						break;
+					case DefaultKeys.FACE:
+						_valueType = ValueType.Number;
+						break;
+					case DefaultKeys.VSPEED:
+						_valueType = ValueType.Number;
+						break;
+					case DefaultKeys.GROUND:
+						_valueType = ValueType.Number;
+						break;
+					case DefaultKeys.INTERACTION:
+						_valueType = ValueType.String;
+						break;
+				}
+				
+				drawRect = new Rect(position.x, position.y + 24f * pCount, 36f, 24f);
+				EditorGUI.LabelField(drawRect, "Key");
+
+				drawRect = new Rect(position.x + 40f, position.y + 24f * pCount, 96f, 20f);
+				keyProperty.stringValue = EditorGUI.TextArea(drawRect, defaultKey);
+			
+				drawRect = new Rect(position.x + 144f, position.y + 24f * pCount, 96f, 24f);
+				_valueType = (ValueType)EditorGUI.EnumPopup(drawRect, _valueType);
+				valueTypeProperty.enumValueIndex = (int)_valueType;
+				pCount++;
+			}
 	 	 	    
 			drawRect = new Rect(position.x, position.y + 24f * pCount, 136f, 24f);
 			EditorGUI.PropertyField(drawRect, conditionTypeProperty, new GUIContent(""), true);

@@ -44,6 +44,7 @@ namespace Editor.SimpleActionEditor.ActantEditor
 			    new GUIContent("Conditions"), true);
 
 		    pCount += (conditionList.arraySize + 1) * 3;
+		    pCount++;
 	 	 	
 	 	 	PropertyCount = pCount;
 	 	 	
