@@ -121,6 +121,20 @@ namespace SimpleActionFramework.Core.Editor
 			if (ASM is not null)
 			{
 				EditorGUILayout.Separator();
+                
+				GUI.backgroundColor = Color.yellow;
+				if (GUILayout.Button("Passive"))
+				{
+					selectedKey = "Passive";
+					selectedActionState = ASM.PassiveState;
+					serializedActionState = new SerializedObject(selectedActionState);
+					IsAddMode = false;
+					selectedActant = null;
+					selectedFrame = 0;
+					selectedActantIndex = -1;
+				}
+				GUI.backgroundColor = DefaultGUIColor;
+				
 				EditorGUILayout.BeginHorizontal();
 				GUILayout.Label("Default State Key: ", GUILayout.Width(128f));
 				ASM.DefaultStateName = GUILayout.TextField(ASM.DefaultStateName);
@@ -208,6 +222,8 @@ namespace SimpleActionFramework.Core.Editor
 					foreach (var key in ASM.States.Keys)
 					{
 						if (searchKey is not null && searchKey != string.Empty && !key.Contains(searchKey, StringComparison.Ordinal))
+							continue;
+						if (key == "Passive")
 							continue;
 					
 						EditorGUILayout.BeginHorizontal();
@@ -522,11 +538,11 @@ namespace SimpleActionFramework.Core.Editor
 				            EditorGUILayout.EndHorizontal();
 			            }
 
-					if (swapTarget.Item1 != swapTarget.Item2)
+			            if (swapTarget.Item1 != swapTarget.Item2)
 				            (selectedActionState.Actants[swapTarget.Item1], selectedActionState.Actants[swapTarget.Item2])
-				            = (selectedActionState.Actants[swapTarget.Item2], selectedActionState.Actants[swapTarget.Item1]);
+					            = (selectedActionState.Actants[swapTarget.Item2], selectedActionState.Actants[swapTarget.Item1]);
 			            
-					EditorGUILayout.EndVertical();
+			            EditorGUILayout.EndVertical();
 				
 				EditorGUILayout.EndScrollView();
 				
