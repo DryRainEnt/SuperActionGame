@@ -22,7 +22,7 @@ MonoBehaviour:
   - rid: 1989145723172290652
   - rid: 1989145753598034073
   actantWrapper:
-  - rid: 1989145753598034073
+  - rid: 1989145723172290646
   references:
     version: 2
     RefIds:
@@ -32,6 +32,7 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 3
         InterpolationType: 0
+        Idx: 0
         sprite: {fileID: 3621776279289095126, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -1, y: 0}
     - rid: 1989145723172290642
@@ -40,6 +41,7 @@ MonoBehaviour:
         StartFrame: 3
         Duration: 3
         InterpolationType: 0
+        Idx: 1
         sprite: {fileID: 6606733157766124795, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -1, y: 0}
     - rid: 1989145723172290643
@@ -48,6 +50,7 @@ MonoBehaviour:
         StartFrame: 6
         Duration: 3
         InterpolationType: 0
+        Idx: 2
         sprite: {fileID: 4053057414026247832, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -1, y: 0}
     - rid: 1989145723172290644
@@ -56,6 +59,7 @@ MonoBehaviour:
         StartFrame: 9
         Duration: 3
         InterpolationType: 0
+        Idx: 3
         sprite: {fileID: 8118734627400718964, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -1, y: 0}
     - rid: 1989145723172290645
@@ -64,18 +68,29 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 12
         InterpolationType: 0
+        Idx: 4
         MaskType: 4
         Position: {x: -0.3, y: 2}
         Size: {x: 1.4, y: 3}
+        Info:
+          Damage: 0
+          GuardDamage: 0
+          Direction: {x: 0, y: 0}
+          KnockbackPower: 0
+          GuardCrash: 0
+          NextStateOnSuccessToSelf: 
+          NextStateOnSuccessToReceiver: 
     - rid: 1989145723172290646
       type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
         StartFrame: 0
         Duration: 12
         InterpolationType: 0
+        Idx: 5
         StateKey: Idle
         ConditionStates:
         - JointType: 0
+          DefaultKey: 4
           Key: IsGrounded
           ValueType: 0
           ConditionType: 1
@@ -88,8 +103,10 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 12
         InterpolationType: 0
+        Idx: 6
         ConditionStates:
         - JointType: 0
+          DefaultKey: 0
           Key: IsGrounded
           ValueType: 0
           ConditionType: 1
@@ -102,9 +119,11 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 12
         InterpolationType: 0
+        Idx: 7
         StateKey: Dash
         ConditionStates:
         - JointType: 0
+          DefaultKey: 0
           Key: Inputs
           ValueType: 4
           ConditionType: 6

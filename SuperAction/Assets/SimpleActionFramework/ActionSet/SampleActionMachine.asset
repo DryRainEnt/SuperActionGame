@@ -13,12 +13,6 @@ MonoBehaviour:
   m_Name: SampleActionMachine
   m_EditorClassIdentifier: 
   States:
-    keys:
-    - Idle
-    - Move
-    values:
-    - {fileID: 11400000, guid: 396f82d9ec3096747af5556bbd81dbe0, type: 2}
-    - {fileID: 11400000, guid: bfdb97be59f82af49bab4de77ed0b7d9, type: 2}
-  Data:
     keys: []
+    values: []
   DefaultStateName: Idle

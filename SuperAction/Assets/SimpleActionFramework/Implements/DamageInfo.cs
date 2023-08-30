@@ -13,8 +13,12 @@ public struct DamageInfo
     public float KnockbackPower;
     public float GuardCrash;
 
-    public string NextSelfStateOnHit;
-    public string NextOtherStateOnHit;
-    public string NextSelfStateOnGuard;
-    public string NextOtherStateOnGuard;
+    /// <summary>
+    /// 상대를 향한 의도가 적중했을 때, 자신에게 기록할 다음 상태
+    /// </summary>
+    public string NextStateOnSuccessToSelf;
+    /// <summary>
+    /// 상대를 향한 의도가 적중했을 때, 상대에게 기록할 다음 상태
+    /// </summary>
+    public string NextStateOnSuccessToReceiver;
 }

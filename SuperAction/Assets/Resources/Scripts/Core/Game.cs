@@ -10,6 +10,10 @@ using UnityEngine;
 public class Game : MonoBehaviour, IEventListener
 {
     public Actor Player;
+    
+    [SerializeField]
+    private UnityEngine.UI.Text _debugText;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +31,7 @@ public class Game : MonoBehaviour, IEventListener
 
     private void FixedUpdate()
     {
-        MaskManager.Update();
+        MaskManager.Instance.Update();
     }
 
     public bool OnEvent(IEvent e)
@@ -39,5 +43,24 @@ public class Game : MonoBehaviour, IEventListener
         }
         
         return false;
+    }
+
+    private void OnDrawGizmos()
+    {
+        _debugText.text = $"Masks: {MaskManager.HitMaskList.Count}";
+        
+        foreach (var mask in MaskManager.HitMaskList)
+        {
+            var c = mask.Type.GetColor();
+            c.a = 0.5f;
+            Gizmos.color = c;
+            Gizmos.DrawCube(mask.Bounds.center, mask.Bounds.size);
+        }
+
+        foreach (var hit in MaskManager.HitDataList)
+        {
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawSphere((hit.GiverMask.Bounds.center + hit.ReceiverMask.Bounds.center) * 0.5f, 0.3f);
+        }
     }
 }

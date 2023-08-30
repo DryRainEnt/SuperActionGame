@@ -40,7 +40,7 @@ public class LoopPointActant : SingleActant
 	    }
 	}
 
-	public override void OnFinished()
+	public override void OnFinished(Actor actor)
 	{
 	}
 }

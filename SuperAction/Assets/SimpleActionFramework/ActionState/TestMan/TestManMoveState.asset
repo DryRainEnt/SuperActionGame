@@ -27,7 +27,7 @@ MonoBehaviour:
   - rid: 1989145723172290674
   - rid: 1989145753598034001
   actantWrapper:
-  - rid: 1989145753598034001
+  - rid: 1989145723172290630
   references:
     version: 2
     RefIds:
@@ -37,6 +37,7 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 3
         InterpolationType: 0
+        Idx: 0
         sprite: {fileID: -4422786366676880893, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -1, y: 0}
     - rid: 1989145723172290622
@@ -45,6 +46,7 @@ MonoBehaviour:
         StartFrame: 3
         Duration: 3
         InterpolationType: 0
+        Idx: 1
         sprite: {fileID: 7344287165153746031, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -1, y: 0}
     - rid: 1989145723172290623
@@ -53,6 +55,7 @@ MonoBehaviour:
         StartFrame: 6
         Duration: 3
         InterpolationType: 0
+        Idx: 2
         sprite: {fileID: -3249316727141686794, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -1, y: 0}
     - rid: 1989145723172290624
@@ -61,6 +64,7 @@ MonoBehaviour:
         StartFrame: 9
         Duration: 3
         InterpolationType: 0
+        Idx: 3
         sprite: {fileID: -4080805687796375675, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -1, y: 0}
     - rid: 1989145723172290625
@@ -69,6 +73,7 @@ MonoBehaviour:
         StartFrame: 12
         Duration: 3
         InterpolationType: 0
+        Idx: 4
         sprite: {fileID: 3753761768772248639, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -1, y: 0}
     - rid: 1989145723172290626
@@ -77,6 +82,7 @@ MonoBehaviour:
         StartFrame: 15
         Duration: 3
         InterpolationType: 0
+        Idx: 5
         sprite: {fileID: 2690195352835344123, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -1, y: 0}
     - rid: 1989145723172290627
@@ -85,6 +91,7 @@ MonoBehaviour:
         StartFrame: 18
         Duration: 3
         InterpolationType: 0
+        Idx: 6
         sprite: {fileID: -2336548755984774821, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -1, y: 0}
     - rid: 1989145723172290628
@@ -93,6 +100,7 @@ MonoBehaviour:
         StartFrame: 21
         Duration: 3
         InterpolationType: 0
+        Idx: 7
         sprite: {fileID: 2219875372238404126, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -1, y: 0}
     - rid: 1989145723172290629
@@ -101,18 +109,29 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 24
         InterpolationType: 0
+        Idx: 8
         MaskType: 4
         Position: {x: 0, y: 2}
         Size: {x: 1, y: 3.6}
+        Info:
+          Damage: 0
+          GuardDamage: 0
+          Direction: {x: 0, y: 0}
+          KnockbackPower: 0
+          GuardCrash: 0
+          NextStateOnSuccessToSelf: 
+          NextStateOnSuccessToReceiver: 
     - rid: 1989145723172290630
       type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
         StartFrame: 0
         Duration: 24
         InterpolationType: 0
+        Idx: 9
         StateKey: Idle
         ConditionStates:
         - JointType: 0
+          DefaultKey: 1
           Key: MoveDirection
           ValueType: 0
           ConditionType: 0
@@ -125,9 +144,11 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 24
         InterpolationType: 0
+        Idx: 10
         StateKey: Rising
         ConditionStates:
         - JointType: 0
+          DefaultKey: 4
           Key: IsGrounded
           ValueType: 0
           ConditionType: 0
@@ -135,6 +156,7 @@ MonoBehaviour:
           NumberValue: 0
           ConsumeInput: 1
         - JointType: 0
+          DefaultKey: 3
           Key: VerticalSpeed
           ValueType: 0
           ConditionType: 2
@@ -147,9 +169,11 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 24
         InterpolationType: 0
+        Idx: 11
         StateKey: Falling
         ConditionStates:
         - JointType: 0
+          DefaultKey: 4
           Key: IsGrounded
           ValueType: 0
           ConditionType: 0
@@ -157,6 +181,7 @@ MonoBehaviour:
           NumberValue: 0
           ConsumeInput: 1
         - JointType: 0
+          DefaultKey: 3
           Key: VerticalSpeed
           ValueType: 0
           ConditionType: 3
@@ -169,9 +194,11 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 24
         InterpolationType: 0
+        Idx: 12
         StateKey: Dash
         ConditionStates:
         - JointType: 0
+          DefaultKey: 0
           Key: Inputs
           ValueType: 4
           ConditionType: 6

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Proto.BasicExtensionUtils;
 using Proto.EventSystem;
 using SimpleActionFramework.Implements;
@@ -18,6 +19,7 @@ namespace SimpleActionFramework.Core
         private ActorController _actorController;
     
         public SpriteRenderer SpriteRenderer;
+        public Material SpriteMaterial => SpriteRenderer ? SpriteRenderer.material : null;
         public BoxCollider PhysicsCollider;
     
         public string CurrentState;
@@ -93,16 +95,16 @@ namespace SimpleActionFramework.Core
                 RecordedInputs.RemoveAt(RecordedInputs.Count - 1);
             }
             
-            ActionStateMachine.UpdateData("Inputs", RecordedInputs);
+            ActionStateMachine.UpdateData(Constants.DefaultDataKeys[DefaultKeys.INPUT], RecordedInputs);
 
-            ActionStateMachine.UpdateData("MoveDirection", 
+            ActionStateMachine.UpdateData(Constants.DefaultDataKeys[DefaultKeys.MOVE], 
                 _actorController.GetMovementVelocity().x.Abs() < Constants.Epsilon ? 0f : _actorController.GetMovementVelocity().x.Sign());
             LastDirection = _actorController.GetMovementVelocity().normalized;
         
             IsLeft = LastDirection.x > Constants.Epsilon ? false : LastDirection.x < -Constants.Epsilon ? true : IsLeft;
-            ActionStateMachine.UpdateData("FaceDirection", IsLeft ? -1f : 1f);
-            ActionStateMachine.UpdateData("VerticalSpeed", _actorController.GetMovementVelocity().y);
-            ActionStateMachine.UpdateData("IsGrounded", _actorController.IsGrounded() ? 1f : 0f);
+            ActionStateMachine.UpdateData(Constants.DefaultDataKeys[DefaultKeys.FACE], IsLeft ? -1f : 1f);
+            ActionStateMachine.UpdateData(Constants.DefaultDataKeys[DefaultKeys.VSPEED], _actorController.GetMovementVelocity().y);
+            ActionStateMachine.UpdateData(Constants.DefaultDataKeys[DefaultKeys.GROUND], _actorController.IsGrounded() ? 1f : 0f);
 
             if (_debugText)
             {
@@ -130,21 +132,50 @@ namespace SimpleActionFramework.Core
         }
 
         #region SpriteSetters
+        
+        private static readonly int OverlayColor = Shader.PropertyToID("_OverlayColor");
 
-        public void SetSprite(Sprite sprite, bool xFlip = false)
+        private readonly Color _white = Color.white;
+        private readonly Color _transparent = Color.clear;
+        
+        public void SetSprite(Sprite sprite, bool? overridenXFlip = null)
         {
             SpriteRenderer.sprite = sprite;
-            SpriteRenderer.flipX = IsLeft;
+            SpriteRenderer.flipX = overridenXFlip ?? IsLeft;
         }
-    
+        
+        private void ColorOverlay(Color color)
+        {
+            SpriteMaterial.SetColor(OverlayColor, color);
+        }
+
+        private async void Blink(int count = 0)
+        {
+            bool isWhite = true;
+            do
+            {
+                ColorOverlay(isWhite ? _white : _transparent);
+                isWhite = !isWhite;
+                await Task.Delay(100);
+            } while (count-- > 0);
+            
+            ResetOverlay();
+        }
+        
+        private void ResetOverlay()
+        {
+            SpriteMaterial.SetColor(OverlayColor, _transparent);
+        }
+
         #endregion
 
         private void OnDrawGizmos()
         {
-            if (!Application.isPlaying || !ActionStateMachine || !ActionStateMachine.CurrentState)
-                return;
+            return;
+            // if (!Application.isPlaying || !ActionStateMachine || !ActionStateMachine.CurrentState)
+            //     return;
             //TODO: debug condition
-            ActionStateMachine.CurrentState.DrawGizmos(ActionStateMachine.CurrentFrame);
+            // ActionStateMachine.CurrentState.DrawGizmos(ActionStateMachine.CurrentFrame);
         }
 
         public bool OnEvent(IEvent e)
