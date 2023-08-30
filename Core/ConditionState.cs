@@ -44,6 +44,7 @@ namespace SimpleActionFramework.Core
 	public class ConditionState
 	{
 		public JointType JointType = JointType.And;
+		public DefaultKeys DefaultKey;
 		public string Key;
 		public ValueType ValueType;
 		public ConditionType ConditionType;
@@ -147,6 +148,8 @@ namespace SimpleActionFramework.Core
 					{
 						var istr = string.Join(",", iList);
 						StringValue = StringValue.Replace(" ", "");
+						var isPressed = iList.Count > 0 && iList[^1].IsPressed;
+						istr += isPressed ? "_" : "";
 						
 						switch (ConditionType)
 						{
@@ -165,7 +168,13 @@ namespace SimpleActionFramework.Core
 								}
 								return true;
 							case ConditionType.Exclusive:
-								return !istr.Contains(StringValue);
+								if (istr.Contains(StringValue)) return false;
+								if (!ConsumeInput) return true;
+								foreach (var iv in StringValue.Replace("_", "").Split(","))
+								{
+									iList.Remove(iList.Find(input => input.Key == iv));
+								}
+								return true;
 						}
 					}
 					return false;

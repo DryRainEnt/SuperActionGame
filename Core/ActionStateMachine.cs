@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,6 +14,8 @@ namespace SimpleActionFramework.Core
         public Dictionary<string, object> Data = new Dictionary<string, object>();
 
         public Dictionary<SingleActant, ActantState> ActantStates = new Dictionary<SingleActant, ActantState>();
+        
+        private List<IDisposable> _disposables = new List<IDisposable>();
 
         public string CurrentStateName
             => CurrentState ? CurrentState.name : "NullState";
@@ -20,6 +23,8 @@ namespace SimpleActionFramework.Core
         public string DefaultStateName;
         public ActionState CurrentState { get; private set; }
         public Actor Actor { get; set; }
+        
+        public int GetId => GetInstanceID();
         
         private float _innerTimer;
 
@@ -46,7 +51,21 @@ namespace SimpleActionFramework.Core
             SetState(DefaultStateName);
         }
         
-        public T[] FindActants<T>() where T : SingleActant
+        public void Flush()
+        {
+            foreach (var disposable in _disposables)
+            {
+                disposable.Dispose();
+            }
+            _disposables.Clear();
+        }
+        
+        public void RegisterDisposable(IDisposable disposable)
+        {
+            _disposables.Add(disposable);
+        }
+        
+        public T[] FindAllActant<T>() where T : SingleActant
         {
             return CurrentState.Actants.FindAll(actant => actant.GetType() == typeof(T)) as T[];
         }
@@ -71,6 +90,8 @@ namespace SimpleActionFramework.Core
                                  $" \n called: {stateName} \n default: {DefaultStateName}");
                 return;
             }
+            
+            Flush();
             
             if (stateName == CurrentStateName)
             {
@@ -140,17 +161,17 @@ namespace SimpleActionFramework.Core
             if (isFirst)
             {
                 ActantStates[act] = ActantState.Running;
-                act.OnStart();
+                act.OnStart(actor);
             }
             if (act.EndFrame < CurrentFrame)
             {
                 ActantStates[act] = ActantState.Finished;
-                act.OnFinished();
+                act.OnFinished(actor);
             }
             if (act.StartFrame > CurrentFrame)
             {
                 ActantStates[act] = ActantState.NotStarted;
-                act.OnReset();
+                act.OnReset(actor);
             }
 
             act.Act(actor, progress, isFirst);

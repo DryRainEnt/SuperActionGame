@@ -1,4 +1,5 @@
 using System;
+using SimpleActionFramework.Utility;
 using UnityEngine;
 
 namespace SimpleActionFramework.Core
@@ -10,7 +11,7 @@ namespace SimpleActionFramework.Core
         Finished
     }
     
-    [System.Serializable]
+    [Serializable]
     public class SingleActant : IDisposable
     {
         public int StartFrame;
@@ -22,6 +23,13 @@ namespace SimpleActionFramework.Core
         public InterpolationType InterpolationType;
         protected float InnerProgress;
         protected float PrevProgress;
+        
+        public int Idx;
+        
+        public CombinedIdKey GetId(Actor actor)
+        {
+            return new CombinedIdKey(actor.ActionStateMachine.GetId, actor.ActionStateMachine.CurrentState.GetId, Idx);
+        }
 
         public virtual void Act(Actor actor, float progress, bool isFirstFrame = false)
         {
@@ -29,11 +37,11 @@ namespace SimpleActionFramework.Core
             InnerProgress = InterpolationType.Interpolate(progress);
         }
         
-        public virtual void OnFinished() { }
+        public virtual void OnFinished(Actor actor) { }
         
-        public virtual void OnStart() { }
+        public virtual void OnStart(Actor actor) { }
         
-        public virtual void OnReset() { }
+        public virtual void OnReset(Actor actor) { }
         
         public virtual void OnGUI(Rect position, float scale, float progress) { }
         

@@ -29,8 +29,9 @@ MonoBehaviour:
   - rid: 1989145753598033938
   - rid: 1989145753598034094
   - rid: 1989145753598034217
+  - rid: 1989145848616583168
   actantWrapper:
-  - rid: 1989145753598034217
+  - rid: 1989145848616583168
   references:
     version: 2
     RefIds:
@@ -40,6 +41,7 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 4
         InterpolationType: 0
+        Idx: 0
         sprite: {fileID: -9025390970422906611, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -0.5, y: 0}
     - rid: 1989145723172290582
@@ -48,6 +50,7 @@ MonoBehaviour:
         StartFrame: 4
         Duration: 4
         InterpolationType: 0
+        Idx: 1
         sprite: {fileID: 5816991550370761563, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -0.5, y: 0}
     - rid: 1989145723172290583
@@ -56,6 +59,7 @@ MonoBehaviour:
         StartFrame: 8
         Duration: 4
         InterpolationType: 0
+        Idx: 2
         sprite: {fileID: 211846762212507646, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -0.5, y: 0}
     - rid: 1989145723172290584
@@ -64,6 +68,7 @@ MonoBehaviour:
         StartFrame: 12
         Duration: 4
         InterpolationType: 0
+        Idx: 3
         sprite: {fileID: 6622902748593212413, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -0.5, y: 0}
     - rid: 1989145723172290585
@@ -72,6 +77,7 @@ MonoBehaviour:
         StartFrame: 16
         Duration: 2
         InterpolationType: 0
+        Idx: 4
         sprite: {fileID: 4405317405355742363, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -0.5, y: 0}
     - rid: 1989145723172290601
@@ -80,6 +86,7 @@ MonoBehaviour:
         StartFrame: 18
         Duration: 2
         InterpolationType: 0
+        Idx: 5
         sprite: {fileID: 6101414447195401763, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -0.5, y: 0}
     - rid: 1989145723172290608
@@ -88,6 +95,7 @@ MonoBehaviour:
         StartFrame: 20
         Duration: 2
         InterpolationType: 0
+        Idx: 6
         sprite: {fileID: 3056810897146314910, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -0.5, y: 0}
     - rid: 1989145723172290609
@@ -96,6 +104,7 @@ MonoBehaviour:
         StartFrame: 22
         Duration: 2
         InterpolationType: 0
+        Idx: 7
         sprite: {fileID: 3411856314309249508, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -0.5, y: 0}
     - rid: 1989145723172290610
@@ -104,18 +113,29 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 24
         InterpolationType: 0
+        Idx: 8
         MaskType: 4
         Position: {x: 0, y: 2}
         Size: {x: 1, y: 4}
+        Info:
+          Damage: 0
+          GuardDamage: 0
+          Direction: {x: 0, y: 0}
+          KnockbackPower: 0
+          GuardCrash: 0
+          NextStateOnSuccessToSelf: 
+          NextStateOnSuccessToReceiver: 
     - rid: 1989145723172290620
       type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
         StartFrame: 0
         Duration: 24
         InterpolationType: 0
+        Idx: 9
         StateKey: Move
         ConditionStates:
         - JointType: 0
+          DefaultKey: 1
           Key: MoveDirection
           ValueType: 0
           ConditionType: 1
@@ -128,9 +148,11 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 24
         InterpolationType: 0
+        Idx: 10
         StateKey: A
         ConditionStates:
         - JointType: 0
+          DefaultKey: 0
           Key: Inputs
           ValueType: 4
           ConditionType: 6
@@ -143,9 +165,11 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 24
         InterpolationType: 0
+        Idx: 11
         StateKey: Rising
         ConditionStates:
         - JointType: 0
+          DefaultKey: 4
           Key: IsGrounded
           ValueType: 0
           ConditionType: 0
@@ -153,6 +177,7 @@ MonoBehaviour:
           NumberValue: 0
           ConsumeInput: 1
         - JointType: 0
+          DefaultKey: 3
           Key: VerticalSpeed
           ValueType: 0
           ConditionType: 2
@@ -165,9 +190,11 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 24
         InterpolationType: 0
+        Idx: 12
         StateKey: Falling
         ConditionStates:
         - JointType: 0
+          DefaultKey: 4
           Key: IsGrounded
           ValueType: 0
           ConditionType: 0
@@ -175,6 +202,7 @@ MonoBehaviour:
           NumberValue: 0
           ConsumeInput: 1
         - JointType: 0
+          DefaultKey: 3
           Key: VerticalSpeed
           ValueType: 0
           ConditionType: 3
@@ -187,9 +215,11 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 24
         InterpolationType: 0
+        Idx: 13
         StateKey: Guard
         ConditionStates:
         - JointType: 0
+          DefaultKey: 0
           Key: Inputs
           ValueType: 4
           ConditionType: 6
@@ -202,9 +232,11 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 24
         InterpolationType: 0
+        Idx: 14
         StateKey: B
         ConditionStates:
         - JointType: 0
+          DefaultKey: 0
           Key: Inputs
           ValueType: 4
           ConditionType: 6
@@ -217,4 +249,17 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 24
         InterpolationType: 0
+        Idx: 15
         useCharacterInput: 1
+    - rid: 1989145848616583168
+      type: {class: SetStateDataActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        StartFrame: 0
+        Duration: 24
+        InterpolationType: 0
+        Idx: 16
+        DefaultKey: 5
+        Key: InteractionState
+        ValueType: 1
+        StringValue: Neutral
+        NumberValue: 0

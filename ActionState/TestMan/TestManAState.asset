@@ -26,7 +26,7 @@ MonoBehaviour:
   - rid: 1989145753598033990
   - rid: 1989145753598034093
   actantWrapper:
-  - rid: 1989145753598034093
+  - rid: 1989145723172290651
   references:
     version: 2
     RefIds:
@@ -36,6 +36,7 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 4
         InterpolationType: 0
+        Idx: 0
         sprite: {fileID: -3357577562610396115, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -0.7, y: 0}
     - rid: 1989145723172290647
@@ -44,6 +45,7 @@ MonoBehaviour:
         StartFrame: 4
         Duration: 4
         InterpolationType: 0
+        Idx: 1
         sprite: {fileID: -5726441292868814718, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: 0, y: 0}
     - rid: 1989145723172290648
@@ -52,6 +54,7 @@ MonoBehaviour:
         StartFrame: 8
         Duration: 2
         InterpolationType: 0
+        Idx: 2
         sprite: {fileID: 361342143785320938, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -0.7, y: 0}
     - rid: 1989145723172290649
@@ -60,6 +63,7 @@ MonoBehaviour:
         StartFrame: 10
         Duration: 2
         InterpolationType: 0
+        Idx: 3
         sprite: {fileID: -8919178284468129501, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -0.8, y: 0}
     - rid: 1989145723172290650
@@ -68,24 +72,43 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 12
         InterpolationType: 0
+        Idx: 4
         MaskType: 4
         Position: {x: -0.3, y: 1.8}
         Size: {x: 1, y: 3.6}
+        Info:
+          Damage: 0
+          GuardDamage: 0
+          Direction: {x: 0, y: 0}
+          KnockbackPower: 0
+          GuardCrash: 0
+          NextStateOnSuccessToSelf: 
+          NextStateOnSuccessToReceiver: 
     - rid: 1989145723172290651
       type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
       data:
         StartFrame: 4
         Duration: 4
         InterpolationType: 0
+        Idx: 5
         MaskType: 1
-        Position: {x: 1, y: 2.4}
-        Size: {x: 2, y: 1}
+        Position: {x: 1.6, y: 2.4}
+        Size: {x: 2, y: 1.4}
+        Info:
+          Damage: 3
+          GuardDamage: 0
+          Direction: {x: 1, y: 0}
+          KnockbackPower: 1
+          GuardCrash: 0
+          NextStateOnSuccessToSelf: 
+          NextStateOnSuccessToReceiver: HitSmall
     - rid: 1989145753598033920
       type: {class: ToggleGravityActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
         StartFrame: 0
         Duration: 11
         InterpolationType: 0
+        Idx: 6
         useGravity: 0
     - rid: 1989145753598033921
       type: {class: ToggleGravityActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
@@ -93,6 +116,7 @@ MonoBehaviour:
         StartFrame: 11
         Duration: 1
         InterpolationType: 0
+        Idx: 7
         useGravity: 1
     - rid: 1989145753598033922
       type: {class: SetVelocityActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
@@ -100,6 +124,7 @@ MonoBehaviour:
         StartFrame: 3
         Duration: 6
         InterpolationType: 2
+        Idx: 8
         Velocity: {x: 2, y: 0}
         RelativeToActor: 1
     - rid: 1989145753598033989
@@ -108,6 +133,7 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 11
         InterpolationType: 0
+        Idx: 9
         useCharacterInput: 0
     - rid: 1989145753598033990
       type: {class: ToggleInput, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
@@ -115,16 +141,19 @@ MonoBehaviour:
         StartFrame: 11
         Duration: 1
         InterpolationType: 0
+        Idx: 10
         useCharacterInput: 1
     - rid: 1989145753598034093
       type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
-        StartFrame: 8
-        Duration: 4
+        StartFrame: 6
+        Duration: 6
         InterpolationType: 0
+        Idx: 11
         StateKey: B
         ConditionStates:
         - JointType: 0
+          DefaultKey: 0
           Key: Inputs
           ValueType: 4
           ConditionType: 6

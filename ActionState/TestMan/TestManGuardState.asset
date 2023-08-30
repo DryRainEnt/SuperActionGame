@@ -24,7 +24,7 @@ MonoBehaviour:
   - rid: 1989145753598033991
   - rid: 1989145753598033992
   actantWrapper:
-  - rid: 1989145753598033992
+  - rid: 1989145753598033935
   references:
     version: 2
     RefIds:
@@ -34,6 +34,7 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 3
         InterpolationType: 0
+        Idx: 0
         sprite: {fileID: -5517346679155425035, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: -0.5, y: 0}
     - rid: 1989145753598033929
@@ -42,6 +43,7 @@ MonoBehaviour:
         StartFrame: 3
         Duration: 3
         InterpolationType: 0
+        Idx: 1
         sprite: {fileID: 6611518228744114627, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: 0, y: 0}
     - rid: 1989145753598033930
@@ -50,6 +52,7 @@ MonoBehaviour:
         StartFrame: 6
         Duration: 3
         InterpolationType: 0
+        Idx: 2
         sprite: {fileID: 2539224792641293813, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: 1.5, y: 0}
     - rid: 1989145753598033931
@@ -58,6 +61,7 @@ MonoBehaviour:
         StartFrame: 9
         Duration: 3
         InterpolationType: 0
+        Idx: 3
         sprite: {fileID: 6634656357459940140, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: 1.5, y: 0}
     - rid: 1989145753598033932
@@ -66,31 +70,51 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 12
         InterpolationType: 0
+        Idx: 4
         MaskType: 4
         Position: {x: 0, y: 1.8}
         Size: {x: 1, y: 3}
+        Info:
+          Damage: 0
+          GuardDamage: 0
+          Direction: {x: 0, y: 0}
+          KnockbackPower: 0
+          GuardCrash: 0
+          NextStateOnSuccessToSelf: 
+          NextStateOnSuccessToReceiver: 
     - rid: 1989145753598033933
       type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
       data:
         StartFrame: 6
         Duration: 6
         InterpolationType: 0
+        Idx: 5
         MaskType: 2
         Position: {x: 1.2, y: 2.7}
         Size: {x: 1.2, y: 3}
+        Info:
+          Damage: 0
+          GuardDamage: 0
+          Direction: {x: 0, y: 0}
+          KnockbackPower: 0
+          GuardCrash: 0
+          NextStateOnSuccessToSelf: 
+          NextStateOnSuccessToReceiver: 
     - rid: 1989145753598033935
       type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
         StartFrame: 4
         Duration: 8
         InterpolationType: 0
+        Idx: 6
         StateKey: Idle
         ConditionStates:
         - JointType: 0
-          Key: Input
+          DefaultKey: 0
+          Key: Inputs
           ValueType: 4
           ConditionType: 7
-          StringValue: down
+          StringValue: down_
           NumberValue: 0
           ConsumeInput: 1
     - rid: 1989145753598033937
@@ -99,8 +123,10 @@ MonoBehaviour:
         StartFrame: 6
         Duration: 6
         InterpolationType: 0
+        Idx: 7
         ConditionStates:
         - JointType: 0
+          DefaultKey: 0
           Key: Inputs
           ValueType: 4
           ConditionType: 6
@@ -113,6 +139,7 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 12
         InterpolationType: 0
+        Idx: 8
         useCharacterInput: 0
     - rid: 1989145753598033992
       type: {class: ToggleInput, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
@@ -120,4 +147,5 @@ MonoBehaviour:
         StartFrame: 12
         Duration: 0
         InterpolationType: 0
+        Idx: 9
         useCharacterInput: 1

@@ -17,7 +17,7 @@ namespace SimpleActionFramework.Core
         Static = 0x08
     }
 
-    public class HitMask : IComparable
+    public class HitMask : IComparable, IDisposable
     {
         public Actor Owner { get; private set; }
     
@@ -37,9 +37,12 @@ namespace SimpleActionFramework.Core
         }
 
         public float StartTime { get; private set; }
+        public float LifeTime { get; private set; }
+        public bool IsAlive => Time.realtimeSinceStartup - StartTime < LifeTime;
         
         private List<HitMask> _hitThisFrame = new List<HitMask>();
         private List<HitMask> _hitRecord = new List<HitMask>();
+        
         public HitMask firstHit { get; private set; }
 
         public DamageInfo Info;
@@ -77,7 +80,7 @@ namespace SimpleActionFramework.Core
         }
 
         // Update is called once per frame
-        void Update()
+        public void Update()
         {
             _hitThisFrame.Clear();
         }
@@ -89,11 +92,45 @@ namespace SimpleActionFramework.Core
             firstHit = null;
         }
 
-        public void Record(HitMask mask)
+        public bool Record(HitMask mask, DamageInfo info)
         {
+            if (_hitRecord.Exists(hit => hit.Owner == mask.Owner))
+                return false;
+            if (_hitThisFrame.Exists(hit => hit.Owner == mask.Owner))
+                return false;
+            
             _hitRecord.Add(mask);
             _hitThisFrame.Add(mask);
             firstHit ??= mask;
+
+            var key = Constants.DefaultDataKeys[DefaultKeys.INTERACTION];
+            switch ((Type, mask.Type))
+            {
+                case (MaskType.Attack, MaskType.Guard):
+                    // 내 공격이 가드됨 => 가드 성공자의 가드 액션을 실행
+                    Owner.ActionStateMachine.UpdateData(key, info.NextStateOnSuccessToReceiver);
+                    break;
+                case (MaskType.Attack, MaskType.Hit):
+                    // 내 공격이 히트됨 => 내 히트 액션을 실행
+                    Owner.ActionStateMachine.UpdateData(key, Info.NextStateOnSuccessToSelf);
+                    break;
+                case (MaskType.Attack, MaskType.Static):
+                    // 내 공격이 무효화됨
+                    break;
+                case (MaskType.Guard, MaskType.Attack):
+                    // 상대의 공격이 가드됨 => 내 가드 액션을 실행
+                    Owner.ActionStateMachine.UpdateData(key, Info.NextStateOnSuccessToSelf);
+                    break;
+                case (MaskType.Hit, MaskType.Attack):
+                    // 상대의 공격이 히트됨 => 공격 성공자의 히트 액션을 실행
+                    Owner.ActionStateMachine.UpdateData(key, info.NextStateOnSuccessToReceiver);
+                    break;
+                case (MaskType.Hit, MaskType.Static):
+                    break;
+                default: break;
+            }
+
+            return true;
         }
 
         public bool CheckCollision(HitMask other)
@@ -103,11 +140,12 @@ namespace SimpleActionFramework.Core
             switch (other.Type | this.Type)
             {
                 case MaskType.None:
-                case MaskType.Static:
                 case MaskType.Attack:
-                case MaskType.Hit:
                 case MaskType.Guard:
+                case MaskType.Hit:
+                case MaskType.Static:
                 case MaskType.Guard | MaskType.Hit:
+                case MaskType.Guard | MaskType.Static:
                     return false;
                 default: break;
             }
@@ -138,5 +176,17 @@ namespace SimpleActionFramework.Core
             
             return 0;
         }
+    }
+
+    public static class MaskExtension
+    {
+        public static Color GetColor(this MaskType type) => type switch
+        {
+            MaskType.Attack => Color.red,
+            MaskType.Guard => Color.cyan,
+            MaskType.Hit => Color.green,
+            MaskType.Static => Color.yellow,
+            _ => Color.white
+        };
     }
 }

@@ -17,6 +17,17 @@ namespace SimpleActionFramework.Core
 		public List<SingleActant> actantWrapper = new List<SingleActant>();
 
 		public int TotalDuration => (Actants.Count > 0 ? Actants.Max(actant => actant.EndFrame) : 0);
+		
+		public int GetId => GetInstanceID();
+
+		private void OnEnable()
+		{
+			for (var index = 0; index < Actants.Count; index++)
+			{
+				var actant = Actants[index];
+				actant.Idx = index;
+			}
+		}
 
 		public int[] GetActantByFrame(int frame)
 		{

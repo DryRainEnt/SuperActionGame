@@ -15,14 +15,17 @@ namespace SimpleActionFramework.Core
 		public DamageInfo DamageInfo;
 	}
 	
-	public static class MaskManager
+	public class MaskManager : MonoBehaviour
 	{
+		private static MaskManager _instance;
+		public static MaskManager Instance => _instance ? _instance : _instance = FindObjectOfType<MaskManager>();
+		
 		/// <summary>
 		/// HitMask는 아래의 순서로 정렬되어있다.
 		/// Attack > Guard > Hit > Static
 		/// </summary>
-		private static readonly List<HitMask> HitMaskList = new List<HitMask>();
-		private static readonly List<HitData> HitDataList = new List<HitData>();
+		public static readonly List<HitMask> HitMaskList = new List<HitMask>();
+		public static readonly List<HitData> HitDataList = new List<HitData>();
 		
 		public static void RegisterMask(HitMask mask)
 		{
@@ -34,16 +37,30 @@ namespace SimpleActionFramework.Core
 		{
 			HitMaskList.Remove(mask);
 		}
-		
-		public static void Update()
+
+		private void OnApplicationQuit()
+		{
+			while (HitMaskList.Count > 0)
+			{
+				var mask = HitMaskList[0];
+				HitMaskList.RemoveAt(0);
+				mask.Dispose();
+			}
+            HitMaskList.Clear();
+			HitDataList.Clear();
+		}
+
+		public void Update()
 		{
 			HitDataList.Clear();
 			
-			for (var i = 0; i < HitMaskList.Count - 1; i++)
+			for (var i = 0; i < HitMaskList.Count; i++)
 			{
+                var mask = HitMaskList[i];
+                mask.Update();
+                
 				for (var j = i + 1; j < HitMaskList.Count; j++)
 				{
-					var mask = HitMaskList[i];
 					var other = HitMaskList[j];
 					if (!mask.CheckCollision(HitMaskList[j])) continue;
 					
@@ -54,8 +71,8 @@ namespace SimpleActionFramework.Core
 			while (HitDataList.Count > 0)
 			{
 				var data = HitDataList[0];
-				var other = data.ReceiverMask;
 				var mask = data.GiverMask;
+				var other = data.ReceiverMask;
 
 				IEvent e;
 
@@ -63,11 +80,13 @@ namespace SimpleActionFramework.Core
 				{
 					// Guard판정에 의해 Hit판정이 사라지는 경우
 					// 서로 다른 두 충돌에 대해서
-					// 1. 피격자가 서로 같고
+					// 1. 공격자와 피격자가 서로 같고
 					// 2. 한 쪽이 Guard, 나머지가 Hit일 때
+					// => Hit판정을 제거하고 Guard판정을 남긴다.
 					case MaskType.Guard 
 				    when HitDataList.Exists(hit
-						=> other.Owner == hit.ReceiverMask.Owner
+						=> mask.Owner == hit.GiverMask.Owner
+						   && other.Owner == hit.ReceiverMask.Owner
 						   && hit.ReceiverMask.Type == MaskType.Hit):
 						HitDataList.RemoveAll(hit => other.Owner == hit.ReceiverMask.Owner && hit.ReceiverMask.Type == MaskType.Hit);
 						data.DamageInfo = other.Info;
@@ -75,15 +94,11 @@ namespace SimpleActionFramework.Core
 						continue;
 					// 중복된 Hit판정에 대해 하나만 남기는 경우
 					// 서로 다른 두 충돌에 대해서
-					// 1. 공격자가 서로 같고
-					// 2. 피격자가 서로 같을 때
-					case MaskType.Hit 
-				    when HitDataList.Exists(hit
-						=> mask.Owner == hit.GiverMask.Owner
-						   && hit.GiverMask.Type == MaskType.Attack
-						   && other.Owner == hit.ReceiverMask.Owner
-						   && hit.ReceiverMask.Type == MaskType.Hit):
-						HitDataList.RemoveAll(hit => mask.Owner == hit.GiverMask.Owner && other.Owner == hit.ReceiverMask.Owner && hit.ReceiverMask.Type == MaskType.Hit);
+					// 1. 공격자와 피격자가 서로 같고
+					// 2. 여러 Hit가 동시에 존재할 때
+					// => Hit판정을 제거하고 가장 먼저 발생한 Hit판정을 남긴다.
+					case MaskType.Hit :
+						HitDataList.RemoveAll(hit => mask.Owner == hit.GiverMask.Owner && other.Owner == hit.ReceiverMask.Owner && hit.GiverMask.Type == MaskType.Attack && hit.ReceiverMask.Type == MaskType.Hit);
 						HitDataList.Insert(0, data);
 						e = OnAttackHitEvent.Create(data);
 						break;
@@ -92,13 +107,15 @@ namespace SimpleActionFramework.Core
 						continue;
 				}
 
-				mask.Record(other);
-				other.Record(mask);
+				var result = mask.Record(other, mask.Info) && other.Record(mask, other.Info);
 				
 				// 필요한 예외 사항은 전부 체크했으므로 이제 충돌 이벤트를 발생시키고 리스트에서 제거한다.
 				// TODO: 이미 레코드 된 서로 같은 관계에 대해서는 이후에는 충돌 판정을 다시 하지 않는다.
-
-				MessageSystem.Publish(e);
+				if (result)
+				{
+					MessageSystem.Publish(e);
+					Debug.Log("HIT! : " + data.GiverMask.Owner.name + " -> " + data.ReceiverMask.Owner.name);
+				}
 				
 				HitDataList.RemoveAt(0);
 			}
