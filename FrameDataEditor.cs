@@ -58,10 +58,10 @@ namespace SimpleActionFramework.Core.Editor
 
 		private void Update()
 		{
-			if (IsPlaying)
+			if (selectedActionState && IsPlaying)
 			{
 				InnerTimer = (float)EditorApplication.timeSinceStartup - StartTime;
-				selectedFrame = Mathf.FloorToInt(InnerTimer * 30f) % selectedActionState.TotalDuration;
+				selectedFrame = (selectedActionState.TotalDuration > 0) ? Mathf.FloorToInt(InnerTimer * Constants.DefaultActionFrameRate) % selectedActionState.TotalDuration : 0;
 				Repaint();
 			}
 		}
