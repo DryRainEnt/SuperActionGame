@@ -6,7 +6,7 @@ namespace SimpleActionFramework.Core
     public static class Constants
     {
         public const float Epsilon = 0.00001f;
-        public const float DefaultActionFrameRate = 30;
+        public const float DefaultActionFrameRate = 60;
         public const float DefaultPPU = 16;
         
         public static readonly Dictionary<DefaultKeys, string> DefaultDataKeys = new Dictionary<DefaultKeys, string>()

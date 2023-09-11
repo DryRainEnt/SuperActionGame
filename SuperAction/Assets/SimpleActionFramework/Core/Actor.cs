@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Proto.BasicExtensionUtils;
 using Proto.EventSystem;
+using Resources.Scripts.Events;
 using SimpleActionFramework.Implements;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -33,6 +34,8 @@ namespace SimpleActionFramework.Core
         public bool IsLeft;
         
         public List<InputRecord> RecordedInputs = new List<InputRecord>();
+        
+        public int[] HitMaskIds;
 
         private void Initiate()
         {
@@ -45,6 +48,14 @@ namespace SimpleActionFramework.Core
         private void OnEnable()
         {
             Initiate();
+            MessageSystem.Subscribe(typeof(OnAttackHitEvent), this);
+            MessageSystem.Subscribe(typeof(OnAttackGuardEvent), this);
+        }
+        
+        private void OnDisable()
+        {
+            MessageSystem.Unsubscribe(typeof(OnAttackHitEvent), this);
+            MessageSystem.Unsubscribe(typeof(OnAttackGuardEvent), this);
         }
 
         // Start is called before the first frame update
@@ -114,14 +125,34 @@ namespace SimpleActionFramework.Core
                 _debugText.text = "";
                 foreach (var input in RecordedInputs)
                 {
-                    _debugText.text += input.Key + " : " + input.PressTime + " ~ " + input.ReleaseTime + "\n";
+                    Utils.BuildString(_debugText.text, input.Key, " : ", input.PressTime, " ~ ", input.ReleaseTime, "\n");
                 }
             }
+        }
+
+        public void LookDirection(float x)
+        {
+            LastDirection.x = x;
         }
         
         public void SetVelocity(Vector2 velocity)
         {
             _actorController.SetMovementVelocity(velocity);
+        }
+        
+        public void SetVerticalSpeed(float spd)
+        {
+            _actorController.SetVerticalSpeed(spd);
+        }
+        
+        public void AddVelocity(Vector2 velocity)
+        {
+            _actorController.AddVelocity(velocity);
+        }
+        
+        public void AddVerticalVelocity(float velocity)
+        {
+            _actorController.AddVerticalSpeed(velocity);
         }
         
         public void ToggleGravity(bool toggle)
@@ -146,44 +177,59 @@ namespace SimpleActionFramework.Core
             SpriteRenderer.sprite = sprite;
             SpriteRenderer.flipX = overridenXFlip ?? IsLeft;
         }
-        
-        private void ColorOverlay(Color color)
-        {
-            SpriteMaterial.SetColor(OverlayColor, color);
-        }
-
-        private async void Blink(int count = 0)
-        {
-            bool isWhite = true;
-            do
-            {
-                ColorOverlay(isWhite ? _white : _transparent);
-                isWhite = !isWhite;
-                await Task.Delay(100);
-            } while (count-- > 0);
-            
-            ResetOverlay();
-        }
-        
-        private void ResetOverlay()
-        {
-            SpriteMaterial.SetColor(OverlayColor, _transparent);
-        }
 
         #endregion
 
-        private void OnDrawGizmos()
-        {
-            return;
-            // if (!Application.isPlaying || !ActionStateMachine || !ActionStateMachine.CurrentState)
-            //     return;
-            //TODO: debug condition
-            // ActionStateMachine.CurrentState.DrawGizmos(ActionStateMachine.CurrentFrame);
-        }
-
         public bool OnEvent(IEvent e)
         {
-        
+            if (e is OnAttackHitEvent hit)
+            {
+                var info = hit.info;
+                var giver = hit.giverMask.Owner;
+                var taker = hit.takerMask.Owner;
+                
+                if (giver is null || giver == this)
+                    return false;
+
+                // 공격이 맞았고 피격자가 자신일 때
+                if (taker == this)
+                {
+                    var isLeft = giver.IsLeft;
+                    var knockBack = (isLeft ? info.Direction.normalized.FlipX() : info.Direction.normalized);
+                    ActionStateMachine.SetState(info.NextStateOnSuccessToReceiver);
+                    LookDirection(-giver.LastDirection.x);
+                    LockDirection = true;
+                    AddVelocity(knockBack * info.KnockbackPower);
+
+                    Time.timeScale = 0.1f;
+                    var _ = new Timer(0.1f)
+                    {
+                        Alarm = () =>
+                        {
+                            Time.timeScale = 1f;
+                        }
+                    };
+                    return true;
+                }
+            }
+            if (e is OnAttackGuardEvent guard)
+            {
+                var info = guard.info;
+                var giver = guard.giverMask.Owner;
+                var taker = guard.takerMask.Owner;
+                
+                if (taker is null || taker == this)
+                    return false;
+
+                // 공격이 가드당했고 공격자가 자신일 때
+                if (giver == this)
+                {
+                    var knockBack = (taker.IsLeft ? info.Direction.normalized.FlipX() : info.Direction.normalized);
+                    ActionStateMachine.SetState(info.NextStateOnSuccessToReceiver);
+                    AddVelocity(knockBack * info.KnockbackPower);
+                    return true;
+                }
+            }
             return false;
         }
     }

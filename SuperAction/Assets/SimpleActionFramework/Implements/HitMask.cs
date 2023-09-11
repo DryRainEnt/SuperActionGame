@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Proto.BasicExtensionUtils;
 using Proto.PoolingSystem;
 using SimpleActionFramework.Core;
+using SimpleActionFramework.Utility;
 using UnityEngine;
 
 namespace SimpleActionFramework.Core
@@ -19,6 +20,8 @@ namespace SimpleActionFramework.Core
 
     public class HitMask : IComparable, IDisposable
     {
+        public CombinedIdKey Id;
+        
         public Actor Owner { get; private set; }
     
         public MaskType Type;
@@ -50,12 +53,18 @@ namespace SimpleActionFramework.Core
         private static TinyObjectPool<HitMask> pool
             = new TinyObjectPool<HitMask>();
 
+        public static HitMask Create()
+        {
+            var e = pool.GetOrCreate();
+        
+            return e;
+        }
+
         public static HitMask Create(MaskType type, Bounds bound, Actor owner, DamageInfo info)
         {
             var e = pool.GetOrCreate();
 
             e.SetMask(type, bound, owner, info);
-            MaskManager.RegisterMask(e);
         
             return e;
         }
@@ -77,6 +86,8 @@ namespace SimpleActionFramework.Core
             Info = info;
             
             StartTime = Time.realtimeSinceStartup;
+            
+            MaskManager.RegisterMask(this);
         }
 
         // Update is called once per frame
@@ -85,7 +96,7 @@ namespace SimpleActionFramework.Core
             _hitThisFrame.Clear();
         }
 
-        public void ResetHitRecord()
+        private void ResetHitRecord()
         {
             _hitRecord.Clear();
             _hitThisFrame.Clear();
@@ -94,9 +105,9 @@ namespace SimpleActionFramework.Core
 
         public bool Record(HitMask mask, DamageInfo info)
         {
-            if (_hitRecord.Exists(hit => hit.Owner == mask.Owner))
+            if (_hitRecord.Exists(hit => hit.Id.IsSameAction(mask.Id)))
                 return false;
-            if (_hitThisFrame.Exists(hit => hit.Owner == mask.Owner))
+            if (_hitThisFrame.Exists(hit => hit.Id.IsSameAction(mask.Id)))
                 return false;
             
             _hitRecord.Add(mask);

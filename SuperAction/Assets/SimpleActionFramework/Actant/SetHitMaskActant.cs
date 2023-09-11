@@ -45,8 +45,8 @@ public class SetHitMaskActant : SingleActant
 		var key = GetId(actor);
 		var mask = HitMask.Create(MaskType,
 			new Bounds(Position, Size), actor, Info);
-		ActiveActors.TryAdd(key, mask);
-		actor.ActionStateMachine.RegisterDisposable(mask);
+		mask.Id = key;
+		actor.ActionStateMachine.RegisterDisposable(this, mask);
 	}
 
 	public override void OnFinished(Actor actor)
@@ -56,11 +56,7 @@ public class SetHitMaskActant : SingleActant
 
 	public void ResetMask(Actor actor)
 	{
-		var key = GetId(actor);
-		if (!ActiveActors.ContainsKey(key)) return;
-		
-		ActiveActors[key].Dispose();
-		ActiveActors.Remove(key);
+		actor.ActionStateMachine.DisposeDisposable(this);
 	}
 	
 	public override void OnGUI(Rect position, float scale, float progress)

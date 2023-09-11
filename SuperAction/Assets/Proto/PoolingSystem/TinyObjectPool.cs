@@ -58,7 +58,7 @@ namespace Proto.PoolingSystem
             }
         }
 
-        public T GetOrCreate()
+        public virtual T GetOrCreate()
         {
             if (PoolCount > 0)
                 return pool.Pop();

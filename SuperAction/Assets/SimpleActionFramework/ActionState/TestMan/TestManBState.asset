@@ -32,154 +32,318 @@ MonoBehaviour:
   - rid: 1989145753598034091
   - rid: 1989145753598034092
   actantWrapper:
-  - rid: 1989145753598034092
+  - rid: 1989145753598034084
   references:
     version: 2
     RefIds:
     - rid: 1989145753598034075
       type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 31882
+          actantId: 0
+          timeStamp: 1363
         StartFrame: 0
         Duration: 2
         InterpolationType: 0
+        Idx: 0
         sprite: {fileID: 9055970942705992983, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: 0.3, y: 0}
     - rid: 1989145753598034076
       type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 31882
+          actantId: 1
+          timeStamp: 1363
         StartFrame: 2
         Duration: 4
         InterpolationType: 0
+        Idx: 1
         sprite: {fileID: 2174210217339615401, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: 0.6, y: 0}
     - rid: 1989145753598034077
       type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 31882
+          actantId: 2
+          timeStamp: 1363
         StartFrame: 6
         Duration: 3
         InterpolationType: 0
+        Idx: 2
         sprite: {fileID: -3542352556806847354, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: 2, y: 0}
     - rid: 1989145753598034078
       type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 31882
+          actantId: 3
+          timeStamp: 1363
         StartFrame: 9
         Duration: 3
         InterpolationType: 0
+        Idx: 3
         sprite: {fileID: 2074040951900607693, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: 0.7, y: 0}
     - rid: 1989145753598034079
       type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 31882
+          actantId: 4
+          timeStamp: 1363
         StartFrame: 12
-        Duration: 2
+        Duration: 6
         InterpolationType: 0
+        Idx: 4
         sprite: {fileID: -2254072992380583468, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: 0.5, y: 0}
     - rid: 1989145753598034080
       type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
-        StartFrame: 14
-        Duration: 2
+        id:
+          machineId: -31348
+          actionId: 31882
+          actantId: 5
+          timeStamp: 1363
+        StartFrame: 18
+        Duration: 4
         InterpolationType: 0
+        Idx: 5
         sprite: {fileID: -607605797121538931, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
         offset: {x: 0.5, y: 0}
     - rid: 1989145753598034081
       type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 31882
+          actantId: 6
+          timeStamp: 1363
         StartFrame: 0
         Duration: 6
         InterpolationType: 0
+        Idx: 6
         MaskType: 4
         Position: {x: 0, y: 2}
         Size: {x: 1, y: 4}
+        Info:
+          Damage: 0
+          GuardDamage: 0
+          Direction: {x: 0, y: 0}
+          KnockbackPower: 0
+          GuardCrash: 0
+          NextStateOnSuccessToSelf: 
+          NextStateOnSuccessToReceiver: 
     - rid: 1989145753598034082
       type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 31882
+          actantId: 7
+          timeStamp: 1363
         StartFrame: 6
-        Duration: 10
+        Duration: 16
         InterpolationType: 0
+        Idx: 7
         MaskType: 4
-        Position: {x: 1, y: 2}
-        Size: {x: 1, y: 3}
+        Position: {x: 0.7, y: 2}
+        Size: {x: 1.6, y: 3}
+        Info:
+          Damage: 0
+          GuardDamage: 0
+          Direction: {x: 0, y: 0}
+          KnockbackPower: 0
+          GuardCrash: 0
+          NextStateOnSuccessToSelf: 
+          NextStateOnSuccessToReceiver: 
     - rid: 1989145753598034083
       type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 31882
+          actantId: 8
+          timeStamp: 1363
         StartFrame: 6
         Duration: 10
         InterpolationType: 0
+        Idx: 8
         MaskType: 4
         Position: {x: 0, y: 1}
         Size: {x: 2, y: 1}
+        Info:
+          Damage: 0
+          GuardDamage: 0
+          Direction: {x: 0, y: 0}
+          KnockbackPower: 0
+          GuardCrash: 0
+          NextStateOnSuccessToSelf: 
+          NextStateOnSuccessToReceiver: 
     - rid: 1989145753598034084
       type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 31882
+          actantId: 9
+          timeStamp: 1363
         StartFrame: 6
         Duration: 4
         InterpolationType: 0
+        Idx: 9
         MaskType: 1
-        Position: {x: 3, y: 2.4}
-        Size: {x: 1, y: 4}
+        Position: {x: 2.37, y: 2.71}
+        Size: {x: 3.2, y: 4.45}
+        Info:
+          Damage: 8
+          GuardDamage: 0
+          Direction: {x: 1, y: -1}
+          KnockbackPower: 32
+          GuardCrash: 0
+          NextStateOnSuccessToSelf: HitSuccess
+          NextStateOnSuccessToReceiver: HitMedium
     - rid: 1989145753598034085
       type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 31882
+          actantId: 10
+          timeStamp: 1363
         StartFrame: 6
         Duration: 4
         InterpolationType: 0
+        Idx: 10
         MaskType: 2
         Position: {x: 2, y: 2}
         Size: {x: 1, y: 2}
+        Info:
+          Damage: 8
+          GuardDamage: 0
+          Direction: {x: 0, y: 0}
+          KnockbackPower: 0
+          GuardCrash: 0
+          NextStateOnSuccessToSelf: Guard
+          NextStateOnSuccessToReceiver: 
     - rid: 1989145753598034086
       type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 31882
+          actantId: 11
+          timeStamp: 1363
         StartFrame: 6
         Duration: 6
         InterpolationType: 0
+        Idx: 11
         MaskType: 1
         Position: {x: 1, y: 1}
-        Size: {x: 2, y: 2}
+        Size: {x: 4, y: 2}
+        Info:
+          Damage: 8
+          GuardDamage: 0
+          Direction: {x: 1, y: -1}
+          KnockbackPower: 32
+          GuardCrash: 0
+          NextStateOnSuccessToSelf: HitSuccess
+          NextStateOnSuccessToReceiver: HitMedium
     - rid: 1989145753598034087
       type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 31882
+          actantId: 12
+          timeStamp: 1363
         StartFrame: 2
         Duration: 4
         InterpolationType: 0
+        Idx: 12
         MaskType: 2
         Position: {x: 0.5, y: 4}
         Size: {x: 2, y: 2}
+        Info:
+          Damage: 0
+          GuardDamage: 0
+          Direction: {x: 0, y: 0}
+          KnockbackPower: 0
+          GuardCrash: 0
+          NextStateOnSuccessToSelf: 
+          NextStateOnSuccessToReceiver: 
     - rid: 1989145753598034088
       type: {class: ToggleInput, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 31882
+          actantId: 13
+          timeStamp: 1363
         StartFrame: 0
         Duration: 14
         InterpolationType: 0
+        Idx: 13
         useCharacterInput: 0
     - rid: 1989145753598034089
       type: {class: ToggleInput, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 31882
+          actantId: 14
+          timeStamp: 1363
         StartFrame: 14
         Duration: 2
         InterpolationType: 0
+        Idx: 14
         useCharacterInput: 1
     - rid: 1989145753598034090
       type: {class: SetVelocityActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 31882
+          actantId: 15
+          timeStamp: 1363
         StartFrame: 6
         Duration: 4
         InterpolationType: 2
+        Idx: 15
         Velocity: {x: 8, y: 0}
         RelativeToActor: 1
     - rid: 1989145753598034091
       type: {class: ToggleGravityActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 31882
+          actantId: 16
+          timeStamp: 1363
         StartFrame: 6
         Duration: 6
         InterpolationType: 0
+        Idx: 16
         useGravity: 0
     - rid: 1989145753598034092
       type: {class: ToggleGravityActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 31882
+          actantId: 17
+          timeStamp: 1363
         StartFrame: 12
         Duration: 4
         InterpolationType: 0
+        Idx: 17
         useGravity: 1

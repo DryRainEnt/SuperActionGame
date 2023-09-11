@@ -23,6 +23,10 @@ public class Game : MonoBehaviour, IEventListener
     // Update is called once per frame
     void Update()
     {
+        while (TimerUtils.Alarms.Count > 0)
+            if (!TimerUtils.Alarms[0].AlarmCheck())
+                break;
+        
         if (GlobalInputController.Instance.GetInput("reset"))
         {
             Player.transform.position = Vector3.up * 6;
