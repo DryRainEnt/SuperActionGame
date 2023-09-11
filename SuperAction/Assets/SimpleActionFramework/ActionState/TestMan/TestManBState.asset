@@ -31,8 +31,9 @@ MonoBehaviour:
   - rid: 1989145753598034090
   - rid: 1989145753598034091
   - rid: 1989145753598034092
+  - rid: 8629600811568857102
   actantWrapper:
-  - rid: 1989145753598034084
+  - rid: 8629600811568857102
   references:
     version: 2
     RefIds:
@@ -141,6 +142,7 @@ MonoBehaviour:
           Direction: {x: 0, y: 0}
           KnockbackPower: 0
           GuardCrash: 0
+          Point: {x: 0, y: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
     - rid: 1989145753598034082
@@ -164,6 +166,7 @@ MonoBehaviour:
           Direction: {x: 0, y: 0}
           KnockbackPower: 0
           GuardCrash: 0
+          Point: {x: 0, y: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
     - rid: 1989145753598034083
@@ -187,6 +190,7 @@ MonoBehaviour:
           Direction: {x: 0, y: 0}
           KnockbackPower: 0
           GuardCrash: 0
+          Point: {x: 0, y: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
     - rid: 1989145753598034084
@@ -210,6 +214,7 @@ MonoBehaviour:
           Direction: {x: 1, y: -1}
           KnockbackPower: 32
           GuardCrash: 0
+          Point: {x: 0, y: 0}
           NextStateOnSuccessToSelf: HitSuccess
           NextStateOnSuccessToReceiver: HitMedium
     - rid: 1989145753598034085
@@ -233,6 +238,7 @@ MonoBehaviour:
           Direction: {x: 0, y: 0}
           KnockbackPower: 0
           GuardCrash: 0
+          Point: {x: 0, y: 0}
           NextStateOnSuccessToSelf: Guard
           NextStateOnSuccessToReceiver: 
     - rid: 1989145753598034086
@@ -256,6 +262,7 @@ MonoBehaviour:
           Direction: {x: 1, y: -1}
           KnockbackPower: 32
           GuardCrash: 0
+          Point: {x: 0, y: 0}
           NextStateOnSuccessToSelf: HitSuccess
           NextStateOnSuccessToReceiver: HitMedium
     - rid: 1989145753598034087
@@ -279,6 +286,7 @@ MonoBehaviour:
           Direction: {x: 0, y: 0}
           KnockbackPower: 0
           GuardCrash: 0
+          Point: {x: 0, y: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
     - rid: 1989145753598034088
@@ -347,3 +355,25 @@ MonoBehaviour:
         InterpolationType: 0
         Idx: 17
         useGravity: 1
+    - rid: 8629600811568857102
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 12
+        Duration: 10
+        InterpolationType: 0
+        Idx: 0
+        StateKey: Dash
+        ConditionStates:
+        - JointType: 0
+          DefaultKey: 0
+          Key: Inputs
+          ValueType: 4
+          ConditionType: 6
+          StringValue: forward,forward
+          NumberValue: 0
+          ConsumeInput: 1

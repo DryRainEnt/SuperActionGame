@@ -5,7 +5,8 @@ namespace Proto.PoolingSystem
 {
     public class ObjectPoolController : MonoBehaviour
     {
-        public static ObjectPoolController Self;
+        private static ObjectPoolController self;
+        public static ObjectPoolController Self => self ? self : (self = FindObjectOfType<ObjectPoolController>());
         private Dictionary<string, ObjectPool> _poolList;
 
         private Transform _defaultParent;
@@ -13,26 +14,26 @@ namespace Proto.PoolingSystem
 
         private void Awake()
         {
-            Self = this;
+            self = this;
             
             _poolList = new Dictionary<string, ObjectPool>();
             _defaultParent = transform.Find("PoolParentContainer") ?? new GameObject("PoolParentContainer").transform;;
             _defaultParent.SetParent(transform);
         }
 
-        public ObjectPool GetOrCreate(string poolName, string bundle)
+        public static ObjectPool GetOrCreate(string poolName, string bundle)
         {
-            if (_poolList.ContainsKey(poolName))
-                return _poolList[poolName];
+            if (Self._poolList.TryGetValue(poolName, out var create))
+                return create;
             
             var prefab = UnityEngine.Resources.Load<GameObject>(Utils.BuildString("Prefabs/", bundle, "/", poolName));
 
             if (prefab != null)
             {
                 var poolObj = new GameObject(prefab.name);
-                poolObj.transform.SetParent(transform);
+                poolObj.transform.SetParent(Self.transform);
                 var pool = poolObj.AddComponent<ObjectPool>().Initialize(prefab.name, prefab);
-                _poolList.Add(prefab.name, pool);
+                Self._poolList.Add(prefab.name, pool);
 
                 return pool;
             }
@@ -41,19 +42,19 @@ namespace Proto.PoolingSystem
         }
 
 
-        public IPooledObject Instantiate(string poolName, PoolParameters param)
+        public static IPooledObject InstantiateObject(string poolName, PoolParameters param)
         {
-            return _poolList[poolName].Instantiate(param);
+            return Self._poolList[poolName].Instantiate(param);
         }
 
-        public void Dispose(IPooledObject obj)
+        public static void Dispose(IPooledObject obj)
         {
-            _poolList[obj.Name].Dispose(obj);
+            Self._poolList[obj.Name].Dispose(obj);
         }
 
-        public void DisposeAllActivePool()
+        public static void DisposeAllActivePool()
         {
-            var list = _defaultParent.GetComponentsInChildren<IPooledObject>();
+            var list = Self._defaultParent.GetComponentsInChildren<IPooledObject>();
             foreach (var pooled in list)
             {
                 pooled.Dispose();

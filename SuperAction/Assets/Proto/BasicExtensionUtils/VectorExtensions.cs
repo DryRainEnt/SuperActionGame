@@ -41,6 +41,11 @@ namespace Proto.BasicExtensionUtils
         }
 
 
+        public static Vector2 doFlipX(this Vector2 vec, bool flip)
+        {
+            return flip ? new Vector2(-vec.x, vec.y) : vec;
+        }
+
         public static Vector2 FlipX(this Vector2 vec)
         {
             return new Vector2(-vec.x, vec.y);

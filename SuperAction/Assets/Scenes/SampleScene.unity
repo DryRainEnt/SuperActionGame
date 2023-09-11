@@ -398,6 +398,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3530133740120602924, guid: 7623768a0e61e454d83abb5e9d50e9d3, type: 3}
+      propertyPath: m_Size.x
+      value: 1.6
+      objectReference: {fileID: 0}
     - target: {fileID: 7740229622451298325, guid: 7623768a0e61e454d83abb5e9d50e9d3, type: 3}
       propertyPath: m_Name
       value: Tester
@@ -787,6 +791,7 @@ GameObject:
   - component: {fileID: 1098655800}
   - component: {fileID: 1098655798}
   - component: {fileID: 1098655801}
+  - component: {fileID: 1098655802}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -862,6 +867,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eb8d047b35918de4a921c19464d7a2d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1098655802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1098655796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f1615d08e452e042911bca1b9976270, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1333340289
@@ -941,7 +958,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -1516,10 +1533,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Actor
       objectReference: {fileID: 0}
-    - target: {fileID: 8285347137796838297, guid: 7623768a0e61e454d83abb5e9d50e9d3, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 9062735408026339385, guid: 7623768a0e61e454d83abb5e9d50e9d3, type: 3}
       propertyPath: _debugText
       value: 

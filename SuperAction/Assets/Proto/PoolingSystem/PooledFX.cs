@@ -33,7 +33,7 @@ namespace Proto.PoolingSystem
 
         public void Dispose()
         {
-            ObjectPoolController.Self.Dispose(this);
+            ObjectPoolController.Dispose(this);
         }
         
         public void Initialize(float duration)

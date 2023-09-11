@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Proto.BasicExtensionUtils;
 using Proto.EventSystem;
+using Proto.PoolingSystem;
 using Resources.Scripts.Events;
 using SimpleActionFramework.Implements;
 using Sirenix.OdinInspector;
@@ -48,6 +49,9 @@ namespace SimpleActionFramework.Core
         private void OnEnable()
         {
             Initiate();
+
+            ObjectPoolController.GetOrCreate("DamageTextFX", "Effects");
+            
             MessageSystem.Subscribe(typeof(OnAttackHitEvent), this);
             MessageSystem.Subscribe(typeof(OnAttackGuardEvent), this);
         }
@@ -195,11 +199,13 @@ namespace SimpleActionFramework.Core
                 if (taker == this)
                 {
                     var isLeft = giver.IsLeft;
-                    var knockBack = (isLeft ? info.Direction.normalized.FlipX() : info.Direction.normalized);
+                    var knockBack = info.Direction.normalized.doFlipX(isLeft);
                     ActionStateMachine.SetState(info.NextStateOnSuccessToReceiver);
-                    LookDirection(-giver.LastDirection.x);
-                    LockDirection = true;
+                    SetVelocity(Vector2.zero);
                     AddVelocity(knockBack * info.KnockbackPower);
+
+                    var fx = ObjectPoolController.InstantiateObject("DamageTextFX", new PoolParameters(info.Point)) as DamageTextFX;
+                    fx.Initialize(info.Damage.ToString(), knockBack * 3f);
 
                     Time.timeScale = 0.1f;
                     var _ = new Timer(0.1f)
