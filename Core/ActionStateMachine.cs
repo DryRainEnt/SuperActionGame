@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SimpleActionFramework.Utility;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,11 +13,13 @@ namespace SimpleActionFramework.Core
     {
         public SerializedDictionary<string, ActionState> States = new SerializedDictionary<string, ActionState>();
     
+        // 박싱이 빈번하게 일어나는 중. 수정 필요
         public Dictionary<string, object> Data = new Dictionary<string, object>();
 
         public Dictionary<SingleActant, ActantState> ActantStates = new Dictionary<SingleActant, ActantState>();
         
-        private List<IDisposable> _disposables = new List<IDisposable>();
+        private Dictionary<SingleActant, IDisposable> _disposables = new Dictionary<SingleActant, IDisposable>();
+        public Dictionary<SingleActant, IDisposable> Disposables => _disposables;
 
         public string CurrentStateName
             => CurrentState ? CurrentState.name : "NullState";
@@ -63,8 +66,8 @@ namespace SimpleActionFramework.Core
 
         public int CurrentFrame
         {
-            get => Mathf.FloorToInt(_innerTimer * 30f);
-            set => _innerTimer = value / 30f;
+            get => Mathf.FloorToInt(_innerTimer * Constants.DefaultActionFrameRate);
+            set => _innerTimer = value / Constants.DefaultActionFrameRate;
         }
         private int _previousFrame = 0;
 		
@@ -86,16 +89,23 @@ namespace SimpleActionFramework.Core
         
         public void Flush()
         {
-            foreach (var disposable in _disposables)
+            foreach (var (key, disposable) in _disposables)
             {
                 disposable.Dispose();
             }
             _disposables.Clear();
         }
         
-        public void RegisterDisposable(IDisposable disposable)
+        public void RegisterDisposable(SingleActant key, IDisposable disposable)
         {
-            _disposables.Add(disposable);
+            _disposables.Add(key, disposable);
+        }
+        
+        public void DisposeDisposable(SingleActant key)
+        {
+            var disposable = _disposables[key];
+            _disposables.Remove(key);
+            disposable.Dispose();
         }
         
         public T[] FindAllActant<T>() where T : SingleActant
@@ -132,12 +142,7 @@ namespace SimpleActionFramework.Core
             }
             ActantStates.Clear();
             Flush();
-            
-            if (stateName == CurrentStateName)
-            {
-                RewindState();
-                return;
-            }
+            Actor.LockDirection = false;
             
             CurrentState = targetState;
             ResetState();
@@ -169,6 +174,7 @@ namespace SimpleActionFramework.Core
             foreach (var act in CurrentState.Actants)
             {
                 ActantStates.Add(act, ActantState.NotStarted);
+                act.GetId(Actor);
             }
         }
 		

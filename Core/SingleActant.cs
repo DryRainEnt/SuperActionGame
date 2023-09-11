@@ -14,6 +14,8 @@ namespace SimpleActionFramework.Core
     [Serializable]
     public class SingleActant : IDisposable
     {
+        public CombinedIdKey id;
+        
         public int StartFrame;
         public int Duration;
         public bool UsedOnce => Duration == 0;

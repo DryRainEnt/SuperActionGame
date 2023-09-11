@@ -21,14 +21,20 @@ MonoBehaviour:
   - rid: 1989145723172290640
   - rid: 1989145723172290653
   - rid: 1989145753598034039
+  - rid: 8629600811568857100
   actantWrapper:
-  - rid: 1989145723172290640
+  - rid: 1989145723172290639
   references:
     version: 2
     RefIds:
     - rid: 1989145723172290635
       type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 32384
+          actantId: 0
+          timeStamp: 488
         StartFrame: 0
         Duration: 3
         InterpolationType: 0
@@ -38,6 +44,11 @@ MonoBehaviour:
     - rid: 1989145723172290636
       type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 32384
+          actantId: 1
+          timeStamp: 488
         StartFrame: 3
         Duration: 3
         InterpolationType: 0
@@ -47,31 +58,46 @@ MonoBehaviour:
     - rid: 1989145723172290637
       type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 32384
+          actantId: 2
+          timeStamp: 488
         StartFrame: 6
         Duration: 3
         InterpolationType: 0
         Idx: 2
         sprite: {fileID: -7537670203530180789, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
-        offset: {x: -1, y: 0}
+        offset: {x: -0.8, y: 0}
     - rid: 1989145723172290638
       type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 32384
+          actantId: 3
+          timeStamp: 488
         StartFrame: 9
         Duration: 3
         InterpolationType: 0
         Idx: 3
         sprite: {fileID: -8753567577972470617, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
-        offset: {x: -1, y: 0}
+        offset: {x: -0.9, y: 0}
     - rid: 1989145723172290639
       type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 32384
+          actantId: 4
+          timeStamp: 488
         StartFrame: 0
         Duration: 12
         InterpolationType: 0
         Idx: 4
         MaskType: 4
-        Position: {x: -0.3, y: 2}
-        Size: {x: 1.4, y: 3}
+        Position: {x: 0.03, y: 2}
+        Size: {x: 2, y: 4}
         Info:
           Damage: 0
           GuardDamage: 0
@@ -83,6 +109,11 @@ MonoBehaviour:
     - rid: 1989145723172290640
       type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 32384
+          actantId: 5
+          timeStamp: 488
         StartFrame: 0
         Duration: 12
         InterpolationType: 0
@@ -93,13 +124,18 @@ MonoBehaviour:
           DefaultKey: 3
           Key: VerticalSpeed
           ValueType: 0
-          ConditionType: 3
+          ConditionType: 5
           StringValue: 
           NumberValue: 0
           ConsumeInput: 1
     - rid: 1989145723172290653
       type: {class: LoopPointActant, ns: , asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 32384
+          actantId: 6
+          timeStamp: 488
         StartFrame: 0
         Duration: 12
         InterpolationType: 0
@@ -116,6 +152,11 @@ MonoBehaviour:
     - rid: 1989145753598034039
       type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 32384
+          actantId: 7
+          timeStamp: 488
         StartFrame: 0
         Duration: 12
         InterpolationType: 0
@@ -130,3 +171,25 @@ MonoBehaviour:
           StringValue: forward,forward
           NumberValue: 0
           ConsumeInput: 1
+    - rid: 8629600811568857100
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 12
+        Duration: 0
+        InterpolationType: 0
+        Idx: 8
+        StateKey: Rising
+        ConditionStates:
+        - JointType: 0
+          DefaultKey: 3
+          Key: VerticalSpeed
+          ValueType: 0
+          ConditionType: 2
+          StringValue: 
+          NumberValue: 0
+          ConsumeInput: 0

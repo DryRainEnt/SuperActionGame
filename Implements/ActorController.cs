@@ -16,8 +16,10 @@ namespace SimpleActionFramework.Implements
         public float movementSpeed = 7f;
         public float jumpSpeed = 10f;
         public float gravity = 10f;
+        public float gravityFactor = 1f;
 
 		Vector3 lastVelocity = Vector3.zero;
+		Vector3 innerVelocity = Vector3.zero;
 		Vector3 overridenVelocity = Vector3.zero;
 
 		public bool useGravity = true;
@@ -58,7 +60,7 @@ namespace SimpleActionFramework.Implements
 	            //Handle gravity;
 	            if (!isGrounded && useGravity)
 	            {
-		            currentVerticalSpeed -= gravity * Time.deltaTime;
+		            currentVerticalSpeed -= gravity * gravityFactor * Time.deltaTime;
 	            }
 	            else
 	            {
@@ -80,13 +82,24 @@ namespace SimpleActionFramework.Implements
 	            //Save current velocity for next frame;
             }
 
-            _velocity += overridenVelocity;
+            _velocity += innerVelocity;
             lastVelocity = _velocity;
 
             mover.SetExtendSensorRange(isGrounded);
-            mover.SetVelocity(_velocity);
+            mover.SetVelocity(_velocity + overridenVelocity);
             
-            overridenVelocity = Vector3.zero;
+            overridenVelocity *= 0.7f;
+            if (overridenVelocity.magnitude < 0.1f)
+			{
+	            overridenVelocity = Vector3.zero;
+	            gravityFactor = 1f;
+			}
+            else
+            {
+	            gravityFactor = 0.1f;
+            }
+            
+            innerVelocity = Vector3.zero;
         }
 
         private Vector3 CalculateMovementDirection()
@@ -156,6 +169,16 @@ namespace SimpleActionFramework.Implements
 		{
 			currentVerticalSpeed = speed;
 		}
+
+        public void AddVelocity(Vector3 velocity)
+        {
+	        overridenVelocity += velocity;
+        }
+        
+        public void AddVerticalSpeed(float spd)
+		{
+	        currentVerticalSpeed += spd;
+		}
         
         public void ToggleGravity(bool toggle)
 		{
@@ -170,7 +193,7 @@ namespace SimpleActionFramework.Implements
         public void SetMovementVelocity(Vector3 velocity)
         {
 	        //Save current velocity for next frame;
-	        overridenVelocity = velocity;
+	        innerVelocity = velocity;
         }
     }
 

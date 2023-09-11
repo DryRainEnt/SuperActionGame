@@ -33,6 +33,11 @@ MonoBehaviour:
     - rid: 1989145723172290631
       type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 32192
+          actantId: 0
+          timeStamp: 535
         StartFrame: 0
         Duration: 4
         InterpolationType: 0
@@ -42,6 +47,11 @@ MonoBehaviour:
     - rid: 1989145723172290647
       type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 32192
+          actantId: 1
+          timeStamp: 535
         StartFrame: 4
         Duration: 4
         InterpolationType: 0
@@ -51,8 +61,13 @@ MonoBehaviour:
     - rid: 1989145723172290648
       type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 32192
+          actantId: 2
+          timeStamp: 535
         StartFrame: 8
-        Duration: 2
+        Duration: 4
         InterpolationType: 0
         Idx: 2
         sprite: {fileID: 361342143785320938, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
@@ -60,8 +75,13 @@ MonoBehaviour:
     - rid: 1989145723172290649
       type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
-        StartFrame: 10
-        Duration: 2
+        id:
+          machineId: -31348
+          actionId: 32192
+          actantId: 3
+          timeStamp: 535
+        StartFrame: 12
+        Duration: 6
         InterpolationType: 0
         Idx: 3
         sprite: {fileID: -8919178284468129501, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
@@ -69,6 +89,11 @@ MonoBehaviour:
     - rid: 1989145723172290650
       type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 32192
+          actantId: 4
+          timeStamp: 535
         StartFrame: 0
         Duration: 12
         InterpolationType: 0
@@ -87,24 +112,34 @@ MonoBehaviour:
     - rid: 1989145723172290651
       type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 32192
+          actantId: 5
+          timeStamp: 535
         StartFrame: 4
         Duration: 4
         InterpolationType: 0
         Idx: 5
         MaskType: 1
-        Position: {x: 1.6, y: 2.4}
-        Size: {x: 2, y: 1.4}
+        Position: {x: 1.5, y: 2.5}
+        Size: {x: 3, y: 1}
         Info:
           Damage: 3
           GuardDamage: 0
-          Direction: {x: 1, y: 0}
-          KnockbackPower: 1
+          Direction: {x: 1, y: 2}
+          KnockbackPower: 16
           GuardCrash: 0
-          NextStateOnSuccessToSelf: 
+          NextStateOnSuccessToSelf: HitSuccess
           NextStateOnSuccessToReceiver: HitSmall
     - rid: 1989145753598033920
       type: {class: ToggleGravityActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 32192
+          actantId: 6
+          timeStamp: 535
         StartFrame: 0
         Duration: 11
         InterpolationType: 0
@@ -113,6 +148,11 @@ MonoBehaviour:
     - rid: 1989145753598033921
       type: {class: ToggleGravityActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 32192
+          actantId: 7
+          timeStamp: 535
         StartFrame: 11
         Duration: 1
         InterpolationType: 0
@@ -121,6 +161,11 @@ MonoBehaviour:
     - rid: 1989145753598033922
       type: {class: SetVelocityActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 32192
+          actantId: 8
+          timeStamp: 535
         StartFrame: 3
         Duration: 6
         InterpolationType: 2
@@ -130,6 +175,11 @@ MonoBehaviour:
     - rid: 1989145753598033989
       type: {class: ToggleInput, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 32192
+          actantId: 9
+          timeStamp: 535
         StartFrame: 0
         Duration: 11
         InterpolationType: 0
@@ -138,6 +188,11 @@ MonoBehaviour:
     - rid: 1989145753598033990
       type: {class: ToggleInput, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
+        id:
+          machineId: -31348
+          actionId: 32192
+          actantId: 10
+          timeStamp: 535
         StartFrame: 11
         Duration: 1
         InterpolationType: 0
@@ -146,7 +201,12 @@ MonoBehaviour:
     - rid: 1989145753598034093
       type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
-        StartFrame: 6
+        id:
+          machineId: -31348
+          actionId: 32192
+          actantId: 11
+          timeStamp: 535
+        StartFrame: 12
         Duration: 6
         InterpolationType: 0
         Idx: 11
