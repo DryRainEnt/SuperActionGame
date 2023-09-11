@@ -153,6 +153,7 @@ MonoBehaviour:
           Direction: {x: 0, y: 0}
           KnockbackPower: 0
           GuardCrash: 0
+          Point: {x: 0, y: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
     - rid: 8629600759023140872
@@ -176,6 +177,7 @@ MonoBehaviour:
           Direction: {x: 0, y: 0}
           KnockbackPower: 0
           GuardCrash: 0
+          Point: {x: 0, y: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
     - rid: 8629600759023140873
@@ -199,6 +201,7 @@ MonoBehaviour:
           Direction: {x: 0, y: 0}
           KnockbackPower: 0
           GuardCrash: 0
+          Point: {x: 0, y: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
     - rid: 8629600759023140874
@@ -220,8 +223,9 @@ MonoBehaviour:
           Damage: 6
           GuardDamage: 4
           Direction: {x: 3, y: 6}
-          KnockbackPower: 56
+          KnockbackPower: 48
           GuardCrash: 0
+          Point: {x: 0, y: 0}
           NextStateOnSuccessToSelf: HitSuccess
           NextStateOnSuccessToReceiver: HitMedium
     - rid: 8629600759023140875

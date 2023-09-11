@@ -27,7 +27,7 @@ MonoBehaviour:
   - rid: 1989145723172290674
   - rid: 1989145753598034001
   actantWrapper:
-  - rid: 1989145723172290629
+  - rid: 1989145753598034001
   references:
     version: 2
     RefIds:
@@ -164,6 +164,7 @@ MonoBehaviour:
           Direction: {x: 0, y: 0}
           KnockbackPower: 0
           GuardCrash: 0
+          Point: {x: 0, y: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
     - rid: 1989145723172290630
@@ -275,6 +276,6 @@ MonoBehaviour:
           Key: Inputs
           ValueType: 4
           ConditionType: 6
-          StringValue: backward,backward
+          StringValue: backward,forward
           NumberValue: 0
           ConsumeInput: 1

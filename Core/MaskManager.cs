@@ -90,6 +90,7 @@ namespace SimpleActionFramework.Core
 						   && hit.ReceiverMask.Type == MaskType.Hit):
 						HitDataList.RemoveAll(hit => other.Owner == hit.ReceiverMask.Owner && hit.ReceiverMask.Type == MaskType.Hit);
 						data.DamageInfo = other.Info;
+						data.DamageInfo.Point = (mask.Bounds.center + other.Bounds.center) / 2f;
 						e = OnAttackGuardEvent.Create(data);
 						continue;
 					// 중복된 Hit판정에 대해 하나만 남기는 경우
@@ -101,6 +102,7 @@ namespace SimpleActionFramework.Core
 						HitDataList.RemoveAll(hit => mask.Owner == hit.GiverMask.Owner && other.Owner == hit.ReceiverMask.Owner && hit.GiverMask.Type == MaskType.Attack && hit.ReceiverMask.Type == MaskType.Hit);
 						HitDataList.Insert(0, data);
 						data.DamageInfo = mask.Info;
+						data.DamageInfo.Point = (mask.Bounds.center + other.Bounds.center) / 2f;
 						e = OnAttackHitEvent.Create(data);
 						break;
 					default:

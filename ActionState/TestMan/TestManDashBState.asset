@@ -154,6 +154,7 @@ MonoBehaviour:
           Direction: {x: 0, y: 0}
           KnockbackPower: 0
           GuardCrash: 0
+          Point: {x: 0, y: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
     - rid: 8629600759023140892
@@ -177,6 +178,7 @@ MonoBehaviour:
           Direction: {x: 0, y: 0}
           KnockbackPower: 0
           GuardCrash: 0
+          Point: {x: 0, y: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
     - rid: 8629600759023140893
@@ -200,8 +202,9 @@ MonoBehaviour:
           Direction: {x: 24, y: 4}
           KnockbackPower: 48
           GuardCrash: 4
+          Point: {x: 0, y: 0}
           NextStateOnSuccessToSelf: HitSuccess
-          NextStateOnSuccessToReceiver: HitLarge
+          NextStateOnSuccessToReceiver: HitMedium
     - rid: 8629600759023140894
       type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
       data:
@@ -223,8 +226,9 @@ MonoBehaviour:
           Direction: {x: -24, y: 4}
           KnockbackPower: 24
           GuardCrash: 4
+          Point: {x: 0, y: 0}
           NextStateOnSuccessToSelf: HitSuccess
-          NextStateOnSuccessToReceiver: HitLarge
+          NextStateOnSuccessToReceiver: HitMedium
     - rid: 8629600759023140895
       type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
       data:
@@ -246,6 +250,7 @@ MonoBehaviour:
           Direction: {x: 0, y: 0}
           KnockbackPower: 0
           GuardCrash: 0
+          Point: {x: 0, y: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
     - rid: 8629600759023140896
@@ -269,6 +274,7 @@ MonoBehaviour:
           Direction: {x: 0, y: 0}
           KnockbackPower: 0
           GuardCrash: 0
+          Point: {x: 0, y: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
     - rid: 8629600759023140897
