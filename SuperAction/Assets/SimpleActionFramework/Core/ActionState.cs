@@ -1,7 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Proto.PoolingSystem;
+using SimpleActionFramework.Actant;
 using UnityEngine;
 
 namespace SimpleActionFramework.Core
@@ -11,14 +10,35 @@ namespace SimpleActionFramework.Core
 	public class ActionState : ScriptableObject
 	{
 		[SerializeReference]
-		public List<SingleActant> Actants = new List<SingleActant>();
+		public List<SingleActant> Actants = new();
 		
 		[SerializeReference]
-		public List<SingleActant> actantWrapper = new List<SingleActant>();
+		public List<SingleActant> actantWrapper = new();
 
 		public int TotalDuration => (Actants.Count > 0 ? Actants.Max(actant => actant.EndFrame) : 0);
 		
 		public int GetId => GetInstanceID();
+		
+		public int connectedStateCount;
+		
+		private List<string> _connectedStates = new();
+		public List<string> ConnectedStates {
+			get
+			{
+				if (_connectedStates.Count > 0)
+					return _connectedStates;
+
+				foreach (var act in Actants)
+				{
+					if (act is SetActionStateActant set)
+					{
+						_connectedStates.Add(set.StateKey);
+					}
+				}
+				return _connectedStates;
+			}
+		}
+
 
 		private void OnEnable()
 		{
@@ -27,6 +47,9 @@ namespace SimpleActionFramework.Core
 				var actant = Actants[index];
 				actant.Idx = index;
 			}
+			
+			_connectedStates.Clear();
+			connectedStateCount = ConnectedStates.Count;
 		}
 
 		public int[] GetActantByFrame(int frame)

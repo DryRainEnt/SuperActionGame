@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4fbb331e0840ba4ea66020cae1b4f24, type: 3}
+  m_Name: SwordMan
+  m_EditorClassIdentifier: 
+  States:
+    keys:
+    - Idle
+    - Move
+    - Guard
+    - Dodge
+    - AttackNeutral
+    - AttackUp
+    - AttackForward
+    - AttackDown
+    - Air
+    - AirAttackNeutral
+    - AirAttackUp
+    - AirAttackForward
+    - AirAttackDown
+    - HitSmall
+    - HitMedium
+    - HitLarge
+    - Escape
+    - Fallen
+    values:
+    - {fileID: 11400000, guid: 5a0ba16d3045b8846ac943287146a1ad, type: 2}
+    - {fileID: 11400000, guid: 8767a287011acfd42a07d10ca190a874, type: 2}
+    - {fileID: 11400000, guid: 195a66857f46fac4aa914f21c6530d46, type: 2}
+    - {fileID: 11400000, guid: 705b50a8f88a0d446bd4a71199161825, type: 2}
+    - {fileID: 11400000, guid: 5f24be06184dd424bbb259c95a3b9623, type: 2}
+    - {fileID: 11400000, guid: 062c3b92ac8800d47ae8de65bbabadd4, type: 2}
+    - {fileID: 11400000, guid: a8c56f4f76dc3d046879ad87dc89ccfc, type: 2}
+    - {fileID: 11400000, guid: 7576f88ddd892bc4d84333994545145a, type: 2}
+    - {fileID: 11400000, guid: 9ff9ecc83f24a404f819e334585dce4d, type: 2}
+    - {fileID: 11400000, guid: 9386257bd12b15e43951805f2a3da8ed, type: 2}
+    - {fileID: 11400000, guid: 7e6ec23fd93346b4485045984e631da1, type: 2}
+    - {fileID: 11400000, guid: 1f9662a34b7475746b48e5d6fe644746, type: 2}
+    - {fileID: 11400000, guid: 90160cf692aaf6649bd4b5372c79d5aa, type: 2}
+    - {fileID: 11400000, guid: 8dd40646dc4b2414db1ff06eaeb1fd32, type: 2}
+    - {fileID: 11400000, guid: 022ce08c847e9cf4e918a03538e67640, type: 2}
+    - {fileID: 11400000, guid: 6e61c08e56014c341b591bda33f7baf5, type: 2}
+    - {fileID: 11400000, guid: ce1966882ce258f448a860a7ff672528, type: 2}
+    - {fileID: 11400000, guid: 935793d025b3f0f47bd7666dc8a972ca, type: 2}
+  DefaultStateName: 
