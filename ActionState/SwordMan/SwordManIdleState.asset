@@ -1,0 +1,136 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbde9c5a9c2101848864b10bf87feeaa, type: 3}
+  m_Name: SwordManIdleState
+  m_EditorClassIdentifier: 
+  Actants:
+  - rid: 8629600859046805504
+  - rid: 8629600859046805505
+  - rid: 8629600859046805506
+  - rid: 8629600859046805507
+  - rid: 8629600859046805508
+  - rid: 8629600859046805509
+  - rid: 8629600859046805510
+  actantWrapper:
+  - rid: 8629600859046805510
+  connectedStateCount: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 8629600859046805504
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 0
+        Duration: 6
+        InterpolationType: 0
+        Idx: 0
+        sprite: {fileID: -4345398297093585983, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
+        offset: {x: 0.7, y: 0}
+    - rid: 8629600859046805505
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 6
+        Duration: 6
+        InterpolationType: 0
+        Idx: 1
+        sprite: {fileID: 9158047609981541119, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
+        offset: {x: 0.7, y: 0}
+    - rid: 8629600859046805506
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 12
+        Duration: 6
+        InterpolationType: 0
+        Idx: 2
+        sprite: {fileID: -6763414959952381101, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
+        offset: {x: 0.7, y: 0}
+    - rid: 8629600859046805507
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 18
+        Duration: 6
+        InterpolationType: 0
+        Idx: 3
+        sprite: {fileID: -8147959302928278976, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
+        offset: {x: 0.7, y: 0}
+    - rid: 8629600859046805508
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 24
+        Duration: 6
+        InterpolationType: 0
+        Idx: 4
+        sprite: {fileID: -2842463036423062146, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
+        offset: {x: 0.7, y: 0}
+    - rid: 8629600859046805509
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 30
+        Duration: 6
+        InterpolationType: 0
+        Idx: 5
+        sprite: {fileID: -7065567771135835988, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
+        offset: {x: 0.7, y: 0}
+    - rid: 8629600859046805510
+      type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 0
+        Duration: 36
+        InterpolationType: 0
+        Idx: 6
+        MaskType: 4
+        Position: {x: 0, y: 1.5}
+        Size: {x: 1.5, y: 2.4}
+        Info:
+          Damage: 0
+          GuardDamage: 0
+          Direction: {x: 0, y: 0}
+          KnockbackPower: 0
+          GuardCrash: 0
+          Point: {x: 0, y: 0}
+          NextStateOnSuccessToSelf: 
+          NextStateOnSuccessToReceiver: 
