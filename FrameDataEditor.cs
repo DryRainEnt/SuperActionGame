@@ -375,6 +375,8 @@ namespace SimpleActionFramework.Core.Editor
 			
 			EditorGUILayout.BeginVertical();
 	            
+				EditorGUILayout.BeginHorizontal();
+			
 				if (GUILayout.Button("Add Actant", GUILayout.Width(96f)))
 				{
 					GenericMenu menu = new GenericMenu();
@@ -397,6 +399,10 @@ namespace SimpleActionFramework.Core.Editor
 
 					menu.ShowAsContext();
 				}
+				
+				EditorGUILayout.LabelField($"Total Connected States: {selectedActionState.ConnectedStates.Count}");
+				
+				EditorGUILayout.EndHorizontal();
 
 				EditorGUILayout.BeginHorizontal();
 
