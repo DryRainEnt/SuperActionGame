@@ -68,17 +68,11 @@ namespace CMF
             
 			if (GlobalInputController.Instance.GetPressed(aKey))
 			{
-				actor.RecordedInputs.Add(new InputRecord(key, Time.realtimeSinceStartup));
+				actor.RecordedInputs.Add(new InputRecord(Utils.BuildString(key, "+"), Time.realtimeSinceStartup));
 			}
-			if (GlobalInputController.Instance.GetReleased(aKey) && actor.RecordedInputs.Exists(input => input.Key == key))
+			if (GlobalInputController.Instance.GetPressed(aKey))
 			{
-				var idx = actor.RecordedInputs.FindIndex(input => input.Key == key);
-				var input = actor.RecordedInputs[idx];
-                    
-				if (!input.IsPressed) return;
-                    
-				input.ReleaseTime = Time.realtimeSinceStartup - Time.deltaTime;
-				actor.RecordedInputs[idx] = input;
+				actor.RecordedInputs.Add(new InputRecord(Utils.BuildString(key, "-"), Time.realtimeSinceStartup));
 			}
 		}
 	}

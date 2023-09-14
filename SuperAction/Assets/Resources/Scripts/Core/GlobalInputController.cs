@@ -143,8 +143,8 @@ public class GlobalInputController : MonoBehaviour
                 }
                 if (!input.isPressed)
                 {
-                    InputDataDictionary.Remove($"kb_{input.name}");
-                    ReleasedInputDataDictionary.Add(InputData.Create($"kb_{input.name}", 1f));
+                    var rm = InputDataDictionary.Remove($"kb_{input.name}");
+                    if (rm) ReleasedInputDataDictionary.Add(InputData.Create($"kb_{input.name}", 1f));
                 }
             }
 
@@ -157,16 +157,14 @@ public class GlobalInputController : MonoBehaviour
                         foreach (var key in input.children)
                         {
                             var ik = $"gp_{input.name}_{key.name}";
-                            if (!InputDataDictionary.ContainsKey(ik)) continue;
+                            if (!InputDataDictionary.Remove(ik)) continue;
                             ReleasedInputDataDictionary.Add(InputData.Create(ik, 1f));
-                            InputDataDictionary.Remove(ik);
                         }
                     else
                     {
                         var ik = $"gp_{input.name}";
-                        if (!InputDataDictionary.ContainsKey(ik)) continue;
+                        if (!InputDataDictionary.Remove(ik)) continue;
                         ReleasedInputDataDictionary.Add(InputData.Create(ik, 1f));
-                        InputDataDictionary.Remove(ik);
                     }
                 }
                 else

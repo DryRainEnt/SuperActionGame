@@ -12,8 +12,100 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbde9c5a9c2101848864b10bf87feeaa, type: 3}
   m_Name: SwordManAttackNeutralState
   m_EditorClassIdentifier: 
-  Actants: []
-  actantWrapper: []
+  Actants:
+  - rid: 8629600870051348506
+  - rid: 8629600870051348507
+  - rid: 8629600870051348508
+  - rid: 8629600870051348509
+  - rid: 8629600870051348510
+  - rid: 8629600870051348511
+  actantWrapper:
+  - rid: 8629600870051348511
+  connectedStateCount: 0
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8629600870051348506
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 0
+        Duration: 5
+        InterpolationType: 0
+        Idx: 0
+        sprite: {fileID: -3280300682651989956, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
+        offset: {x: 0, y: 0}
+    - rid: 8629600870051348507
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 5
+        Duration: 3
+        InterpolationType: 0
+        Idx: 0
+        sprite: {fileID: -4295216178890383099, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
+        offset: {x: 0.35, y: 0}
+    - rid: 8629600870051348508
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 8
+        Duration: 3
+        InterpolationType: 0
+        Idx: 0
+        sprite: {fileID: 3036859935691697643, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
+        offset: {x: 2, y: 0}
+    - rid: 8629600870051348509
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 11
+        Duration: 3
+        InterpolationType: 0
+        Idx: 0
+        sprite: {fileID: 3931212250636570194, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
+        offset: {x: 1.5, y: 0}
+    - rid: 8629600870051348510
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 14
+        Duration: 5
+        InterpolationType: 0
+        Idx: 0
+        sprite: {fileID: 3832628333809753239, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
+        offset: {x: 0.55, y: 0}
+    - rid: 8629600870051348511
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 19
+        Duration: 5
+        InterpolationType: 0
+        Idx: 0
+        sprite: {fileID: 7429822855038840531, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
+        offset: {x: 0.71, y: 0}

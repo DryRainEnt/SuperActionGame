@@ -69,7 +69,7 @@ namespace SimpleActionFramework.Implements
 	            }
 
 	            //Handle jumping;
-	            if (useCharacterInput && (CharacterInput != null) && isGrounded && CharacterInput.IsJumpKeyPressed())
+	            if ((CharacterInput != null) && isGrounded && CharacterInput.IsJumpKeyPressed())
 	            {
 		            OnJumpStart();
 		            currentVerticalSpeed = jumpSpeed;
@@ -170,9 +170,14 @@ namespace SimpleActionFramework.Implements
 			currentVerticalSpeed = speed;
 		}
 
-        public void AddVelocity(Vector3 velocity)
+        public void AddExternalVelocity(Vector3 velocity)
         {
 	        overridenVelocity += velocity;
+        }
+
+        public void SetExternalVelocity(Vector3 velocity)
+        {
+	        overridenVelocity = velocity;
         }
         
         public void AddVerticalSpeed(float spd)

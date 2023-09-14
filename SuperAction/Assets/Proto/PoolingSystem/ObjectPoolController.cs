@@ -6,19 +6,19 @@ namespace Proto.PoolingSystem
     public class ObjectPoolController : MonoBehaviour
     {
         private static ObjectPoolController self;
-        public static ObjectPoolController Self => self ? self : (self = FindObjectOfType<ObjectPoolController>());
+        public static ObjectPoolController Self => self ? self : (self = FindObjectOfType<ObjectPoolController>().Initialize());
         private Dictionary<string, ObjectPool> _poolList;
 
         private Transform _defaultParent;
         public Transform DefaultParent => _defaultParent;
 
-        private void Awake()
+        private ObjectPoolController Initialize()
         {
-            self = this;
-            
             _poolList = new Dictionary<string, ObjectPool>();
             _defaultParent = transform.Find("PoolParentContainer") ?? new GameObject("PoolParentContainer").transform;;
             _defaultParent.SetParent(transform);
+
+            return this;
         }
 
         public static ObjectPool GetOrCreate(string poolName, string bundle)

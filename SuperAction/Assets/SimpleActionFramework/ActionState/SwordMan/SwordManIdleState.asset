@@ -20,9 +20,15 @@ MonoBehaviour:
   - rid: 8629600859046805508
   - rid: 8629600859046805509
   - rid: 8629600859046805510
+  - rid: 8629600870051348626
+  - rid: 8629600870051348628
+  - rid: 8629600870051348630
+  - rid: 8629600870051348631
+  - rid: 8629600870051348654
+  - rid: 8629600874899701762
+  - rid: 8629600874899701763
   actantWrapper:
-  - rid: 8629600859046805510
-  connectedStateCount: 0
+  - rid: 8629600870051348628
   references:
     version: 2
     RefIds:
@@ -134,3 +140,164 @@ MonoBehaviour:
           Point: {x: 0, y: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
+    - rid: 8629600870051348626
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 0
+        Duration: 36
+        InterpolationType: 0
+        Idx: 7
+        StateKey: Move
+        ConditionStates:
+        - JointType: 0
+          DefaultKey: 1
+          Key: MoveDirection
+          ValueType: 0
+          ConditionType: 1
+          StringValue: 
+          NumberValue: 0
+          ConsumeInput: 0
+    - rid: 8629600870051348628
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 0
+        Duration: 36
+        InterpolationType: 0
+        Idx: 8
+        StateKey: Guard
+        ConditionStates:
+        - JointType: 0
+          DefaultKey: 0
+          Key: Inputs
+          ValueType: 4
+          ConditionType: 6
+          StringValue: down+
+          NumberValue: 0
+          ConsumeInput: 1
+    - rid: 8629600870051348630
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 0
+        Duration: 36
+        InterpolationType: 0
+        Idx: 9
+        StateKey: Dodge
+        ConditionStates:
+        - JointType: 1
+          DefaultKey: 0
+          Key: Inputs
+          ValueType: 4
+          ConditionType: 6
+          StringValue: forward+,forward-,forward+
+          NumberValue: 0
+          ConsumeInput: 1
+        - JointType: 1
+          DefaultKey: 0
+          Key: Inputs
+          ValueType: 4
+          ConditionType: 6
+          StringValue: backward+,forward-,forward+
+          NumberValue: 0
+          ConsumeInput: 1
+    - rid: 8629600870051348631
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 0
+        Duration: 36
+        InterpolationType: 0
+        Idx: 10
+        StateKey: Air
+        ConditionStates:
+        - JointType: 0
+          DefaultKey: 4
+          Key: IsGrounded
+          ValueType: 0
+          ConditionType: 0
+          StringValue: 
+          NumberValue: 0
+          ConsumeInput: 0
+    - rid: 8629600870051348654
+      type: {class: ToggleInput, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 0
+        Duration: 0
+        InterpolationType: 0
+        Idx: 11
+        useCharacterInput: 1
+    - rid: 8629600874899701762
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 0
+        Duration: 36
+        InterpolationType: 0
+        Idx: 12
+        StateKey: AttackUp
+        ConditionStates:
+        - JointType: 0
+          DefaultKey: 0
+          Key: Inputs
+          ValueType: 4
+          ConditionType: 6
+          StringValue: up+,button1+
+          NumberValue: 0
+          ConsumeInput: 1
+    - rid: 8629600874899701763
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 0
+        Duration: 36
+        InterpolationType: 0
+        Idx: 13
+        StateKey: AttackNeutral
+        ConditionStates:
+        - JointType: 0
+          DefaultKey: 0
+          Key: Inputs
+          ValueType: 4
+          ConditionType: 6
+          StringValue: button1+
+          NumberValue: 0
+          ConsumeInput: 1
+        - JointType: 0
+          DefaultKey: 0
+          Key: Inputs
+          ValueType: 4
+          ConditionType: 7
+          StringValue: up
+          NumberValue: 0
+          ConsumeInput: 0

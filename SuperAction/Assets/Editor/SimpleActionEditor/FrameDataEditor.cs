@@ -400,7 +400,7 @@ namespace SimpleActionFramework.Core.Editor
 					menu.ShowAsContext();
 				}
 				
-				EditorGUILayout.LabelField($"Total Connected States: {selectedActionState.ConnectedStates.Count}");
+				EditorGUILayout.LabelField($"Total Connected States: {selectedActionState.connectedStateCount}");
 				
 				EditorGUILayout.EndHorizontal();
 

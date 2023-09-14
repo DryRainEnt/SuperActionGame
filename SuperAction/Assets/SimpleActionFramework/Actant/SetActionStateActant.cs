@@ -27,11 +27,11 @@ namespace SimpleActionFramework.Actant
 			{
 				var condition = ConditionStates[index];
 				if (condition.JointType == JointType.And)
-					state &= condition.ConditionCheck(actor.ActionStateMachine);
+					state = state && condition.ConditionCheck(actor.ActionStateMachine);
 				if (condition.JointType == JointType.Or)
-					state |= condition.ConditionCheck(actor.ActionStateMachine);
+					state = state || condition.ConditionCheck(actor.ActionStateMachine);
 				if (condition.JointType == JointType.Xor)
-					state ^= condition.ConditionCheck(actor.ActionStateMachine);
+					state = state != condition.ConditionCheck(actor.ActionStateMachine);
 			}
 	    
 			if (state)
