@@ -44,6 +44,11 @@ namespace SimpleActionFramework.Core
         
             ActionStateMachine = Instantiate(ActionStateMachine);
             ActionStateMachine.Init(this);
+            
+            _actorController.OnJump = (v) =>
+            {
+                RecordedInputs.Clear();
+            };
         }
 
         private void OnEnable()
@@ -106,7 +111,7 @@ namespace SimpleActionFramework.Core
             }
             RecordedInputs.Sort();
 
-            while (RecordedInputs.Count > 0 && RecordedInputs[^1].ReleaseTime < Time.realtimeSinceStartup - 0.5f)
+            while (RecordedInputs.Count > 0 && RecordedInputs[^1].TimeStamp < Time.realtimeSinceStartup - 0.5f)
             {
                 RecordedInputs.RemoveAt(RecordedInputs.Count - 1);
             }
@@ -129,7 +134,7 @@ namespace SimpleActionFramework.Core
                 _debugText.text = "";
                 foreach (var input in RecordedInputs)
                 {
-                    Utils.BuildString(_debugText.text, input.Key, " : ", input.PressTime, " ~ ", input.ReleaseTime, "\n");
+                    _debugText.text += $"{input.Key} : {input.TimeStamp}\n";
                 }
             }
         }
@@ -149,9 +154,14 @@ namespace SimpleActionFramework.Core
             _actorController.SetVerticalSpeed(spd);
         }
         
-        public void AddVelocity(Vector2 velocity)
+        public void AddExternalVelocity(Vector2 velocity)
         {
-            _actorController.AddVelocity(velocity);
+            _actorController.AddExternalVelocity(velocity);
+        }
+
+        public void SetExternalVelocity(Vector2 velocity)
+        {
+            _actorController.SetExternalVelocity(velocity);
         }
         
         public void AddVerticalVelocity(float velocity)
@@ -202,7 +212,7 @@ namespace SimpleActionFramework.Core
                     var knockBack = info.Direction.normalized.doFlipX(isLeft);
                     ActionStateMachine.SetState(info.NextStateOnSuccessToReceiver);
                     SetVelocity(Vector2.zero);
-                    AddVelocity(knockBack * info.KnockbackPower);
+                    AddExternalVelocity(knockBack * info.KnockbackPower);
 
                     var fx = ObjectPoolController.InstantiateObject("DamageTextFX", new PoolParameters(info.Point)) as DamageTextFX;
                     fx.Initialize(info.Damage.ToString(), knockBack * 3f);
@@ -232,7 +242,7 @@ namespace SimpleActionFramework.Core
                 {
                     var knockBack = (taker.IsLeft ? info.Direction.normalized.FlipX() : info.Direction.normalized);
                     ActionStateMachine.SetState(info.NextStateOnSuccessToReceiver);
-                    AddVelocity(knockBack * info.KnockbackPower);
+                    AddExternalVelocity(knockBack * info.KnockbackPower);
                     return true;
                 }
             }

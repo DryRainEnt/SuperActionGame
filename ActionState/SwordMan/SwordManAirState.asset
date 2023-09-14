@@ -12,8 +12,175 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbde9c5a9c2101848864b10bf87feeaa, type: 3}
   m_Name: SwordManAirState
   m_EditorClassIdentifier: 
-  Actants: []
-  actantWrapper: []
+  Actants:
+  - rid: 8629600870051348545
+  - rid: 8629600870051348546
+  - rid: 8629600870051348547
+  - rid: 8629600870051348548
+  - rid: 8629600870051348632
+  - rid: 8629600870051348633
+  - rid: 8629600870051348642
+  - rid: 8629600870051348656
+  actantWrapper:
+  - rid: 8629600870051348656
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8629600870051348545
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 0
+        Duration: 6
+        InterpolationType: 0
+        Idx: 0
+        sprite: {fileID: -8112321518289944025, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
+        offset: {x: 0.66, y: 0.24}
+    - rid: 8629600870051348546
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 6
+        Duration: 6
+        InterpolationType: 0
+        Idx: 1
+        sprite: {fileID: 8250096807191544417, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
+        offset: {x: 0.6, y: 0.27}
+    - rid: 8629600870051348547
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 12
+        Duration: 6
+        InterpolationType: 0
+        Idx: 2
+        sprite: {fileID: 1995200340930986473, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
+        offset: {x: 0.55, y: 0.33}
+    - rid: 8629600870051348548
+      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 18
+        Duration: 6
+        InterpolationType: 0
+        Idx: 3
+        sprite: {fileID: 6479369356774997225, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
+        offset: {x: 0.59, y: 0.26}
+    - rid: 8629600870051348632
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 0
+        Duration: 24
+        InterpolationType: 0
+        Idx: 4
+        StateKey: Idle
+        ConditionStates:
+        - JointType: 0
+          DefaultKey: 4
+          Key: IsGrounded
+          ValueType: 0
+          ConditionType: 1
+          StringValue: 
+          NumberValue: 0
+          ConsumeInput: 0
+          InputType: 0
+    - rid: 8629600870051348633
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 24
+        Duration: 0
+        InterpolationType: 0
+        Idx: 5
+        StateKey: Air
+        ConditionStates:
+        - JointType: 0
+          DefaultKey: 4
+          Key: IsGrounded
+          ValueType: 0
+          ConditionType: 0
+          StringValue: 
+          NumberValue: 0
+          ConsumeInput: 0
+          InputType: 0
+    - rid: 8629600870051348642
+      type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 0
+        Duration: 24
+        InterpolationType: 0
+        Idx: 6
+        MaskType: 4
+        Position: {x: 0, y: 1.28}
+        Size: {x: 1.74, y: 2.29}
+        Info:
+          Damage: 0
+          GuardDamage: 0
+          Direction: {x: 0, y: 0}
+          KnockbackPower: 0
+          GuardCrash: 0
+          Point: {x: 0, y: 0}
+          NextStateOnSuccessToSelf: 
+          NextStateOnSuccessToReceiver: 
+    - rid: 8629600870051348656
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 0
+        Duration: 24
+        InterpolationType: 0
+        Idx: 7
+        StateKey: Dodge
+        ConditionStates:
+        - JointType: 0
+          DefaultKey: 0
+          Key: Inputs
+          ValueType: 4
+          ConditionType: 6
+          StringValue: jump+,down+
+          NumberValue: 0
+          ConsumeInput: 1
+          InputType: 0
+        - JointType: 1
+          DefaultKey: 0
+          Key: Inputs
+          ValueType: 4
+          ConditionType: 6
+          StringValue: forward+,forward+
+          NumberValue: 0
+          ConsumeInput: 0
+          InputType: 0

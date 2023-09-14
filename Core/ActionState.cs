@@ -19,14 +19,14 @@ namespace SimpleActionFramework.Core
 		
 		public int GetId => GetInstanceID();
 		
-		public int connectedStateCount;
+		public int connectedStateCount => ConnectedStates.Count;
 		
 		private List<string> _connectedStates = new();
 		public List<string> ConnectedStates {
 			get
 			{
 				if (_connectedStates.Count > 0)
-					return _connectedStates;
+					_connectedStates.Clear();
 
 				foreach (var act in Actants)
 				{
@@ -47,9 +47,6 @@ namespace SimpleActionFramework.Core
 				var actant = Actants[index];
 				actant.Idx = index;
 			}
-			
-			_connectedStates.Clear();
-			connectedStateCount = ConnectedStates.Count;
 		}
 
 		public int[] GetActantByFrame(int frame)

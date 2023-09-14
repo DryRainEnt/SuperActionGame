@@ -32,6 +32,7 @@ MonoBehaviour:
     - HitLarge
     - Escape
     - Fallen
+    - Passive
     values:
     - {fileID: 11400000, guid: 5a0ba16d3045b8846ac943287146a1ad, type: 2}
     - {fileID: 11400000, guid: 8767a287011acfd42a07d10ca190a874, type: 2}
@@ -51,4 +52,5 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 6e61c08e56014c341b591bda33f7baf5, type: 2}
     - {fileID: 11400000, guid: ce1966882ce258f448a860a7ff672528, type: 2}
     - {fileID: 11400000, guid: 935793d025b3f0f47bd7666dc8a972ca, type: 2}
-  DefaultStateName: 
+    - {fileID: 11400000, guid: aad7d10b57f77454d8231916d1523625, type: 2}
+  DefaultStateName: Idle

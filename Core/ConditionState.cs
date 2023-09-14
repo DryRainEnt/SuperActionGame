@@ -146,10 +146,10 @@ namespace SimpleActionFramework.Core
 				case ValueType.Input:
 					if (machine.Data[Key] is List<InputRecord> iList)
 					{
+						iList.Reverse();
 						var istr = string.Join(",", iList);
 						StringValue = StringValue.Replace(" ", "");
-						var isPressed = iList.Count > 0 && iList[^1].IsPressed;
-						istr += isPressed ? "_" : "";
+						iList.Reverse();
 						
 						switch (ConditionType)
 						{
@@ -157,8 +157,10 @@ namespace SimpleActionFramework.Core
 								if (istr != StringValue) return false;
 								if (ConsumeInput) iList.Clear();
 								return true;
+							
 							case ConditionType.NotEqual:
 								return istr != StringValue;
+							
 							case ConditionType.Contains:
 								if (!istr.Contains(StringValue)) return false;
 								if (!ConsumeInput) return true;
@@ -167,10 +169,11 @@ namespace SimpleActionFramework.Core
 									iList.Remove(iList.Find(input => input.Key == iv));
 								}
 								return true;
+							
 							case ConditionType.Exclusive:
 								if (istr.Contains(StringValue)) return false;
 								if (!ConsumeInput) return true;
-								foreach (var iv in StringValue.Replace("_", "").Split(","))
+								foreach (var iv in StringValue.Split(","))
 								{
 									iList.Remove(iList.Find(input => input.Key == iv));
 								}
