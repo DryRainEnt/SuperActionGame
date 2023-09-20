@@ -81,6 +81,9 @@ namespace Editor.SimpleActionEditor.ActantEditor
 					case DefaultKeys.INTERACTION:
 						_valueType = ValueType.String;
 						break;
+					case DefaultKeys.HP:
+						_valueType = ValueType.Number;
+						break;
 				}
 				
 				drawRect = new Rect(position.x, position.y + 24f * pCount, 36f, 24f);
