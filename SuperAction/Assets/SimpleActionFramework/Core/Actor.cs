@@ -12,6 +12,8 @@ namespace SimpleActionFramework.Core
 {
     public class Actor : MonoBehaviour, IEventListener
     {
+        public int ActorIndex;
+        
         [SerializeField]
         public ActionStateMachine ActionStateMachine;
         
@@ -37,6 +39,29 @@ namespace SimpleActionFramework.Core
         public List<InputRecord> RecordedInputs = new List<InputRecord>();
         
         public int[] HitMaskIds;
+        
+        public readonly float MaxHP = 100f;
+        
+        private float _hp;
+
+        public float HP
+        {
+            get => _hp;
+            set
+            {
+                var prev = _hp;
+                _hp = value;
+
+                if (_hp <= 0)
+                {
+                    //TODO: Die. This is Test code.
+                    _hp = MaxHP;
+                }
+                
+                ActionStateMachine.UpdateData(Constants.DefaultDataKeys[DefaultKeys.INPUT], RecordedInputs);
+                MessageSystem.Publish(OnHealthUpdatedEvent.Create(ActorIndex,  prev, _hp));
+            }
+        }
 
         private void Initiate()
         {
@@ -49,6 +74,11 @@ namespace SimpleActionFramework.Core
             {
                 RecordedInputs.Clear();
             };
+            
+            //TODO: ActorIndex가 겹치지 않도록 고유화 단계를 분리해줘야 함.
+            Game.Instance.RegisteredActors.Add(ActorIndex, this);
+            
+            ActionStateMachine.UpdateData(Constants.DefaultDataKeys[DefaultKeys.INTERACTION], "Neutral");
         }
 
         private void OnEnable()
@@ -84,6 +114,9 @@ namespace SimpleActionFramework.Core
         
             CurrentState = ActionStateMachine.CurrentStateName;
             CurrentFrame = ActionStateMachine.CurrentFrame;
+            
+            if (ActorIndex == 1)
+                Debug.Log($"{_actorController.GetVelocity()} || {_actorController.GetOverridenVelocity()}");
         }
 
         private readonly string[] ActionKeys = new[]
@@ -147,6 +180,7 @@ namespace SimpleActionFramework.Core
         public void SetVelocity(Vector2 velocity)
         {
             _actorController.SetMovementVelocity(velocity);
+            _actorController.SetVerticalSpeed(velocity.y);
         }
         
         public void SetVerticalSpeed(float spd)
@@ -167,6 +201,11 @@ namespace SimpleActionFramework.Core
         public void AddVerticalVelocity(float velocity)
         {
             _actorController.AddVerticalSpeed(velocity);
+        }
+        
+        public void SetGravityFactor(float factor = 1f)
+        {
+            _actorController.SetGravityFactor(factor);
         }
         
         public void ToggleGravity(bool toggle)
@@ -209,11 +248,15 @@ namespace SimpleActionFramework.Core
                 if (taker == this)
                 {
                     var isLeft = giver.IsLeft;
-                    var knockBack = info.Direction.normalized.doFlipX(isLeft);
+                    var knockBack = info.Direction.normalized.doFlipX(isLeft) * 4f;
                     ActionStateMachine.SetState(info.NextStateOnSuccessToReceiver);
                     SetVelocity(Vector2.zero);
+                    SetVerticalSpeed(0f);
                     AddExternalVelocity(knockBack * info.KnockbackPower);
+                    LookDirection(-giver.LastDirection.x);
 
+                    HP -= info.Damage;
+                    
                     var fx = ObjectPoolController.InstantiateObject("DamageTextFX", new PoolParameters(info.Point)) as DamageTextFX;
                     fx.Initialize(info.Damage.ToString(), knockBack * 3f);
 

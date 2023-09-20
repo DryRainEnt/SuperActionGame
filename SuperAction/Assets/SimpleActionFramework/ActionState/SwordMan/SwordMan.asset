@@ -33,6 +33,8 @@ MonoBehaviour:
     - Escape
     - Fallen
     - Passive
+    - Lying
+    - Jump
     values:
     - {fileID: 11400000, guid: 5a0ba16d3045b8846ac943287146a1ad, type: 2}
     - {fileID: 11400000, guid: 8767a287011acfd42a07d10ca190a874, type: 2}
@@ -53,4 +55,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: ce1966882ce258f448a860a7ff672528, type: 2}
     - {fileID: 11400000, guid: 935793d025b3f0f47bd7666dc8a972ca, type: 2}
     - {fileID: 11400000, guid: aad7d10b57f77454d8231916d1523625, type: 2}
+    - {fileID: 11400000, guid: 747dfe12022830243964d43e57b0253f, type: 2}
+    - {fileID: 11400000, guid: 7ef89e9584bd5174b951d876fae4f702, type: 2}
   DefaultStateName: Idle

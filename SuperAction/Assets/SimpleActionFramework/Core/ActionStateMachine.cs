@@ -143,6 +143,7 @@ namespace SimpleActionFramework.Core
             ActantStates.Clear();
             Flush();
             Actor.LockDirection = false;
+            Actor.SetGravityFactor();
             
             CurrentState = targetState;
             ResetState();

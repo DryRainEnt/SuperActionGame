@@ -22,9 +22,9 @@ MonoBehaviour:
   - rid: 8629600870051348622
   - rid: 8629600870051348623
   - rid: 8629600870051348624
+  - rid: 8629601031791312971
   actantWrapper:
-  - rid: 8629600870051348624
-  connectedStateCount: 0
+  - rid: 8629601031791312971
   references:
     version: 2
     RefIds:
@@ -53,7 +53,7 @@ MonoBehaviour:
         StartFrame: 6
         Duration: 6
         InterpolationType: 0
-        Idx: 0
+        Idx: 1
         sprite: {fileID: 9007745303051262241, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
         offset: {x: -0.21, y: 0}
     - rid: 8629600870051348618
@@ -67,7 +67,7 @@ MonoBehaviour:
         StartFrame: 12
         Duration: 6
         InterpolationType: 0
-        Idx: 0
+        Idx: 2
         sprite: {fileID: 6508812197396924188, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
         offset: {x: -0.09, y: 0}
     - rid: 8629600870051348619
@@ -81,7 +81,7 @@ MonoBehaviour:
         StartFrame: 18
         Duration: 6
         InterpolationType: 0
-        Idx: 0
+        Idx: 3
         sprite: {fileID: 1447495299296033640, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
         offset: {x: -0.32, y: 0}
     - rid: 8629600870051348620
@@ -95,7 +95,7 @@ MonoBehaviour:
         StartFrame: 24
         Duration: 6
         InterpolationType: 0
-        Idx: 0
+        Idx: 4
         sprite: {fileID: 6042010517222193190, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
         offset: {x: -0.33, y: 0}
     - rid: 8629600870051348621
@@ -109,7 +109,7 @@ MonoBehaviour:
         StartFrame: 30
         Duration: 6
         InterpolationType: 0
-        Idx: 0
+        Idx: 5
         sprite: {fileID: -8331342378149283290, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
         offset: {x: -0.45, y: 0}
     - rid: 8629600870051348622
@@ -123,7 +123,7 @@ MonoBehaviour:
         StartFrame: 36
         Duration: 6
         InterpolationType: 0
-        Idx: 0
+        Idx: 6
         sprite: {fileID: -6941747999428117762, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
         offset: {x: -0.54, y: 0}
     - rid: 8629600870051348623
@@ -137,7 +137,7 @@ MonoBehaviour:
         StartFrame: 42
         Duration: 6
         InterpolationType: 0
-        Idx: 0
+        Idx: 7
         sprite: {fileID: -7133733068292936478, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
         offset: {x: 0.21, y: 0}
     - rid: 8629600870051348624
@@ -149,8 +149,22 @@ MonoBehaviour:
           actantId: 0
           timeStamp: 0
         StartFrame: 48
-        Duration: 24
+        Duration: 12
         InterpolationType: 0
-        Idx: 0
+        Idx: 8
         sprite: {fileID: 7600553445932957009, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
         offset: {x: 0.28, y: 0}
+    - rid: 8629601031791312971
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 48
+        Duration: 12
+        InterpolationType: 0
+        Idx: 0
+        StateKey: Lying
+        ConditionStates: []

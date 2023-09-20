@@ -107,6 +107,8 @@ namespace SimpleActionFramework.Core
         {
             if (_hitRecord.Exists(hit => hit.Id.IsSameAction(mask.Id)))
                 return false;
+            if (_hitRecord.Exists(hit => hit.Owner == mask.Owner))
+                return false;
             if (_hitThisFrame.Exists(hit => hit.Id.IsSameAction(mask.Id)))
                 return false;
             

@@ -9,7 +9,13 @@ using UnityEngine;
 
 public class Game : MonoBehaviour, IEventListener
 {
+    private static Game _instance;
+    public static Game Instance => _instance ? _instance : FindObjectOfType<Game>();
+    
+    
     public Actor Player;
+    
+    public Dictionary<int, Actor> RegisteredActors = new Dictionary<int, Actor>();
     
     [SerializeField]
     private UnityEngine.UI.Text _debugText;

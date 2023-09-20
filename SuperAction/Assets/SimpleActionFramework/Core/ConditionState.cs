@@ -83,6 +83,7 @@ namespace SimpleActionFramework.Core
 					}
                     return false;
 				case ValueType.String:
+					machine.Data.TryAdd(Key, "");
 					if (machine.Data[Key] is string str)
 					{
 						switch (ConditionType)

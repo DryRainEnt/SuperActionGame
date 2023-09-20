@@ -24,6 +24,14 @@ MonoBehaviour:
   - rid: 8629600870051348599
   - rid: 8629600870051348600
   - rid: 8629600870051348645
+  - rid: 8629601031791312917
+  - rid: 8629601031791312918
+  - rid: 8629601031791312919
+  - rid: 8629601031791312943
+  - rid: 8629601031791312947
+  - rid: 8629601031791312949
+  - rid: 8629601031791312946
+  - rid: 8629601031791312952
   actantWrapper:
   - rid: 8629600870051348645
   references:
@@ -178,9 +186,9 @@ MonoBehaviour:
           actantId: 0
           timeStamp: 0
         StartFrame: 0
-        Duration: 60
+        Duration: 48
         InterpolationType: 0
-        Idx: 0
+        Idx: 10
         MaskType: 4
         Position: {x: 0.2, y: 1.09}
         Size: {x: 1.67, y: 2}
@@ -193,3 +201,141 @@ MonoBehaviour:
           Point: {x: 0, y: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
+    - rid: 8629601031791312917
+      type: {class: ToggleInput, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 0
+        Duration: 60
+        InterpolationType: 0
+        Idx: 11
+        useCharacterInput: 0
+    - rid: 8629601031791312918
+      type: {class: ToggleInput, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 60
+        Duration: 0
+        InterpolationType: 0
+        Idx: 12
+        useCharacterInput: 1
+    - rid: 8629601031791312919
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 30
+        Duration: 30
+        InterpolationType: 0
+        Idx: 13
+        StateKey: Fallen
+        ConditionStates:
+        - JointType: 0
+          DefaultKey: 4
+          Key: IsGrounded
+          ValueType: 0
+          ConditionType: 1
+          StringValue: 
+          NumberValue: 0
+          ConsumeInput: 0
+    - rid: 8629601031791312943
+      type: {class: SetGravityFactorActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 0
+        Duration: 36
+        InterpolationType: 0
+        Idx: 14
+        GravityFactor: 0.1
+    - rid: 8629601031791312946
+      type: {class: ToggleGravityActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 0
+        Duration: 60
+        InterpolationType: 0
+        Idx: 17
+        useGravity: 1
+    - rid: 8629601031791312947
+      type: {class: SetGravityFactorActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 36
+        Duration: 18
+        InterpolationType: 0
+        Idx: 15
+        GravityFactor: 0.4
+    - rid: 8629601031791312949
+      type: {class: SetGravityFactorActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 54
+        Duration: 6
+        InterpolationType: 0
+        Idx: 16
+        GravityFactor: 1
+    - rid: 8629601031791312952
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 42
+        Duration: 18
+        InterpolationType: 0
+        Idx: 0
+        StateKey: Dodge
+        ConditionStates:
+        - JointType: 0
+          DefaultKey: 0
+          Key: Inputs
+          ValueType: 4
+          ConditionType: 6
+          StringValue: forward+,forward-,forward+
+          NumberValue: 0
+          ConsumeInput: 0
+        - JointType: 1
+          DefaultKey: 0
+          Key: Inputs
+          ValueType: 4
+          ConditionType: 6
+          StringValue: backward+,backward-,backward+
+          NumberValue: 0
+          ConsumeInput: 0
+        - JointType: 1
+          DefaultKey: 0
+          Key: Inputs
+          ValueType: 4
+          ConditionType: 6
+          StringValue: down+,jump
+          NumberValue: 0
+          ConsumeInput: 0
