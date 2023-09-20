@@ -56,18 +56,7 @@ namespace SimpleActionFramework.Implements
             {
 	            //Add player movement to velocity;
 	            _velocity += CalculateMovementDirection() * movementSpeed;
-
-	            //Handle gravity;
-	            if (!isGrounded && useGravity)
-	            {
-		            currentVerticalSpeed -= gravity * gravityFactor * Time.deltaTime;
-	            }
-	            else
-	            {
-		            if (currentVerticalSpeed <= 0f)
-			            currentVerticalSpeed = 0f;
-	            }
-
+	            
 	            //Handle jumping;
 	            if ((CharacterInput != null) && isGrounded && CharacterInput.IsJumpKeyPressed())
 	            {
@@ -75,13 +64,25 @@ namespace SimpleActionFramework.Implements
 		            currentVerticalSpeed = jumpSpeed;
 		            isGrounded = false;
 	            }
-
-	            //Add vertical velocity;
-	            _velocity += tr.up * currentVerticalSpeed;
-
-	            //Save current velocity for next frame;
+	            
             }
 
+            //Handle gravity;
+            if (!isGrounded && useGravity)
+            {
+	            currentVerticalSpeed -= gravity * gravityFactor * Time.deltaTime;
+            }
+            else
+            {
+	            if (currentVerticalSpeed <= 0f)
+		            currentVerticalSpeed = 0f;
+            }
+
+            //Add vertical velocity;
+            _velocity += tr.up * currentVerticalSpeed;
+
+            //Save current velocity for next frame;
+            
             _velocity += innerVelocity;
             lastVelocity = _velocity;
 
@@ -92,12 +93,7 @@ namespace SimpleActionFramework.Implements
             if (overridenVelocity.magnitude < 0.1f)
 			{
 	            overridenVelocity = Vector3.zero;
-	            gravityFactor = 1f;
 			}
-            else
-            {
-	            gravityFactor = 0.1f;
-            }
             
             innerVelocity = Vector3.zero;
         }
@@ -159,6 +155,12 @@ namespace SimpleActionFramework.Implements
             return lastVelocity;
         }
 
+        //Return only the current movement velocity (without any vertical velocity);
+        public Vector3 GetOverridenVelocity()
+        {
+            return overridenVelocity;
+        }
+
         //Return whether the character is currently grounded;
         public override bool IsGrounded()
         {
@@ -184,6 +186,11 @@ namespace SimpleActionFramework.Implements
 		{
 	        currentVerticalSpeed += spd;
 		}
+
+        public void SetGravityFactor(float factor)
+        {
+	        gravityFactor = factor;
+        }
         
         public void ToggleGravity(bool toggle)
 		{

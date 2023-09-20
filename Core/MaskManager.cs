@@ -110,7 +110,7 @@ namespace SimpleActionFramework.Core
 						continue;
 				}
 
-				var result = mask.Record(other, data.DamageInfo) || other.Record(mask, data.DamageInfo);
+				var result = mask.Record(other, data.DamageInfo);
 				
 				// 필요한 예외 사항은 전부 체크했으므로 이제 충돌 이벤트를 발생시키고 리스트에서 제거한다.
 				if (result)

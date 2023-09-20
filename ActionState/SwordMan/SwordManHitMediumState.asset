@@ -20,8 +20,13 @@ MonoBehaviour:
   - rid: 8629600870051348589
   - rid: 8629600870051348590
   - rid: 8629600870051348644
+  - rid: 8629601031791312941
+  - rid: 8629601031791312948
+  - rid: 8629601031791312945
+  - rid: 8629601031791312972
+  - rid: 8629601031791312973
   actantWrapper:
-  - rid: 8629600870051348644
+  - rid: 8629601031791312973
   references:
     version: 2
     RefIds:
@@ -120,7 +125,7 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 36
         InterpolationType: 0
-        Idx: 0
+        Idx: 6
         MaskType: 4
         Position: {x: 0.14, y: 1.17}
         Size: {x: 1.5, y: 2.14}
@@ -133,3 +138,68 @@ MonoBehaviour:
           Point: {x: 0, y: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
+    - rid: 8629601031791312941
+      type: {class: SetGravityFactorActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 0
+        Duration: 24
+        InterpolationType: 0
+        Idx: 7
+        GravityFactor: 0.1
+    - rid: 8629601031791312945
+      type: {class: ToggleGravityActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 0
+        Duration: 36
+        InterpolationType: 0
+        Idx: 9
+        useGravity: 1
+    - rid: 8629601031791312948
+      type: {class: SetGravityFactorActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 24
+        Duration: 12
+        InterpolationType: 0
+        Idx: 8
+        GravityFactor: 0.7
+    - rid: 8629601031791312972
+      type: {class: ToggleInput, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 0
+        Duration: 36
+        InterpolationType: 0
+        Idx: 0
+        useCharacterInput: 0
+    - rid: 8629601031791312973
+      type: {class: ToggleInput, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 36
+        Duration: 0
+        InterpolationType: 0
+        Idx: 0
+        useCharacterInput: 1

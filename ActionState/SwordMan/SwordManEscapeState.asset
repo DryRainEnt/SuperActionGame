@@ -29,8 +29,10 @@ MonoBehaviour:
   - rid: 8629600870051348614
   - rid: 8629600870051348615
   - rid: 8629600870051348646
+  - rid: 8629601031791312969
+  - rid: 8629601031791312970
   actantWrapper:
-  - rid: 8629600870051348646
+  - rid: 8629601031791312970
   references:
     version: 2
     RefIds:
@@ -268,3 +270,38 @@ MonoBehaviour:
           Point: {x: 0, y: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
+    - rid: 8629601031791312969
+      type: {class: ToggleInput, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 27
+        Duration: 12
+        InterpolationType: 0
+        Idx: 0
+        useCharacterInput: 1
+    - rid: 8629601031791312970
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 27
+        Duration: 12
+        InterpolationType: 0
+        Idx: 0
+        StateKey: Air
+        ConditionStates:
+        - JointType: 0
+          DefaultKey: 4
+          Key: IsGrounded
+          ValueType: 0
+          ConditionType: 0
+          StringValue: 
+          NumberValue: 0
+          ConsumeInput: 0

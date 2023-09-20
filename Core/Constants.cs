@@ -17,6 +17,7 @@ namespace SimpleActionFramework.Core
             { DefaultKeys.VSPEED, "VerticalSpeed"},
             { DefaultKeys.GROUND, "IsGrounded"},
             { DefaultKeys.INTERACTION, "InteractionState"},
+            { DefaultKeys.HP, "CurrentHP"},
             { DefaultKeys.CUSTOM , ""},
         };
     }
@@ -47,6 +48,10 @@ namespace SimpleActionFramework.Core
         /// String
         /// </summary>
         INTERACTION,
+        /// <summary>
+        /// Number
+        /// </summary>
+        HP,
         
         CUSTOM = 999,
     }
