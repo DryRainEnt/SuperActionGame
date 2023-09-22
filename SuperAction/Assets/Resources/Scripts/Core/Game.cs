@@ -35,7 +35,10 @@ public class Game : MonoBehaviour, IEventListener
         
         if (GlobalInputController.Instance.GetInput("reset"))
         {
-            Player.transform.position = Vector3.up * 6;
+            foreach (var actor in RegisteredActors.Values)
+            {
+                actor.ResetPosition();
+            }
         }
     }
 

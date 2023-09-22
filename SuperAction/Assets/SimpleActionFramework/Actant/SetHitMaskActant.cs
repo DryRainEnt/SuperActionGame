@@ -61,6 +61,7 @@ public class SetHitMaskActant : SingleActant
 	
 	public override void OnGUI(Rect position, float scale, float progress)
 	{
+	#if UNITY_EDITOR
 		_mask?.Dispose();
 		_mask = null;
 		
@@ -71,5 +72,6 @@ public class SetHitMaskActant : SingleActant
 			new Rect(pos + ((Mask.Bounds.center.FlipY() - Mask.Bounds.extents) * (scale * 16f)),
 				Mask.Bounds.size * (scale * 16f)), EditorGUIUtility.whiteTexture, ScaleMode.StretchToFill);
 		GUI.color = Color.white; // GUI 색상을 기본값으로 돌려놓기
+	#endif
 	}
 }
