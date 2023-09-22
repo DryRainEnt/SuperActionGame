@@ -30,7 +30,7 @@ MonoBehaviour:
   - rid: 8629601031791313001
   - rid: 8629601031791313002
   actantWrapper:
-  - rid: 8629601031791313002
+  - rid: 8629601031791312921
   references:
     version: 2
     RefIds:
@@ -172,7 +172,7 @@ MonoBehaviour:
         Duration: 5
         InterpolationType: 5
         Idx: 9
-        Velocity: {x: 4, y: 12}
+        Velocity: {x: 7, y: 12}
         RelativeToActor: 1
     - rid: 8629601031791312925
       type: {class: ToggleInput, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}

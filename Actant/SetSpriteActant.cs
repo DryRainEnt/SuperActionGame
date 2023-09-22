@@ -23,6 +23,8 @@ namespace SimpleActionFramework.Actant
 			if (!sprite)
 				return;
 			
+	
+	#if UNITY_EDITOR
 			float xPos = position.width / 2 + (-sprite.rect.width + sprite.pivot.x + offset.x * Constants.DefaultPPU) * scale;
 			float yPos = position.height / 2 + (-sprite.rect.height + sprite.pivot.y + offset.y * Constants.DefaultPPU) * scale;
 
@@ -38,6 +40,7 @@ namespace SimpleActionFramework.Actant
 
 			// 스프라이트 표시
 			GUI.DrawTextureWithTexCoords(spriteRect, sprite.texture, spriteUV);
+	#endif
 		}
 
 		public override void CopyFrom(SingleActant actant)
