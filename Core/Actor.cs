@@ -54,9 +54,10 @@ namespace SimpleActionFramework.Core
                 var prev = _hp;
                 _hp = value;
 
-                if (_hp <= 0 && prev > 0)
+                if (_hp <= 0)
                 {
-                    StartCoroutine(Dead());
+                    if (prev > 0)
+                        StartCoroutine(Dead());
                     _hp = 0;
                 }
                 
