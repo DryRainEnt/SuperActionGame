@@ -35,15 +35,15 @@ namespace SimpleActionFramework.Core
         public Vector2 LastDirection;
         public bool LockDirection;
         public bool IsLeft;
+
+        private Vector2 _initialPosition;
         
         public List<InputRecord> RecordedInputs = new List<InputRecord>();
         
         public int[] HitMaskIds;
         
         public readonly float MaxHP = 100f;
-        
-        private float _hp;
-
+        private float _hp = 100f;
         public float HP
         {
             get => _hp;
@@ -54,14 +54,15 @@ namespace SimpleActionFramework.Core
 
                 if (_hp <= 0)
                 {
-                    //TODO: Die. This is Test code.
-                    _hp = MaxHP;
+                    Dead();
                 }
                 
                 ActionStateMachine.UpdateData(Constants.DefaultDataKeys[DefaultKeys.INPUT], RecordedInputs);
                 MessageSystem.Publish(OnHealthUpdatedEvent.Create(ActorIndex,  prev, _hp));
             }
         }
+
+        public int DeathCount;
 
         private void Initiate()
         {
@@ -79,6 +80,8 @@ namespace SimpleActionFramework.Core
             Game.Instance.RegisteredActors.Add(ActorIndex, this);
             
             ActionStateMachine.UpdateData(Constants.DefaultDataKeys[DefaultKeys.INTERACTION], "Neutral");
+
+            _initialPosition = transform.position;
         }
 
         private void OnEnable()
@@ -97,10 +100,19 @@ namespace SimpleActionFramework.Core
             MessageSystem.Unsubscribe(typeof(OnAttackGuardEvent), this);
         }
 
-        // Start is called before the first frame update
-        void Start()
+        public void ResetPosition()
         {
-        
+            transform.position = _initialPosition;
+            SetVelocity(Vector2.zero);
+            HP = MaxHP;
+        }
+
+        public void Dead()
+        {
+            ResetPosition();
+            DeathCount++;
+
+            MessageSystem.Publish(OnDeathEvent.Create(ActorIndex, DeathCount));
         }
 
         // Update is called once per frame
@@ -114,9 +126,6 @@ namespace SimpleActionFramework.Core
         
             CurrentState = ActionStateMachine.CurrentStateName;
             CurrentFrame = ActionStateMachine.CurrentFrame;
-            
-            if (ActorIndex == 1)
-                Debug.Log($"{_actorController.GetVelocity()} || {_actorController.GetOverridenVelocity()}");
         }
 
         private readonly string[] ActionKeys = new[]
@@ -218,6 +227,8 @@ namespace SimpleActionFramework.Core
             _actorController.ToggleCharacterInput(toggle);
         }
 
+        public bool useCharacterInput => _actorController.useCharacterInput;
+
         #region SpriteSetters
         
         private static readonly int OverlayColor = Shader.PropertyToID("_OverlayColor");
@@ -258,7 +269,7 @@ namespace SimpleActionFramework.Core
                     HP -= info.Damage;
                     
                     var fx = ObjectPoolController.InstantiateObject("DamageTextFX", new PoolParameters(info.Point)) as DamageTextFX;
-                    fx.Initialize(info.Damage.ToString(), knockBack * 3f);
+                    fx.Initialize(info.Damage.ToString(), knockBack);
 
                     Time.timeScale = 0.1f;
                     var _ = new Timer(0.1f)

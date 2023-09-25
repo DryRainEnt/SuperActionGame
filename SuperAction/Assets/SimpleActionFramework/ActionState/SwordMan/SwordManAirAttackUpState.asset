@@ -23,17 +23,55 @@ MonoBehaviour:
   - rid: 8629600870051348562
   - rid: 8629600870051348563
   - rid: 8629601031791312921
+  - rid: 4433509540630364161
   - rid: 8629601031791312925
   - rid: 8629601031791312926
   - rid: 8629601031791312957
   - rid: 8629601031791312958
+  - rid: 4433509540630364160
   - rid: 8629601031791313001
   - rid: 8629601031791313002
   actantWrapper:
-  - rid: 8629601031791312921
+  - rid: 4433509540630364161
   references:
     version: 2
     RefIds:
+    - rid: 4433509540630364160
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 30
+        Duration: 12
+        InterpolationType: 0
+        Idx: 15
+        StateKey: AirAttackDown
+        ConditionStates:
+        - JointType: 0
+          DefaultKey: 0
+          Key: Inputs
+          ValueType: 4
+          ConditionType: 6
+          StringValue: down+,button1+
+          NumberValue: 0
+          ConsumeInput: 1
+    - rid: 4433509540630364161
+      type: {class: AddExternalVelocityActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 15
+        Duration: 6
+        InterpolationType: 5
+        Idx: 10
+        Velocity: {x: 0, y: 5}
+        RelativeToActor: 1
     - rid: 8629600870051348555
       type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
@@ -172,7 +210,7 @@ MonoBehaviour:
         Duration: 5
         InterpolationType: 5
         Idx: 9
-        Velocity: {x: 7, y: 12}
+        Velocity: {x: 12, y: 12}
         RelativeToActor: 1
     - rid: 8629601031791312925
       type: {class: ToggleInput, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
@@ -185,7 +223,7 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 30
         InterpolationType: 0
-        Idx: 10
+        Idx: 11
         useCharacterInput: 0
     - rid: 8629601031791312926
       type: {class: ToggleInput, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
@@ -198,7 +236,7 @@ MonoBehaviour:
         StartFrame: 30
         Duration: 12
         InterpolationType: 0
-        Idx: 11
+        Idx: 12
         useCharacterInput: 1
     - rid: 8629601031791312957
       type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
@@ -211,7 +249,7 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 42
         InterpolationType: 0
-        Idx: 12
+        Idx: 13
         MaskType: 4
         Position: {x: 0, y: 0.96}
         Size: {x: 1.75, y: 2.6}
@@ -235,10 +273,10 @@ MonoBehaviour:
         StartFrame: 12
         Duration: 9
         InterpolationType: 0
-        Idx: 13
+        Idx: 14
         MaskType: 1
-        Position: {x: 1.15, y: 1.76}
-        Size: {x: 1.42, y: 4.28}
+        Position: {x: 1, y: 2}
+        Size: {x: 2, y: 4}
         Info:
           Damage: 9
           GuardDamage: 0
@@ -259,7 +297,7 @@ MonoBehaviour:
         StartFrame: 30
         Duration: 12
         InterpolationType: 0
-        Idx: 14
+        Idx: 16
         StateKey: AirAttackNeutral
         ConditionStates:
         - JointType: 0
@@ -289,7 +327,7 @@ MonoBehaviour:
         StartFrame: 38
         Duration: 4
         InterpolationType: 0
-        Idx: 15
+        Idx: 17
         StateKey: Jump
         ConditionStates:
         - JointType: 0

@@ -44,6 +44,9 @@ namespace SimpleActionFramework.Core
                 if (States.TryGetValue("Passive", out var state))
                     return _passiveState = state;
                 
+                
+	
+	#if UNITY_EDITOR
                 var newName = $"{name}PassiveState";
                 ActionState newState = CreateInstance<ActionState>();
                 string path = $"Assets/SimpleActionFramework/ActionState/{name}";
@@ -55,6 +58,7 @@ namespace SimpleActionFramework.Core
                 AssetDatabase.Refresh();
                     
                 _passiveState = newState;
+	#endif
 
                 return _passiveState;
             }
