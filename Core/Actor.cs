@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CMF;
 using Proto.BasicExtensionUtils;
 using Proto.EventSystem;
 using Proto.PoolingSystem;
+using Resources.Scripts;
 using Resources.Scripts.Events;
 using SimpleActionFramework.Implements;
 using Sirenix.OdinInspector;
@@ -14,7 +16,18 @@ namespace SimpleActionFramework.Core
     public class Actor : MonoBehaviour, IEventListener
     {
         public int ActorIndex;
-        public Color Color;
+        [SerializeField]
+        private Color _color;
+
+        public Color Color
+        {
+            get => _color;
+            private set
+            {
+                _color = value;
+                SpriteRenderer.color = _color;
+            }
+        }
         
         [SerializeField]
         public ActionStateMachine ActionStateMachine;
@@ -38,11 +51,13 @@ namespace SimpleActionFramework.Core
         public bool LockDirection;
         public bool IsLeft;
 
-        private Vector2 _initialPosition;
+        private Vector2? _initialPosition;
         
         public List<InputRecord> RecordedInputs = new List<InputRecord>();
         
         public int[] HitMaskIds;
+        
+        public bool isAlive => HP > 0;
         
         public readonly float MaxHP = 100f;
         private float _hp = 100f;
@@ -61,10 +76,24 @@ namespace SimpleActionFramework.Core
                     _hp = 0;
                 }
                 
-                ActionStateMachine.UpdateData(Constants.DefaultDataKeys[DefaultKeys.INPUT], RecordedInputs);
+                ActionStateMachine.UpdateData(Constants.DefaultDataKeys[DefaultKeys.HP], _hp);
                 MessageSystem.Publish(OnHealthUpdatedEvent.Create(ActorIndex,  prev, _hp));
             }
         }
+
+        private Vector2 _positionCache;
+        public Vector2 Position 
+        {
+            set
+            {
+                _prevPosition = Position;
+                _positionCache = value;
+            }
+            get => _positionCache;
+        }
+        private Vector2 _prevPosition;
+        
+        public Vector2 Velocity => Position - _prevPosition;
 
         public int DeathCount;
 
@@ -86,7 +115,7 @@ namespace SimpleActionFramework.Core
             
             ActionStateMachine.UpdateData(Constants.DefaultDataKeys[DefaultKeys.INTERACTION], "Neutral");
 
-            _initialPosition = transform.position;
+            _initialPosition ??= Position;
         }
 
         private void OnEnable()
@@ -106,12 +135,12 @@ namespace SimpleActionFramework.Core
             MessageSystem.Unsubscribe(typeof(OnAttackHitEvent), this);
             MessageSystem.Unsubscribe(typeof(OnAttackGuardEvent), this);
             
-            Game.Instance.RegisteredActors.Remove(ActorIndex);
+            Game.Instance?.RegisteredActors?.Remove(ActorIndex);
         }
 
         public void ResetPosition()
         {
-            transform.position = _initialPosition;
+            transform.position = _initialPosition.Value;
             SetVelocity(Vector2.zero);
             HP = MaxHP;
         }
@@ -125,24 +154,30 @@ namespace SimpleActionFramework.Core
 
             MessageSystem.Publish(OnDeathEvent.Create(ActorIndex, DeathCount));
             
-            var fx = ObjectPoolController.InstantiateObject("DeathFX", new PoolParameters(transform.position)) as DeathFX;
+            var fx = ObjectPoolController.InstantiateObject("DeathFX", new PoolParameters(Position)) as DeathFX;
             fx.Initialize(Color);
             
             gameObject.SetActive(false);
             
             Timer timer = new Timer(2f)
             {
-                Alarm = () =>
-                {
-                    OnRevive();
-                    gameObject.SetActive(true);
-                }
+                Alarm = Revive
             };
         }
 
-        public void OnRevive()
+        public void Revive()
         {
+            Game.Instance.StartCoroutine(OnRevive());
+        }
+        
+        private IEnumerator OnRevive()
+        {
+            while (Game.IsWriting)
+            {
+                yield return null;
+            }
             ResetPosition();
+            gameObject.SetActive(true);
         }
 
         // Update is called once per frame
@@ -156,6 +191,8 @@ namespace SimpleActionFramework.Core
         
             CurrentState = ActionStateMachine.CurrentStateName;
             CurrentFrame = ActionStateMachine.CurrentFrame;
+
+            Position = transform.position;
         }
 
         private readonly string[] ActionKeys = new[]
@@ -177,9 +214,21 @@ namespace SimpleActionFramework.Core
         private void InputUpdate()
         {
             RecordedInputs.Sort();
-            foreach (var key in ActionKeys)
+            if (_actorController.CharacterInput is CharacterArtificialInput ai)
             {
-                _actorController.CharacterInput.InputCheck(this, key);
+                Color = ai.UseAI ? Color.red : Color.yellow;
+                _actorController.CharacterInput.InputCheck(this, null);
+            }
+            else if (_actorController.CharacterInput is CharacterKeyboardInput or CharacterJoystickInput)
+            {
+                foreach (var key in ActionKeys)
+                {
+                    _actorController.CharacterInput.InputCheck(this, key);
+                }
+            }
+            else
+            {
+                Color = Color.white;
             }
             RecordedInputs.Sort();
 
@@ -188,7 +237,12 @@ namespace SimpleActionFramework.Core
                 RecordedInputs.RemoveAt(RecordedInputs.Count - 1);
             }
             
-            ActionStateMachine.UpdateData(Constants.DefaultDataKeys[DefaultKeys.INPUT], RecordedInputs);
+            if (isAlive)
+                ActionStateMachine.UpdateData(Constants.DefaultDataKeys[DefaultKeys.INPUT], RecordedInputs);
+            else
+            {
+                RecordedInputs.Clear();
+            }
 
             ActionStateMachine.UpdateData(Constants.DefaultDataKeys[DefaultKeys.MOVE], 
                 _actorController.GetMovementVelocity().x.Abs() < Constants.Epsilon ? 0f : _actorController.GetMovementVelocity().x.Sign());
