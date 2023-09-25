@@ -19,7 +19,10 @@ public class Game : MonoBehaviour, IEventListener
     [SerializeField]
     private UnityEngine.UI.Text _debugText;
 
-    public Vector2Int ScreenResolution = new Vector2Int(1280, 720);
+    [SerializeField]
+    private TMPro.TMP_Text _fpsText;
+
+    public Vector2Int ScreenResolution => new Vector2Int(1280, 720) * ScreenResolutionFactor;
     public int ScreenResolutionFactor = 1;
     
     // Start is called before the first frame update
@@ -48,8 +51,11 @@ public class Game : MonoBehaviour, IEventListener
             ScreenResolutionFactor++;
             if (ScreenResolutionFactor > 3)
                 ScreenResolutionFactor = 1;
+            Debug.Log(ScreenResolution);
             Screen.SetResolution(ScreenResolution.x, ScreenResolution.y, false);
         }
+        
+        _fpsText.text = $"{Mathf.Round((Time.unscaledDeltaTime > 0f ? 1f / Time.unscaledDeltaTime : 0f) * 100f) * 0.01f : 00.00} fps";
     }
 
     private void FixedUpdate()
