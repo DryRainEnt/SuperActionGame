@@ -199,6 +199,7 @@ MonoBehaviour:
           KnockbackPower: 0
           GuardCrash: 0
           Point: {x: 0, y: 0}
+          Color: {r: 0, g: 0, b: 0, a: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
     - rid: 8629601031791312917
@@ -315,6 +316,14 @@ MonoBehaviour:
         Idx: 18
         StateKey: Dodge
         ConditionStates:
+        - JointType: 0
+          DefaultKey: 6
+          Key: CurrentHP
+          ValueType: 0
+          ConditionType: 2
+          StringValue: down+,jump
+          NumberValue: 0
+          ConsumeInput: 0
         - JointType: 0
           DefaultKey: 0
           Key: Inputs

@@ -87,6 +87,7 @@ public class GlobalInputController : MonoBehaviour
         {"button4", "kb_semicolon"},
         {"jump", "kb_space"},
         {"reset", "kb_r"},
+        {"resize", "kb_f5"}
     };
     
     private InputMapDictionary _gamepadInputMap = new InputMapDictionary()
@@ -101,6 +102,7 @@ public class GlobalInputController : MonoBehaviour
         {"button4", "gp_rightShoulder"},
         {"jump", "gp_buttonSouth"},
         {"reset", "gp_start"},
+        {"resize", "kb_f5"}
     };
 
     private StringBuilder _stringBuilder;

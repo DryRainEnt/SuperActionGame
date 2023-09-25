@@ -12,13 +12,15 @@ public class Game : MonoBehaviour, IEventListener
     private static Game _instance;
     public static Game Instance => _instance ? _instance : FindObjectOfType<Game>();
     
-    
     public Actor Player;
     
     public Dictionary<int, Actor> RegisteredActors = new Dictionary<int, Actor>();
     
     [SerializeField]
     private UnityEngine.UI.Text _debugText;
+
+    public Vector2Int ScreenResolution = new Vector2Int(1280, 720);
+    public int ScreenResolutionFactor = 1;
     
     // Start is called before the first frame update
     void Start()
@@ -39,6 +41,14 @@ public class Game : MonoBehaviour, IEventListener
             {
                 actor.ResetPosition();
             }
+        }
+
+        if (GlobalInputController.Instance.GetPressed("resize"))
+        {
+            ScreenResolutionFactor++;
+            if (ScreenResolutionFactor > 3)
+                ScreenResolutionFactor = 1;
+            Screen.SetResolution(ScreenResolution.x, ScreenResolution.y, false);
         }
     }
 

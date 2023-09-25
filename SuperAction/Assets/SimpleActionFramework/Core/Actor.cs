@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Proto.BasicExtensionUtils;
@@ -13,6 +14,7 @@ namespace SimpleActionFramework.Core
     public class Actor : MonoBehaviour, IEventListener
     {
         public int ActorIndex;
+        public Color Color;
         
         [SerializeField]
         public ActionStateMachine ActionStateMachine;
@@ -52,9 +54,10 @@ namespace SimpleActionFramework.Core
                 var prev = _hp;
                 _hp = value;
 
-                if (_hp <= 0)
+                if (_hp <= 0 && prev > 0)
                 {
-                    Dead();
+                    StartCoroutine(Dead());
+                    _hp = 0;
                 }
                 
                 ActionStateMachine.UpdateData(Constants.DefaultDataKeys[DefaultKeys.INPUT], RecordedInputs);
@@ -67,6 +70,7 @@ namespace SimpleActionFramework.Core
         private void Initiate()
         {
             _actorController = GetComponent<ActorController>();
+            SpriteRenderer.color = Color;
         
             ActionStateMachine = Instantiate(ActionStateMachine);
             ActionStateMachine.Init(this);
@@ -89,6 +93,8 @@ namespace SimpleActionFramework.Core
             Initiate();
 
             ObjectPoolController.GetOrCreate("DamageTextFX", "Effects");
+            ObjectPoolController.GetOrCreate("SlashFX", "Effects");
+            ObjectPoolController.GetOrCreate("DeathFX", "Effects");
             
             MessageSystem.Subscribe(typeof(OnAttackHitEvent), this);
             MessageSystem.Subscribe(typeof(OnAttackGuardEvent), this);
@@ -98,6 +104,8 @@ namespace SimpleActionFramework.Core
         {
             MessageSystem.Unsubscribe(typeof(OnAttackHitEvent), this);
             MessageSystem.Unsubscribe(typeof(OnAttackGuardEvent), this);
+            
+            Game.Instance.RegisteredActors.Remove(ActorIndex);
         }
 
         public void ResetPosition()
@@ -107,12 +115,33 @@ namespace SimpleActionFramework.Core
             HP = MaxHP;
         }
 
-        public void Dead()
+        private IEnumerator Dead()
         {
-            ResetPosition();
+            while (CurrentState != "Lying")
+                yield return null;
+            
             DeathCount++;
 
             MessageSystem.Publish(OnDeathEvent.Create(ActorIndex, DeathCount));
+            
+            var fx = ObjectPoolController.InstantiateObject("DeathFX", new PoolParameters(transform.position)) as DeathFX;
+            fx.Initialize(Color);
+            
+            gameObject.SetActive(false);
+            
+            Timer timer = new Timer(2f)
+            {
+                Alarm = () =>
+                {
+                    OnRevive();
+                    gameObject.SetActive(true);
+                }
+            };
+        }
+
+        public void OnRevive()
+        {
+            ResetPosition();
         }
 
         // Update is called once per frame
@@ -260,16 +289,19 @@ namespace SimpleActionFramework.Core
                 {
                     var isLeft = giver.IsLeft;
                     var knockBack = info.Direction.normalized.doFlipX(isLeft) * 4f;
-                    ActionStateMachine.SetState(info.NextStateOnSuccessToReceiver);
+
+                    HP -= info.Damage;
+                    ActionStateMachine.SetState(HP > 0 ? info.NextStateOnSuccessToReceiver : "HitLarge");
                     SetVelocity(Vector2.zero);
                     SetVerticalSpeed(0f);
                     AddExternalVelocity(knockBack * info.KnockbackPower);
                     LookDirection(-giver.LastDirection.x);
-
-                    HP -= info.Damage;
                     
                     var fx = ObjectPoolController.InstantiateObject("DamageTextFX", new PoolParameters(info.Point)) as DamageTextFX;
                     fx.Initialize(info.Damage.ToString(), knockBack);
+                    
+                    var slashfx = ObjectPoolController.InstantiateObject("SlashFX", new PoolParameters(info.Point)) as SlashFX;
+                    slashfx.Initialize(info.Damage * 0.03f, knockBack, info.Color);
 
                     Time.timeScale = 0.1f;
                     var _ = new Timer(0.1f)

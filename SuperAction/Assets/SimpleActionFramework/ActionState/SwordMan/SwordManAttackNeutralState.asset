@@ -34,7 +34,7 @@ MonoBehaviour:
   - rid: 8629601031791312907
   - rid: 8629601031791312936
   actantWrapper:
-  - rid: 8629601031791312936
+  - rid: 8629600936846426114
   references:
     version: 2
     RefIds:
@@ -144,6 +144,7 @@ MonoBehaviour:
           KnockbackPower: 0
           GuardCrash: 0
           Point: {x: 0, y: 0}
+          Color: {r: 0, g: 0, b: 0, a: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
     - rid: 8629600936846426113
@@ -168,6 +169,7 @@ MonoBehaviour:
           KnockbackPower: 0
           GuardCrash: 0
           Point: {x: 0, y: 0}
+          Color: {r: 0, g: 0, b: 0, a: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
     - rid: 8629600936846426114
@@ -188,10 +190,11 @@ MonoBehaviour:
         Info:
           Damage: 5
           GuardDamage: 0
-          Direction: {x: 0, y: 0}
-          KnockbackPower: 0
+          Direction: {x: 4, y: 3}
+          KnockbackPower: 8
           GuardCrash: 0
           Point: {x: 0, y: 0}
+          Color: {r: 0, g: 0, b: 0, a: 0}
           NextStateOnSuccessToSelf: HitSuccess
           NextStateOnSuccessToReceiver: HitSmall
     - rid: 8629600936846426115
@@ -216,6 +219,7 @@ MonoBehaviour:
           KnockbackPower: 0
           GuardCrash: 0
           Point: {x: 0, y: 0}
+          Color: {r: 0, g: 0, b: 0, a: 0}
           NextStateOnSuccessToSelf: GuardSuccess
           NextStateOnSuccessToReceiver: HitFail
     - rid: 8629600936846426116
@@ -439,7 +443,7 @@ MonoBehaviour:
         StartFrame: 24
         Duration: 0
         InterpolationType: 0
-        Idx: 0
+        Idx: 19
         DefaultKey: 5
         Key: InteractionState
         ValueType: 1

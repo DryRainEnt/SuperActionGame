@@ -16,8 +16,9 @@ MonoBehaviour:
   - rid: 8629601031791312965
   - rid: 8629601031791312967
   - rid: 8629601031791312968
+  - rid: 8629601144650072065
   actantWrapper:
-  - rid: 8629601031791312968
+  - rid: 8629601144650072065
   references:
     version: 2
     RefIds:
@@ -46,7 +47,7 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 30
         InterpolationType: 0
-        Idx: 0
+        Idx: 1
         StateKey: Escape
         ConditionStates:
         - JointType: 0
@@ -76,5 +77,27 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 30
         InterpolationType: 0
-        Idx: 0
-        useCharacterInput: 0
+        Idx: 2
+        useCharacterInput: 1
+    - rid: 8629601144650072065
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 30
+        Duration: 0
+        InterpolationType: 0
+        Idx: 3
+        StateKey: Escape
+        ConditionStates:
+        - JointType: 0
+          DefaultKey: 6
+          Key: CurrentHP
+          ValueType: 0
+          ConditionType: 2
+          StringValue: 
+          NumberValue: 0
+          ConsumeInput: 0

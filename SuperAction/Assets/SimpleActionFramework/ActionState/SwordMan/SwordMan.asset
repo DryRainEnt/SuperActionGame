@@ -57,4 +57,5 @@ MonoBehaviour:
     - {fileID: 11400000, guid: aad7d10b57f77454d8231916d1523625, type: 2}
     - {fileID: 11400000, guid: 747dfe12022830243964d43e57b0253f, type: 2}
     - {fileID: 11400000, guid: 7ef89e9584bd5174b951d876fae4f702, type: 2}
+  CurrentStateName: 
   DefaultStateName: Idle
