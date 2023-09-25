@@ -33,7 +33,7 @@ MonoBehaviour:
   - rid: 8629601031791312996
   - rid: 8629601031791312997
   actantWrapper:
-  - rid: 8629601031791312996
+  - rid: 8629601031791312988
   references:
     version: 2
     RefIds:
@@ -299,7 +299,7 @@ MonoBehaviour:
         Duration: 3
         InterpolationType: 7
         Idx: 14
-        Velocity: {x: 1, y: 1}
+        Velocity: {x: 11, y: 1}
         RelativeToActor: 1
     - rid: 8629601031791312994
       type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}

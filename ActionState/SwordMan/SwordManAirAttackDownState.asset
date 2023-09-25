@@ -368,7 +368,7 @@ MonoBehaviour:
           timeStamp: 0
         StartFrame: 3
         Duration: 12
-        InterpolationType: 7
-        Idx: 0
-        Velocity: {x: 0, y: 0}
+        InterpolationType: 5
+        Idx: 19
+        Velocity: {x: 0, y: 4}
         RelativeToActor: 1

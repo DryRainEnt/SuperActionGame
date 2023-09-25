@@ -31,13 +31,74 @@ MonoBehaviour:
   - rid: 8629600936846426138
   - rid: 8629600936846426139
   - rid: 8629600936846426140
-  - rid: 8629601031791312906
+  - rid: 4433509540630364162
   - rid: 8629601031791312938
+  - rid: 4433509540630364163
   actantWrapper:
-  - rid: 8629600936846426134
+  - rid: 4433509540630364163
   references:
     version: 2
     RefIds:
+    - rid: 4433509540630364162
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 27
+        Duration: 18
+        InterpolationType: 0
+        Idx: 18
+        StateKey: AttackUp
+        ConditionStates:
+        - JointType: 0
+          DefaultKey: 5
+          Key: InteractionState
+          ValueType: 1
+          ConditionType: 0
+          StringValue: HitSuccess
+          NumberValue: 0
+          ConsumeInput: 1
+        - JointType: 0
+          DefaultKey: 0
+          Key: Inputs
+          ValueType: 4
+          ConditionType: 6
+          StringValue: up+,button1+
+          NumberValue: 0
+          ConsumeInput: 1
+    - rid: 4433509540630364163
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 39
+        Duration: 6
+        InterpolationType: 0
+        Idx: 0
+        StateKey: Move
+        ConditionStates:
+        - JointType: 0
+          DefaultKey: 5
+          Key: InteractionState
+          ValueType: 1
+          ConditionType: 0
+          StringValue: HitSuccess
+          NumberValue: 0
+          ConsumeInput: 0
+        - JointType: 0
+          DefaultKey: 1
+          Key: MoveDirection
+          ValueType: 0
+          ConditionType: 1
+          StringValue: HitSuccess
+          NumberValue: 0
+          ConsumeInput: 0
     - rid: 8629600870051348524
       type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
@@ -131,7 +192,7 @@ MonoBehaviour:
           actantId: 0
           timeStamp: 0
         StartFrame: 24
-        Duration: 3
+        Duration: 6
         InterpolationType: 0
         Idx: 6
         sprite: {fileID: -2003258773407645555, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
@@ -144,8 +205,8 @@ MonoBehaviour:
           actionId: 0
           actantId: 0
           timeStamp: 0
-        StartFrame: 27
-        Duration: 6
+        StartFrame: 30
+        Duration: 9
         InterpolationType: 0
         Idx: 7
         sprite: {fileID: -1039276145558006013, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
@@ -158,7 +219,7 @@ MonoBehaviour:
           actionId: 0
           actantId: 0
           timeStamp: 0
-        StartFrame: 33
+        StartFrame: 39
         Duration: 6
         InterpolationType: 0
         Idx: 8
@@ -197,7 +258,7 @@ MonoBehaviour:
           actantId: 0
           timeStamp: 0
         StartFrame: 15
-        Duration: 24
+        Duration: 30
         InterpolationType: 0
         Idx: 10
         MaskType: 4
@@ -283,8 +344,8 @@ MonoBehaviour:
           actionId: 0
           actantId: 0
           timeStamp: 0
-        StartFrame: 27
-        Duration: 12
+        StartFrame: 36
+        Duration: 9
         InterpolationType: 0
         Idx: 15
         useCharacterInput: 1
@@ -297,7 +358,7 @@ MonoBehaviour:
           actantId: 0
           timeStamp: 0
         StartFrame: 27
-        Duration: 12
+        Duration: 18
         InterpolationType: 0
         Idx: 16
         StateKey: Air
@@ -327,7 +388,7 @@ MonoBehaviour:
           actantId: 0
           timeStamp: 0
         StartFrame: 27
-        Duration: 12
+        Duration: 18
         InterpolationType: 0
         Idx: 17
         StateKey: Dodge
@@ -348,36 +409,6 @@ MonoBehaviour:
           StringValue: backward+,forward-,forward+
           NumberValue: 0
           ConsumeInput: 0
-    - rid: 8629601031791312906
-      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
-      data:
-        id:
-          machineId: 0
-          actionId: 0
-          actantId: 0
-          timeStamp: 0
-        StartFrame: 27
-        Duration: 12
-        InterpolationType: 0
-        Idx: 18
-        StateKey: Move
-        ConditionStates:
-        - JointType: 0
-          DefaultKey: 5
-          Key: InteractionState
-          ValueType: 1
-          ConditionType: 0
-          StringValue: HitSuccess
-          NumberValue: 0
-          ConsumeInput: 0
-        - JointType: 0
-          DefaultKey: 1
-          Key: MoveDirection
-          ValueType: 0
-          ConditionType: 1
-          StringValue: HitSuccess
-          NumberValue: 0
-          ConsumeInput: 0
     - rid: 8629601031791312938
       type: {class: SetStateDataActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
@@ -386,7 +417,7 @@ MonoBehaviour:
           actionId: 0
           actantId: 0
           timeStamp: 0
-        StartFrame: 39
+        StartFrame: 45
         Duration: 0
         InterpolationType: 0
         Idx: 19
