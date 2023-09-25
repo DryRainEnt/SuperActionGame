@@ -21,8 +21,7 @@ namespace SimpleActionFramework.Core
         private Dictionary<SingleActant, IDisposable> _disposables = new Dictionary<SingleActant, IDisposable>();
         public Dictionary<SingleActant, IDisposable> Disposables => _disposables;
 
-        public string CurrentStateName
-            => CurrentState ? CurrentState.name : "NullState";
+        public string CurrentStateName = "null";
 
         public string DefaultStateName;
         public ActionState CurrentState { get; private set; }
@@ -148,6 +147,7 @@ namespace SimpleActionFramework.Core
             Flush();
             Actor.LockDirection = false;
             Actor.SetGravityFactor();
+            CurrentStateName = stateName;
             
             CurrentState = targetState;
             ResetState();

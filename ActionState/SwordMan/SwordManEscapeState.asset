@@ -27,12 +27,13 @@ MonoBehaviour:
   - rid: 8629600870051348612
   - rid: 8629600870051348613
   - rid: 8629600870051348614
-  - rid: 8629600870051348615
   - rid: 8629600870051348646
   - rid: 8629601031791312969
   - rid: 8629601031791312970
+  - rid: 8629601144650072066
+  - rid: 8629601144650072067
   actantWrapper:
-  - rid: 8629601031791312970
+  - rid: 8629601144650072067
   references:
     version: 2
     RefIds:
@@ -232,20 +233,6 @@ MonoBehaviour:
         Idx: 13
         sprite: {fileID: -7095672025842006662, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
         offset: {x: 0, y: 0}
-    - rid: 8629600870051348615
-      type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
-      data:
-        id:
-          machineId: 0
-          actionId: 0
-          actantId: 0
-          timeStamp: 0
-        StartFrame: 36
-        Duration: 3
-        InterpolationType: 0
-        Idx: 14
-        sprite: {fileID: -680263142772914598, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
-        offset: {x: 0, y: 0}
     - rid: 8629600870051348646
       type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
       data:
@@ -255,9 +242,9 @@ MonoBehaviour:
           actantId: 0
           timeStamp: 0
         StartFrame: 27
-        Duration: 12
+        Duration: 9
         InterpolationType: 0
-        Idx: 15
+        Idx: 14
         MaskType: 4
         Position: {x: -0.32, y: 0.84}
         Size: {x: 2.45, y: 1.65}
@@ -268,6 +255,7 @@ MonoBehaviour:
           KnockbackPower: 0
           GuardCrash: 0
           Point: {x: 0, y: 0}
+          Color: {r: 0, g: 0, b: 0, a: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
     - rid: 8629601031791312969
@@ -279,9 +267,9 @@ MonoBehaviour:
           actantId: 0
           timeStamp: 0
         StartFrame: 27
-        Duration: 12
+        Duration: 9
         InterpolationType: 0
-        Idx: 0
+        Idx: 15
         useCharacterInput: 1
     - rid: 8629601031791312970
       type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
@@ -292,9 +280,9 @@ MonoBehaviour:
           actantId: 0
           timeStamp: 0
         StartFrame: 27
-        Duration: 12
+        Duration: 9
         InterpolationType: 0
-        Idx: 0
+        Idx: 16
         StateKey: Air
         ConditionStates:
         - JointType: 0
@@ -305,3 +293,31 @@ MonoBehaviour:
           StringValue: 
           NumberValue: 0
           ConsumeInput: 0
+    - rid: 8629601144650072066
+      type: {class: SetVelocityActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 9
+        Duration: 6
+        InterpolationType: 7
+        Idx: 17
+        Velocity: {x: 32, y: 0}
+        RelativeToActor: 1
+    - rid: 8629601144650072067
+      type: {class: SetVelocityActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 15
+        Duration: 12
+        InterpolationType: 2
+        Idx: 0
+        Velocity: {x: 32, y: 0}
+        RelativeToActor: 1

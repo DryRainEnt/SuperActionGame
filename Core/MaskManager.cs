@@ -103,6 +103,7 @@ namespace SimpleActionFramework.Core
 						HitDataList.Insert(0, data);
 						data.DamageInfo = mask.Info;
 						data.DamageInfo.Point = (mask.Bounds.center + other.Bounds.center) / 2f;
+						data.DamageInfo.Color = mask.Owner.Color;
 						e = OnAttackHitEvent.Create(data);
 						break;
 					default:

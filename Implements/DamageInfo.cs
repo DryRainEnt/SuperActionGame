@@ -14,6 +14,8 @@ public struct DamageInfo
     public float GuardCrash;
     public Vector2 Point;
 
+    public Color Color;
+
     /// <summary>
     /// 상대를 향한 의도가 적중했을 때, 자신에게 기록할 다음 상태
     /// </summary>
