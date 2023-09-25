@@ -83,16 +83,15 @@ namespace SimpleActionFramework.Core
 					// 1. 공격자와 피격자가 서로 같고
 					// 2. 한 쪽이 Guard, 나머지가 Hit일 때
 					// => Hit판정을 제거하고 Guard판정을 남긴다.
-					case MaskType.Guard 
-				    when HitDataList.Exists(hit
-						=> mask.Owner == hit.GiverMask.Owner
-						   && other.Owner == hit.ReceiverMask.Owner
-						   && hit.ReceiverMask.Type == MaskType.Hit):
-						HitDataList.RemoveAll(hit => other.Owner == hit.ReceiverMask.Owner && hit.ReceiverMask.Type == MaskType.Hit);
+					case MaskType.Guard :
+						HitDataList.RemoveAll(hit => mask.Owner == hit.GiverMask.Owner
+						                             && other.Owner == hit.ReceiverMask.Owner
+						                             && hit.ReceiverMask.Type == MaskType.Hit);
 						data.DamageInfo = other.Info;
 						data.DamageInfo.Point = (mask.Bounds.center + other.Bounds.center) / 2f;
+						data.DamageInfo.Color = other.Owner.Color;
 						e = OnAttackGuardEvent.Create(data);
-						continue;
+						break;
 					// 중복된 Hit판정에 대해 하나만 남기는 경우
 					// 서로 다른 두 충돌에 대해서
 					// 1. 공격자와 피격자가 서로 같고
@@ -111,13 +110,10 @@ namespace SimpleActionFramework.Core
 						continue;
 				}
 
-				var result = mask.Record(other, data.DamageInfo);
+				mask.Record(other, data.DamageInfo);
+				other.Record(mask, data.DamageInfo);
 				
-				// 필요한 예외 사항은 전부 체크했으므로 이제 충돌 이벤트를 발생시키고 리스트에서 제거한다.
-				if (result)
-				{
-					MessageSystem.Publish(e);
-				}
+				MessageSystem.Publish(e);
 				
 				HitDataList.RemoveAt(0);
 			}

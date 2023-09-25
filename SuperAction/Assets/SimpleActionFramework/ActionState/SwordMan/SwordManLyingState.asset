@@ -18,7 +18,7 @@ MonoBehaviour:
   - rid: 8629601031791312968
   - rid: 8629601144650072065
   actantWrapper:
-  - rid: 8629601144650072065
+  - rid: 8629601031791312968
   references:
     version: 2
     RefIds:
@@ -78,7 +78,7 @@ MonoBehaviour:
         Duration: 30
         InterpolationType: 0
         Idx: 2
-        useCharacterInput: 1
+        useCharacterInput: 0
     - rid: 8629601144650072065
       type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:

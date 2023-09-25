@@ -33,7 +33,7 @@ public class ActorUIField : MonoBehaviour, IEventListener
         var dt = Time.deltaTime;
         PrevBar.fillAmount = Mathf.Lerp(PrevBar.fillAmount, HPBar.fillAmount, dt);
 
-        _frameDataQueue.Insert(0, _targetActor.useCharacterInput ? "O__" : "__X");
+        _frameDataQueue.Insert(0, _targetActor.useCharacterInput ? "<#00aa00>O__</color>" : "<#aa0000>__X</color>");
         if (_frameDataQueue.Count > 0)
         {
             FrameDataText.text = string.Join("\n", _frameDataQueue);
@@ -59,7 +59,7 @@ public class ActorUIField : MonoBehaviour, IEventListener
             if (de.ActorIndex != TargetActorIndex)
                 return false;
             
-            DeathCountText.text = $"Deaths: {de.NewDeathCount}";
+            DeathCountText.text = $"{de.NewDeathCount}";
             return true;
         }
         return false;

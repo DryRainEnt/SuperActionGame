@@ -36,7 +36,7 @@ MonoBehaviour:
   - rid: 8629601031791312912
   - rid: 8629601031791312939
   actantWrapper:
-  - rid: 8629601031791312900
+  - rid: 8629601031791312901
   references:
     version: 2
     RefIds:
@@ -203,21 +203,22 @@ MonoBehaviour:
           actantId: 0
           timeStamp: 0
         StartFrame: 0
-        Duration: 15
+        Duration: 16
         InterpolationType: 0
         Idx: 11
         MaskType: 2
-        Position: {x: 0.34, y: 1.34}
-        Size: {x: 2.15, y: 2.61}
+        Position: {x: 0.28, y: 1.34}
+        Size: {x: 2.58, y: 3.19}
         Info:
           Damage: 0
           GuardDamage: 0
-          Direction: {x: 0, y: 0}
-          KnockbackPower: 0
+          Direction: {x: -3, y: 0}
+          KnockbackPower: 8
           GuardCrash: 0
           Point: {x: 0, y: 0}
+          Color: {r: 0, g: 0, b: 0, a: 0}
           NextStateOnSuccessToSelf: GuardSuccess
-          NextStateOnSuccessToReceiver: HitFailed
+          NextStateOnSuccessToReceiver: HitSmall
     - rid: 8629601031791312900
       type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
@@ -262,6 +263,7 @@ MonoBehaviour:
           KnockbackPower: 32
           GuardCrash: 0
           Point: {x: 0, y: 0}
+          Color: {r: 0, g: 0, b: 0, a: 0}
           NextStateOnSuccessToSelf: HitSuccess
           NextStateOnSuccessToReceiver: HitLarge
     - rid: 8629601031791312902
@@ -286,6 +288,7 @@ MonoBehaviour:
           KnockbackPower: 0
           GuardCrash: 0
           Point: {x: 0, y: 0}
+          Color: {r: 0, g: 0, b: 0, a: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
     - rid: 8629601031791312903
@@ -310,6 +313,7 @@ MonoBehaviour:
           KnockbackPower: 0
           GuardCrash: 0
           Point: {x: 0, y: 0}
+          Color: {r: 0, g: 0, b: 0, a: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
     - rid: 8629601031791312908

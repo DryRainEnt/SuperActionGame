@@ -25,7 +25,6 @@ MonoBehaviour:
   - rid: 8629600870051348600
   - rid: 8629600870051348645
   - rid: 8629601031791312917
-  - rid: 8629601031791312918
   - rid: 8629601031791312919
   - rid: 8629601031791312943
   - rid: 8629601031791312947
@@ -33,7 +32,7 @@ MonoBehaviour:
   - rid: 8629601031791312946
   - rid: 8629601031791312952
   actantWrapper:
-  - rid: 8629601031791312919
+  - rid: 8629601031791312918
   references:
     version: 2
     RefIds:
@@ -227,7 +226,7 @@ MonoBehaviour:
         Duration: 12
         InterpolationType: 0
         Idx: 12
-        useCharacterInput: 1
+        useCharacterInput: 0
     - rid: 8629601031791312919
       type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
@@ -239,7 +238,7 @@ MonoBehaviour:
         StartFrame: 24
         Duration: 36
         InterpolationType: 0
-        Idx: 13
+        Idx: 12
         StateKey: Fallen
         ConditionStates:
         - JointType: 0
@@ -261,7 +260,7 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 36
         InterpolationType: 0
-        Idx: 14
+        Idx: 13
         GravityFactor: 0.1
     - rid: 8629601031791312946
       type: {class: ToggleGravityActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
@@ -274,7 +273,7 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 60
         InterpolationType: 0
-        Idx: 17
+        Idx: 16
         useGravity: 1
     - rid: 8629601031791312947
       type: {class: SetGravityFactorActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
@@ -287,7 +286,7 @@ MonoBehaviour:
         StartFrame: 36
         Duration: 18
         InterpolationType: 0
-        Idx: 15
+        Idx: 14
         GravityFactor: 0.4
     - rid: 8629601031791312949
       type: {class: SetGravityFactorActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
@@ -300,7 +299,7 @@ MonoBehaviour:
         StartFrame: 54
         Duration: 6
         InterpolationType: 0
-        Idx: 16
+        Idx: 15
         GravityFactor: 1
     - rid: 8629601031791312952
       type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
@@ -313,7 +312,7 @@ MonoBehaviour:
         StartFrame: 42
         Duration: 18
         InterpolationType: 0
-        Idx: 18
+        Idx: 17
         StateKey: Dodge
         ConditionStates:
         - JointType: 0
