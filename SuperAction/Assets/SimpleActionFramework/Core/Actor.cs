@@ -56,7 +56,9 @@ namespace SimpleActionFramework.Core
         public List<InputRecord> RecordedInputs = new List<InputRecord>();
         
         public int[] HitMaskIds;
-        
+
+        public bool IsInvulnerable = false;
+
         public bool isAlive => HP > 0;
         
         public readonly float MaxHP = 100f;
@@ -124,7 +126,9 @@ namespace SimpleActionFramework.Core
 
             ObjectPoolController.GetOrCreate("DamageTextFX", "Effects");
             ObjectPoolController.GetOrCreate("SlashFX", "Effects");
+            ObjectPoolController.GetOrCreate("GuardFX", "Effects");
             ObjectPoolController.GetOrCreate("DeathFX", "Effects");
+            ObjectPoolController.GetOrCreate("ReviveFX", "Effects");
             
             MessageSystem.Subscribe(typeof(OnAttackHitEvent), this);
             MessageSystem.Subscribe(typeof(OnAttackGuardEvent), this);
@@ -154,7 +158,8 @@ namespace SimpleActionFramework.Core
 
             MessageSystem.Publish(OnDeathEvent.Create(ActorIndex, DeathCount));
             
-            var fx = ObjectPoolController.InstantiateObject("DeathFX", new PoolParameters(Position)) as DeathFX;
+            var fx = ObjectPoolController.InstantiateObject("DeathFX", 
+                new PoolParameters(Position)) as DeathFX;
             fx.Initialize(Color);
             
             gameObject.SetActive(false);
@@ -176,8 +181,29 @@ namespace SimpleActionFramework.Core
             {
                 yield return null;
             }
+
             ResetPosition();
+            var fx = ObjectPoolController.InstantiateObject("ReviveFX", 
+                new PoolParameters(_initialPosition.Value)) as DeathFX;
+            fx.Initialize(Color);
+
+            yield return new WaitForSeconds(0.6f);
+            
             gameObject.SetActive(true);
+
+            IsInvulnerable = true;
+            var originColor = Color;
+            var flash = 0;
+
+            while (flash < 180){
+                Color = flash % 6 < 3 ? Color.white : originColor;
+                flash++;
+                yield return null;
+            }
+
+            Color = originColor;
+
+            IsInvulnerable = false;
         }
 
         // Update is called once per frame
@@ -342,6 +368,13 @@ namespace SimpleActionFramework.Core
                 // 공격이 맞았고 피격자가 자신일 때
                 if (taker == this)
                 {
+                    if (IsInvulnerable)
+                    {
+                        var guardfx = ObjectPoolController.InstantiateObject("GuardFX", new PoolParameters(info.Point)) as GuardFX;
+                        guardfx.Initialize(Color.white);
+                        return false;
+                    }
+                    
                     var isLeft = giver.IsLeft;
                     var knockBack = info.Direction.normalized.doFlipX(isLeft) * 4f;
 
@@ -381,6 +414,9 @@ namespace SimpleActionFramework.Core
                 // 공격이 가드당했고 공격자가 자신일 때
                 if (giver == this)
                 {
+                    var guardfx = ObjectPoolController.InstantiateObject("GuardFX", new PoolParameters(info.Point)) as GuardFX;
+                    guardfx.Initialize(info.Color);
+
                     var knockBack = (taker.IsLeft ? info.Direction.normalized.FlipX() : info.Direction.normalized);
                     ActionStateMachine.SetState(info.NextStateOnSuccessToReceiver);
                     AddExternalVelocity(knockBack * info.KnockbackPower);

@@ -158,8 +158,8 @@ namespace Resources.Scripts
 			get => _currentState;
 			set
 			{
-				Debug.Log($"[{_innerTimer:0.0000}]state reset: {_currentState} => {value} | {Distance}\n" +
-				          $"Input: {_lastInput}\n" + $"Command: {_lastCommand}\n");
+				// Debug.Log($"[{_innerTimer:0.0000}]state reset: {_currentState} => {value} | {Distance}\n" +
+				//           $"Input: {_lastInput}\n" + $"Command: {_lastCommand}\n");
 				_innerTimer = 0f;
 				_currentState = value;
 			}

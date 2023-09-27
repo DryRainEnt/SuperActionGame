@@ -102,7 +102,7 @@ public class Game : MonoBehaviour, IEventListener
         int result = await task;
 
         // 태스크가 끝나면 await 바로 다음 줄로 돌아와서 나머지가 실행되고 함수가 종료된다.
-        Debug.Log("Result : " + result);
+        //Debug.Log("Result : " + result);
     }
 
     private async Task<int> WriteFrameData()
