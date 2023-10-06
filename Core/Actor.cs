@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using CMF;
 using Proto.BasicExtensionUtils;
 using Proto.EventSystem;
@@ -8,7 +7,6 @@ using Proto.PoolingSystem;
 using Resources.Scripts;
 using Resources.Scripts.Events;
 using SimpleActionFramework.Implements;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace SimpleActionFramework.Core
@@ -32,7 +30,6 @@ namespace SimpleActionFramework.Core
         [SerializeField]
         public ActionStateMachine ActionStateMachine;
         
-        [ShowInInspector]
         public Dictionary<string, object> Data => ActionStateMachine ? ActionStateMachine.Data : null;
     
         private ActorController _actorController;
