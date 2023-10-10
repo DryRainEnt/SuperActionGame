@@ -20,7 +20,7 @@ namespace SimpleActionFramework.Core
         public Color Color
         {
             get => _color;
-            private set
+            set
             {
                 _color = value;
                 SpriteRenderer.color = _color;
@@ -51,6 +51,9 @@ namespace SimpleActionFramework.Core
         private Vector2? _initialPosition;
         
         public List<InputRecord> RecordedInputs = new List<InputRecord>();
+        
+        public Vector2 InputAxis => _actorController.CharacterInput.inputAxis;
+        public Vector2 CommandAxis => _actorController.CharacterInput.commandAxis;
         
         public int[] HitMaskIds;
 
@@ -96,6 +99,8 @@ namespace SimpleActionFramework.Core
 
         public int DeathCount;
 
+        public float[] Intention => _actorController.CharacterInput ? _actorController.CharacterInput.intention : new []{0f};
+
         private void Initiate()
         {
             _actorController = GetComponent<ActorController>();
@@ -115,6 +120,12 @@ namespace SimpleActionFramework.Core
             ActionStateMachine.UpdateData(Constants.DefaultDataKeys[DefaultKeys.INTERACTION], "Neutral");
 
             _initialPosition ??= Position;
+        }
+
+        public void UpdateController()
+        {
+            _actorController = GetComponent<ActorController>();
+            _actorController.CharacterInput = GetComponent<CharacterInput>();
         }
 
         private void OnEnable()
@@ -228,6 +239,20 @@ namespace SimpleActionFramework.Core
             "backward",
             "up",
             "down",
+            "debug",
+        };
+        
+        public readonly Dictionary<string, bool> CurrentInputs = new ()
+        {
+            {"button1", false},
+            {"button2", false},
+            {"button3", false},
+            {"button4", false},
+            {"forward", false},
+            {"backward", false},
+            {"up", false},
+            {"down", false},
+            {"debug", false},
         };
         
         [SerializeField]
@@ -236,22 +261,21 @@ namespace SimpleActionFramework.Core
         private void InputUpdate()
         {
             RecordedInputs.Sort();
-            if (_actorController.CharacterInput is CharacterArtificialInput ai)
-            {
-                Color = ai.UseAI ? Color.red : Color.yellow;
-                _actorController.CharacterInput.InputCheck(this, null);
-            }
-            else if (_actorController.CharacterInput is CharacterKeyboardInput or CharacterJoystickInput)
-            {
-                foreach (var key in ActionKeys)
-                {
-                    _actorController.CharacterInput.InputCheck(this, key);
-                }
-            }
+            
+            if (_actorController.CharacterInput is CharacterKeyboardInput)
+                Color = Color.cyan;
+            else if (_actorController.CharacterInput is CharacterArtificialInput)
+                Color = Color.red;
+            else if (_actorController.CharacterInput is NeuralNetworkInput)
+                Color = Color.yellow;
             else
+                Color = Color.grey;
+            
+            foreach (var key in ActionKeys)
             {
-                Color = Color.white;
+                _actorController.CharacterInput.InputCheck(this, key);
             }
+            
             RecordedInputs.Sort();
 
             while (RecordedInputs.Count > 0 && RecordedInputs[^1].TimeStamp < Time.realtimeSinceStartup - 0.5f)
@@ -276,7 +300,7 @@ namespace SimpleActionFramework.Core
             ActionStateMachine.UpdateData(Constants.DefaultDataKeys[DefaultKeys.FACE], IsLeft ? -1f : 1f);
             ActionStateMachine.UpdateData(Constants.DefaultDataKeys[DefaultKeys.VSPEED], _actorController.GetMovementVelocity().y);
             ActionStateMachine.UpdateData(Constants.DefaultDataKeys[DefaultKeys.GROUND], _actorController.IsGrounded() ? 1f : 0f);
-
+            
             if (_debugText)
             {
                 _debugText.text = "";

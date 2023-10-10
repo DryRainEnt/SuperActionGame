@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CMF;
 using Proto.EventSystem;
+using Resources.Scripts;
 using Resources.Scripts.Events;
 using SimpleActionFramework.Core;
 using UnityEngine;
@@ -18,6 +20,13 @@ public class ActorUIField : MonoBehaviour, IEventListener
     public TMPro.TMP_Text DeathCountText;
     public TMPro.TMP_Text FrameDataText;
     private List<string> _frameDataQueue = new List<string>();
+
+    public UnityEngine.UI.Image AxisStick;
+    public Vector2 AxisStickOrigin;
+    public UnityEngine.UI.Image CommandButtonA;
+    public UnityEngine.UI.Image CommandButtonB;
+
+    public TMPro.TMP_Text IntentionText;
     
     private void Start()
     {
@@ -25,6 +34,7 @@ public class ActorUIField : MonoBehaviour, IEventListener
         MessageSystem.Subscribe(typeof(OnDeathEvent), this);
 
         _targetActor = Game.Instance.RegisteredActors[TargetActorIndex] ?? Game.Instance.Player;
+        AxisStickOrigin = AxisStick.transform.localPosition;
     }
 
     // Update is called once per frame
@@ -41,6 +51,46 @@ public class ActorUIField : MonoBehaviour, IEventListener
 
         while(_frameDataQueue.Count > 60)
             _frameDataQueue.RemoveAt(_frameDataQueue.Count - 1);
+        
+        AxisStick.transform.localPosition = AxisStickOrigin + _targetActor.InputAxis.normalized * 20f;
+        CommandButtonA.color = _targetActor.CommandAxis.x > 0.5f ? Color.grey : Color.white;
+        CommandButtonB.color = _targetActor.CommandAxis.y > 0.5f ? Color.grey : Color.white;
+        
+        IntentionText.text = string.Join(" | ", _targetActor.Intention);
+    }
+
+    public void OnControllerChange(int index)
+    {
+        var control = _targetActor.GetComponent<CharacterInput>();
+        switch (index)
+        {
+            case 0:
+                DestroyImmediate(control);
+                _targetActor.gameObject.AddComponent<CharacterInput>();
+                break;
+            case 1:
+                // Keyboard
+                if (control is CharacterKeyboardInput)
+                    return;
+                DestroyImmediate(control);
+                _targetActor.gameObject.AddComponent<CharacterKeyboardInput>();
+                break;
+            case 2:
+                // AI
+                if (control is CharacterArtificialInput)
+                    return;
+                DestroyImmediate(control);
+                _targetActor.gameObject.AddComponent<CharacterArtificialInput>();
+                break;
+            case 3:
+                // NN
+                if (control is NeuralNetworkInput)
+                    return;
+                DestroyImmediate(control);
+                _targetActor.gameObject.AddComponent<NeuralNetworkInput>();
+                break;
+        }
+        _targetActor.UpdateController();
     }
 
     public bool OnEvent(IEvent e)

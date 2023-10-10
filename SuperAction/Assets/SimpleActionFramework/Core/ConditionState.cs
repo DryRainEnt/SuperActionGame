@@ -163,20 +163,51 @@ namespace SimpleActionFramework.Core
 								return istr != StringValue;
 							
 							case ConditionType.Contains:
-								if (!istr.Contains(StringValue)) return false;
-								if (!ConsumeInput) return true;
-								foreach (var iv in StringValue.Split(","))
+								var csplit = StringValue.Split(",");
+								int ccount = 0;
+								int cgoal = csplit.Length;
+								
+								for (int i = 0; i < iList.Count; i++)
 								{
-									iList.Remove(iList.Find(input => input.Key == iv));
+									var target = csplit[ccount];
+									if (target.Contains('+') || target.Contains('-'))
+									{
+										if (istr.Contains(target))
+										{
+											ccount++;
+											if (ConsumeInput) iList.RemoveAt(i);
+										}
+									}
+									else
+									{
+										machine.Actor.CurrentInputs.TryGetValue(target, out var value);
+										if (value)
+											ccount++;
+									}
+
+									if (ccount == cgoal)
+										return true;
 								}
-								return true;
+								return false;
 							
 							case ConditionType.Exclusive:
-								if (istr.Contains(StringValue)) return false;
-								if (!ConsumeInput) return true;
-								foreach (var iv in StringValue.Split(","))
+								var xsplit = StringValue.Split(",");
+								int xgoal = xsplit.Length;
+								
+								for (int j = 0; j < xgoal; j++)
 								{
-									iList.Remove(iList.Find(input => input.Key == iv));
+									var target = xsplit[j];
+									if (target.Contains('+') || target.Contains('-'))
+									{
+										if (istr.Contains(target))
+											return false;
+									}
+									else
+									{
+										machine.Actor.CurrentInputs.TryGetValue(target, out var value);
+										if (value)
+											return false;
+									}
 								}
 								return true;
 						}

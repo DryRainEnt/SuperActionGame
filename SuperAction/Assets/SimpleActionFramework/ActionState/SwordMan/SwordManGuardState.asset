@@ -26,7 +26,7 @@ MonoBehaviour:
   - rid: 8629600874899701764
   - rid: 8629600874899701766
   actantWrapper:
-  - rid: 8629600870051348652
+  - rid: 8629600874899701766
   references:
     version: 2
     RefIds:
@@ -94,8 +94,8 @@ MonoBehaviour:
           actionId: 0
           actantId: 0
           timeStamp: 0
-        StartFrame: 1
-        Duration: 19
+        StartFrame: 0
+        Duration: 20
         InterpolationType: 0
         Idx: 4
         StateKey: Idle
@@ -104,10 +104,10 @@ MonoBehaviour:
           DefaultKey: 0
           Key: Inputs
           ValueType: 4
-          ConditionType: 6
-          StringValue: down-
+          ConditionType: 7
+          StringValue: down
           NumberValue: 0
-          ConsumeInput: 1
+          ConsumeInput: 0
     - rid: 8629600870051348638
       type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
       data:

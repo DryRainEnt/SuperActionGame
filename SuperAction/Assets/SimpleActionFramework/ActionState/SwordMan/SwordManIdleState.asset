@@ -29,7 +29,7 @@ MonoBehaviour:
   - rid: 8629600874899701763
   - rid: 8629601144650072068
   actantWrapper:
-  - rid: 8629601144650072068
+  - rid: 8629600859046805510
   references:
     version: 2
     RefIds:
@@ -183,9 +183,9 @@ MonoBehaviour:
           Key: Inputs
           ValueType: 4
           ConditionType: 6
-          StringValue: down+
+          StringValue: down
           NumberValue: 0
-          ConsumeInput: 1
+          ConsumeInput: 0
     - rid: 8629600870051348630
       type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
@@ -207,7 +207,7 @@ MonoBehaviour:
           ConditionType: 6
           StringValue: forward+,forward-,forward+
           NumberValue: 0
-          ConsumeInput: 1
+          ConsumeInput: 0
         - JointType: 1
           DefaultKey: 0
           Key: Inputs
@@ -215,7 +215,7 @@ MonoBehaviour:
           ConditionType: 6
           StringValue: backward+,forward-,forward+
           NumberValue: 0
-          ConsumeInput: 1
+          ConsumeInput: 0
     - rid: 8629600870051348631
       type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
@@ -270,7 +270,7 @@ MonoBehaviour:
           Key: Inputs
           ValueType: 4
           ConditionType: 6
-          StringValue: up+,button1+
+          StringValue: up,button1+
           NumberValue: 0
           ConsumeInput: 1
     - rid: 8629600874899701763
@@ -303,6 +303,22 @@ MonoBehaviour:
           StringValue: up
           NumberValue: 0
           ConsumeInput: 0
+        - JointType: 0
+          DefaultKey: 0
+          Key: Inputs
+          ValueType: 4
+          ConditionType: 7
+          StringValue: forward
+          NumberValue: 0
+          ConsumeInput: 0
+        - JointType: 0
+          DefaultKey: 0
+          Key: Inputs
+          ValueType: 4
+          ConditionType: 7
+          StringValue: down
+          NumberValue: 0
+          ConsumeInput: 0
     - rid: 8629601144650072068
       type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
@@ -314,7 +330,7 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 36
         InterpolationType: 0
-        Idx: 0
+        Idx: 14
         StateKey: Fallen
         ConditionStates:
         - JointType: 0

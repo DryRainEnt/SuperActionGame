@@ -33,7 +33,8 @@ namespace CMF
 
 		public override bool IsJumpKeyPressed()
 		{
-			return Input.GetKey(jumpKey);
+			var isKey = Input.GetKey(jumpKey);
+			return isKey;
 		}
         
 		public override void InputCheck(Actor actor, string key)
@@ -45,13 +46,40 @@ namespace CMF
 				_ => key
 			};
             
+			switch (aKey)
+			{
+				case "button1":
+					commandAxis.x = GlobalInputController.Instance.GetInput(aKey) ? 1 : 0;
+					inputAxis = Vector2.zero;
+					break;
+				case "button2":
+					commandAxis.y = GlobalInputController.Instance.GetInput(aKey) ? 1 : 0;
+					break;
+				case "right":
+					inputAxis.x += GlobalInputController.Instance.GetInput(aKey) ? 1 : 0;
+					break;
+				case "left":
+					inputAxis.x += GlobalInputController.Instance.GetInput(aKey) ? -1 : 0;
+					break;
+				case "up":
+					inputAxis.y += GlobalInputController.Instance.GetInput(aKey) ? 0 : -1;
+					break;
+				case "down":
+					inputAxis.y += GlobalInputController.Instance.GetInput(aKey) ? 0 : 1;
+					break;
+				default:
+					break;
+			}
+			
 			if (GlobalInputController.Instance.GetPressed(aKey))
 			{
 				actor.RecordedInputs.Add(new InputRecord(Utils.BuildString(key, "+"), Time.realtimeSinceStartup));
+				actor.CurrentInputs[key] = true;
 			}
 			if (GlobalInputController.Instance.GetReleased(aKey))
 			{
 				actor.RecordedInputs.Add(new InputRecord(Utils.BuildString(key, "-"), Time.realtimeSinceStartup));
+				actor.CurrentInputs[key] = false;
 			}
 
 			if (actor.RecordedInputs.Count > 100)

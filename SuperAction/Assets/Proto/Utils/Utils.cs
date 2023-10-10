@@ -42,6 +42,19 @@ public static class Utils
         return _stringBuilderInner.ToString();
     }
 
+    public static string BuildString(char separator, params string[] list)
+    {
+        _stringBuilderInner.Clear();
+        _stringBuilderInner.Append(list[0]);
+        for (int i = 1; i < list.Length; i++)
+        {
+            _stringBuilderInner.Append(separator);
+            _stringBuilderInner.Append(list[i]);
+        }
+
+        return _stringBuilderInner.ToString();
+    }
+
     public static int AssembleLayerBits(params int[] layers)
     {
         var result = 0;

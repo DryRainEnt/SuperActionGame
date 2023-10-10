@@ -91,7 +91,7 @@ MonoBehaviour:
         Duration: 0
         InterpolationType: 0
         Idx: 3
-        StateKey: Escape
+        StateKey: Jump
         ConditionStates:
         - JointType: 0
           DefaultKey: 6

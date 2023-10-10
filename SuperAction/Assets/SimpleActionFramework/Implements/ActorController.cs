@@ -24,7 +24,7 @@ namespace SimpleActionFramework.Implements
 		public bool useCharacterInput = true;
 		
 		public Transform cameraTransform;
-		public CharacterInput CharacterInput { get; private set; }
+		public CharacterInput CharacterInput { get; set; }
 
         Transform tr;
 
@@ -86,6 +86,8 @@ namespace SimpleActionFramework.Implements
 		            _velocity.y = 0f;
 	            if (overridenVelocity.y < 0f)
 		            overridenVelocity.y = 0f;
+	            if (innerVelocity.y < 0f)
+		            innerVelocity.y = 0f;
             }
             
             _velocity += innerVelocity;

@@ -32,7 +32,7 @@ MonoBehaviour:
   - rid: 8629601031791312946
   - rid: 8629601031791312952
   actantWrapper:
-  - rid: 8629601031791312918
+  - rid: 8629601031791312952
   references:
     version: 2
     RefIds:
@@ -214,19 +214,6 @@ MonoBehaviour:
         InterpolationType: 0
         Idx: 11
         useCharacterInput: 0
-    - rid: 8629601031791312918
-      type: {class: ToggleInput, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
-      data:
-        id:
-          machineId: 0
-          actionId: 0
-          actantId: 0
-          timeStamp: 0
-        StartFrame: 48
-        Duration: 12
-        InterpolationType: 0
-        Idx: 12
-        useCharacterInput: 0
     - rid: 8629601031791312919
       type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
@@ -344,6 +331,6 @@ MonoBehaviour:
           Key: Inputs
           ValueType: 4
           ConditionType: 6
-          StringValue: down+,jump
+          StringValue: down,button2
           NumberValue: 0
           ConsumeInput: 0

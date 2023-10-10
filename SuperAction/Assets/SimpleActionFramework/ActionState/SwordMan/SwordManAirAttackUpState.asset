@@ -32,7 +32,7 @@ MonoBehaviour:
   - rid: 8629601031791313001
   - rid: 8629601031791313002
   actantWrapper:
-  - rid: 4433509540630364161
+  - rid: 8629601031791313002
   references:
     version: 2
     RefIds:
@@ -55,7 +55,7 @@ MonoBehaviour:
           Key: Inputs
           ValueType: 4
           ConditionType: 6
-          StringValue: down+,button1+
+          StringValue: down,button1+
           NumberValue: 0
           ConsumeInput: 1
     - rid: 4433509540630364161
@@ -260,6 +260,7 @@ MonoBehaviour:
           KnockbackPower: 0
           GuardCrash: 0
           Point: {x: 0, y: 0}
+          Color: {r: 0, g: 0, b: 0, a: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
     - rid: 8629601031791312958
@@ -284,6 +285,7 @@ MonoBehaviour:
           KnockbackPower: 12
           GuardCrash: 0
           Point: {x: 0, y: 0}
+          Color: {r: 0, g: 0, b: 0, a: 0}
           NextStateOnSuccessToSelf: HitSuccess
           NextStateOnSuccessToReceiver: HitMedium
     - rid: 8629601031791313001

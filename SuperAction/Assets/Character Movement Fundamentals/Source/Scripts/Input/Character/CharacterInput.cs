@@ -10,6 +10,14 @@ namespace CMF
     //By extending this class, it is possible to implement custom character input;
     public abstract class CharacterInput : MonoBehaviour
     {
+        public Vector2 prevInputAxis;
+        public Vector2 inputAxis;
+		
+        public Vector2 prevCommandAxis;
+        public Vector2 commandAxis;
+
+        public float[] intention = {0f, 0f, 0f, 0f, 0f};
+        
         public abstract float GetHorizontalMovementInput();
         public abstract float GetVerticalMovementInput();
 

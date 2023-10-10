@@ -33,11 +33,34 @@ MonoBehaviour:
   - rid: 8629600870051348657
   - rid: 8629600870051348658
   - rid: 8629601144650072064
+  - rid: 1345007526530252800
   actantWrapper:
-  - rid: 8629601144650072064
+  - rid: 1345007526530252800
   references:
     version: 2
     RefIds:
+    - rid: 1345007526530252800
+      type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 28
+        Duration: 12
+        InterpolationType: 0
+        Idx: 0
+        StateKey: AttackForward
+        ConditionStates:
+        - JointType: 0
+          DefaultKey: 0
+          Key: Inputs
+          ValueType: 4
+          ConditionType: 6
+          StringValue: forward,button1+
+          NumberValue: 0
+          ConsumeInput: 1
     - rid: 8629600870051348493
       type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
@@ -333,7 +356,7 @@ MonoBehaviour:
         StartFrame: 28
         Duration: 12
         InterpolationType: 0
-        Idx: 0
+        Idx: 19
         StateKey: AttackUp
         ConditionStates:
         - JointType: 0
@@ -341,6 +364,6 @@ MonoBehaviour:
           Key: Inputs
           ValueType: 4
           ConditionType: 6
-          StringValue: up+,button1+
+          StringValue: up,button1+
           NumberValue: 0
           ConsumeInput: 1

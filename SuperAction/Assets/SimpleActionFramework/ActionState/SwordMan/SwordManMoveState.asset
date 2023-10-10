@@ -29,7 +29,7 @@ MonoBehaviour:
   - rid: 8629600874899701761
   - rid: 8629600874899701765
   actantWrapper:
-  - rid: 8629600874899701765
+  - rid: 8629600870051348635
   references:
     version: 2
     RefIds:
@@ -210,7 +210,7 @@ MonoBehaviour:
           ConditionType: 6
           StringValue: forward+,forward-,forward+
           NumberValue: 0
-          ConsumeInput: 1
+          ConsumeInput: 0
         - JointType: 1
           DefaultKey: 0
           Key: Inputs
@@ -218,7 +218,7 @@ MonoBehaviour:
           ConditionType: 6
           StringValue: backward+,forward-,forward+
           NumberValue: 0
-          ConsumeInput: 1
+          ConsumeInput: 0
     - rid: 8629600870051348636
       type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
       data:
@@ -241,6 +241,7 @@ MonoBehaviour:
           KnockbackPower: 0
           GuardCrash: 0
           Point: {x: 0, y: 0}
+          Color: {r: 0, g: 0, b: 0, a: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
     - rid: 8629600870051348655
@@ -289,7 +290,7 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 40
         InterpolationType: 0
-        Idx: 0
+        Idx: 14
         StateKey: Guard
         ConditionStates:
         - JointType: 0

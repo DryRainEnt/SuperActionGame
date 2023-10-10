@@ -26,7 +26,7 @@ MonoBehaviour:
   - rid: 8629601031791312916
   - rid: 8629601031791312913
   actantWrapper:
-  - rid: 8629601031791312913
+  - rid: 8629601031791312916
   references:
     version: 2
     RefIds:
@@ -174,7 +174,7 @@ MonoBehaviour:
           Key: Inputs
           ValueType: 4
           ConditionType: 6
-          StringValue: down+,button2+
+          StringValue: down,button2
           NumberValue: 0
           ConsumeInput: 1
         - JointType: 1
@@ -234,7 +234,7 @@ MonoBehaviour:
           Key: Inputs
           ValueType: 4
           ConditionType: 6
-          StringValue: up+,button1+
+          StringValue: up,button1+
           NumberValue: 0
           ConsumeInput: 1
     - rid: 8629601031791312915
@@ -256,7 +256,7 @@ MonoBehaviour:
           Key: Inputs
           ValueType: 4
           ConditionType: 6
-          StringValue: forward+,button1+
+          StringValue: forward,button1+
           NumberValue: 0
           ConsumeInput: 1
     - rid: 8629601031791312916
@@ -278,6 +278,6 @@ MonoBehaviour:
           Key: Inputs
           ValueType: 4
           ConditionType: 6
-          StringValue: down+,button1+
+          StringValue: down,button1+
           NumberValue: 0
           ConsumeInput: 1

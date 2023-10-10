@@ -12,25 +12,15 @@ namespace Resources.Scripts
 	{
 		public Vector2 movementDirection = Vector2.zero;
 
-		public Vector2 prevInputAxis;
-		public Vector2 inputAxis;
-		
-		public Vector2 prevCommandAxis;
-		public Vector2 commandAxis;
-
 		private bool _isJumpKeyPressed = false;
 
 		private float _innerTimer = 0;
 		
 		private AIState _aiState;
+		public AIState AiState => _aiState ??= new AIState(GetComponent<Actor>());
 
-		private bool _useAI = false;
+		private bool _useAI = true;
 		public bool UseAI => _useAI;
-
-		private void OnEnable()
-		{
-			_aiState = new AIState(transform);
-		}
 
 		public override float GetHorizontalMovementInput()
 		{
@@ -51,12 +41,12 @@ namespace Resources.Scripts
 		// 커맨드 인풋을 발생시키는 위치
 		public override void InputCheck(Actor actor, string key)
 		{
-			_innerTimer += Time.deltaTime;
-			
-			if (GlobalInputController.Instance.GetPressed("debug"))
+			var aKey = key switch
 			{
-				_useAI = !_useAI;
-			}
+				"forward" => actor.IsLeft ? "left" : "right",
+				"backward" => actor.IsLeft ? "right" : "left",
+				_ => key
+			};
 
 			if (!_useAI)
 			{
@@ -65,65 +55,78 @@ namespace Resources.Scripts
 				return;
 			}
 			
-			prevInputAxis = inputAxis;
-			prevCommandAxis = commandAxis;
+			if (key == "button1")
+			{
+				_innerTimer += Time.deltaTime;
+
+				prevInputAxis = inputAxis;
+				prevCommandAxis = commandAxis;
+
+				AiState.Execute(ref inputAxis, ref commandAxis);
+			}
+
+			var plus = Utils.BuildString(aKey, "+");
+			var minus = Utils.BuildString(aKey, "-");
+			int condition = 0;
 			
-			_aiState.Execute(ref inputAxis, ref commandAxis);
-            
+			switch (aKey)
+			{
+                case "button1":
+	                if (commandAxis.x > 0 && prevCommandAxis.x.Abs() <= Constants.Epsilon)
+		                condition = 1;
+	                if (prevCommandAxis.x > 0 && commandAxis.x.Abs() <= Constants.Epsilon)
+		                condition = -1;
+	                break;
+                case "button2": 
+	                if (commandAxis.y > 0 && prevCommandAxis.y.Abs() <= Constants.Epsilon)
+	                {
+		                condition = 1;
+		                _isJumpKeyPressed = true;
+	                }
+	                if (prevCommandAxis.y > 0 && commandAxis.y.Abs() <= Constants.Epsilon)
+	                {
+		                condition = -1;
+		                _isJumpKeyPressed = false;
+	                }
+	                break;
+                case "button3": break;
+                case "button4": break;
+                case "right": 
+	                if (inputAxis.x > 0 && prevInputAxis.x.Abs() <= Constants.Epsilon)
+		                condition = 1;
+	                if (prevInputAxis.x > 0 && inputAxis.x.Abs() <= Constants.Epsilon)
+		                condition = -1;
+	                break;
+                case "left":
+	                if (inputAxis.x < 0 && prevInputAxis.x.Abs() <= Constants.Epsilon)
+		                condition = 1;
+	                if (prevInputAxis.x < 0 && inputAxis.x.Abs() <= Constants.Epsilon)
+		                condition = -1;
+	                break;
+                case "up":
+	                if (inputAxis.y > 0 && prevInputAxis.y.Abs() <= Constants.Epsilon)
+		                condition = 1;
+	                if (prevInputAxis.y > 0 && inputAxis.y.Abs() <= Constants.Epsilon)
+		                condition = -1;
+	                break;
+                case "down": 
+	                if (inputAxis.y < 0 && prevInputAxis.y.Abs() <= Constants.Epsilon)
+		                condition = 1;
+	                if (prevInputAxis.y < 0 && inputAxis.y.Abs() <= Constants.Epsilon)
+		                condition = -1;
+	                break;
+			}
 			
-			if (inputAxis.x > 0 && prevInputAxis.x.Abs() <= Constants.Epsilon)
+			switch (condition)
 			{
-				actor.RecordedInputs.Add(new InputRecord("right+", Time.realtimeSinceStartup));
-			}
-			if (prevInputAxis.x > 0 && inputAxis.x.Abs() <= Constants.Epsilon)
-			{
-				actor.RecordedInputs.Add(new InputRecord("right-", Time.realtimeSinceStartup));
-			}
-			if (inputAxis.x < 0 && prevInputAxis.x.Abs() <= Constants.Epsilon)
-			{
-				actor.RecordedInputs.Add(new InputRecord("left+", Time.realtimeSinceStartup));
-			}
-			if (prevInputAxis.x < 0 && inputAxis.x.Abs() <= Constants.Epsilon)
-			{
-				actor.RecordedInputs.Add(new InputRecord("left-", Time.realtimeSinceStartup));
-			}
-            
-			
-			if (inputAxis.y > 0 && prevInputAxis.y.Abs() <= Constants.Epsilon)
-			{
-				actor.RecordedInputs.Add(new InputRecord("up+", Time.realtimeSinceStartup));
-			}
-			if (prevInputAxis.y > 0 && inputAxis.y.Abs() <= Constants.Epsilon)
-			{
-				actor.RecordedInputs.Add(new InputRecord("up-", Time.realtimeSinceStartup));
-			}
-			if (inputAxis.y < 0 && prevInputAxis.y.Abs() <= Constants.Epsilon)
-			{
-				actor.RecordedInputs.Add(new InputRecord("down+", Time.realtimeSinceStartup));
-			}
-			if (prevInputAxis.y < 0 && inputAxis.y.Abs() <= Constants.Epsilon)
-			{
-				actor.RecordedInputs.Add(new InputRecord("down-", Time.realtimeSinceStartup));
-			}
-			
-			if (commandAxis.x > 0 && prevCommandAxis.x.Abs() <= Constants.Epsilon)
-			{
-				actor.RecordedInputs.Add(new InputRecord("button1+", Time.realtimeSinceStartup));
-			}
-			if (prevCommandAxis.x > 0 && commandAxis.x.Abs() <= Constants.Epsilon)
-			{
-				actor.RecordedInputs.Add(new InputRecord("button1-", Time.realtimeSinceStartup));
-			}
-			
-			if (commandAxis.y > 0 && prevCommandAxis.y.Abs() <= Constants.Epsilon)
-			{
-				_isJumpKeyPressed = true;
-				actor.RecordedInputs.Add(new InputRecord("jump+", Time.realtimeSinceStartup));
-			}
-			if (prevCommandAxis.y > 0 && commandAxis.y.Abs() <= Constants.Epsilon)
-			{
-				_isJumpKeyPressed = false;
-				actor.RecordedInputs.Add(new InputRecord("jump-", Time.realtimeSinceStartup));
+				case > 0:
+					actor.RecordedInputs.Add(new InputRecord(plus, Time.realtimeSinceStartup));
+					actor.CurrentInputs[key] = true;
+					break;
+				case < 0:
+					actor.RecordedInputs.Add(new InputRecord(minus, Time.realtimeSinceStartup));
+					actor.CurrentInputs[key] = false;
+					break;
 			}
 		}
 	}
@@ -149,7 +152,8 @@ namespace Resources.Scripts
 
 	public class AIState
 	{
-		private Transform _parent;
+		private Actor _parent;
+		private Actor _enemy;
 
 		private AIStatePreset _currentState;
 
@@ -166,7 +170,7 @@ namespace Resources.Scripts
 		}
 
 		private float _innerTimer;
-		private Vector2 DirectionRaw => (Game.Instance.Player.Position - (Vector2)_parent.position);
+		private Vector2 DirectionRaw => _enemy.Position - _parent.Position;
 		private Vector2 Direction => DirectionRaw.Clamp(-Vector2.one, Vector2.one);
 		private float Distance => DirectionRaw.magnitude;
 
@@ -175,9 +179,10 @@ namespace Resources.Scripts
 		
 		private float RandomToken => UnityEngine.Random.Range(0f, 1f);
 
-		public AIState(Transform parent)
+		public AIState(Actor parent)
 		{
 			_parent = parent;
+			_enemy = Game.Instance.GetEnemy(_parent.ActorIndex);
 		}
 		
 		public void Execute(ref Vector2 inputAxis, ref Vector2 commandAxis)
@@ -211,14 +216,14 @@ namespace Resources.Scripts
 						commandAxis.y = 0;
 					}
 					
-					if (_innerTimer > 0.4f)
+					if (_innerTimer > 0.3f)
 					{
 						inputAxis.x = 0;
 						inputAxis.y = 0;
 						commandAxis.x = 0;
 						commandAxis.y = 0;
 					}
-					if (_innerTimer > 0.5f)
+					if (_innerTimer > 0.4f)
 						CurrentState = AIStatePreset.Combo2;
 					break;
 				case AIStatePreset.Combo2:

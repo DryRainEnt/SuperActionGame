@@ -34,7 +34,7 @@ MonoBehaviour:
   - rid: 8629601031791312907
   - rid: 8629601031791312936
   actantWrapper:
-  - rid: 8629600936846426113
+  - rid: 8629600936846426118
   references:
     version: 2
     RefIds:
@@ -274,7 +274,7 @@ MonoBehaviour:
           Key: Inputs
           ValueType: 4
           ConditionType: 6
-          StringValue: up+,button1+
+          StringValue: up,button1+
           NumberValue: 0
           ConsumeInput: 1
     - rid: 8629600936846426119
@@ -304,7 +304,7 @@ MonoBehaviour:
           Key: Inputs
           ValueType: 4
           ConditionType: 6
-          StringValue: forward+,button1+
+          StringValue: forward,button1+
           NumberValue: 0
           ConsumeInput: 1
     - rid: 8629600936846426120
@@ -398,7 +398,7 @@ MonoBehaviour:
           DefaultKey: 0
           Key: Inputs
           ValueType: 4
-          ConditionType: 0
+          ConditionType: 6
           StringValue: button1
           NumberValue: 0
           ConsumeInput: 1

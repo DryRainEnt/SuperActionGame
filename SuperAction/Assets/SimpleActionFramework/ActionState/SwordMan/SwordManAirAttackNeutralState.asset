@@ -33,7 +33,7 @@ MonoBehaviour:
   - rid: 8629601031791312996
   - rid: 8629601031791312997
   actantWrapper:
-  - rid: 8629601031791312988
+  - rid: 8629601031791312994
   references:
     version: 2
     RefIds:
@@ -213,6 +213,7 @@ MonoBehaviour:
           KnockbackPower: 0
           GuardCrash: 0
           Point: {x: 0, y: 0}
+          Color: {r: 0, g: 0, b: 0, a: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
     - rid: 8629601031791312954
@@ -237,6 +238,7 @@ MonoBehaviour:
           KnockbackPower: 5
           GuardCrash: 0
           Point: {x: 0, y: 0}
+          Color: {r: 0, g: 0, b: 0, a: 0}
           NextStateOnSuccessToSelf: HitSuccess
           NextStateOnSuccessToReceiver: HitSmall
     - rid: 8629601031791312955
@@ -261,6 +263,7 @@ MonoBehaviour:
           KnockbackPower: 5
           GuardCrash: 0
           Point: {x: 0, y: 0}
+          Color: {r: 0, g: 0, b: 0, a: 0}
           NextStateOnSuccessToSelf: HitSuccess
           NextStateOnSuccessToReceiver: HitSmall
     - rid: 8629601031791312956
@@ -285,6 +288,7 @@ MonoBehaviour:
           KnockbackPower: 0
           GuardCrash: 0
           Point: {x: 0, y: 0}
+          Color: {r: 0, g: 0, b: 0, a: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
     - rid: 8629601031791312988
@@ -328,7 +332,7 @@ MonoBehaviour:
           Key: Inputs
           ValueType: 4
           ConditionType: 6
-          StringValue: up+,button1+
+          StringValue: up,button1+
           NumberValue: 0
           ConsumeInput: 1
     - rid: 8629601031791312995
@@ -358,7 +362,7 @@ MonoBehaviour:
           Key: Inputs
           ValueType: 4
           ConditionType: 6
-          StringValue: forward+,button1+
+          StringValue: forward,button1+
           NumberValue: 0
           ConsumeInput: 1
     - rid: 8629601031791312996
@@ -388,7 +392,7 @@ MonoBehaviour:
           Key: Inputs
           ValueType: 4
           ConditionType: 0
-          StringValue: down+,button1+
+          StringValue: down,button1+
           NumberValue: 0
           ConsumeInput: 1
     - rid: 8629601031791312997

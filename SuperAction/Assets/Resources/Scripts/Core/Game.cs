@@ -92,6 +92,11 @@ public class Game : MonoBehaviour, IEventListener
         return false;
     }
 
+    public Actor GetEnemy(int self)
+    {
+        return RegisteredActors[self == 0 ? 1 : 0];
+    }
+
     public async void WriteFrameDataExternal()
     {
         var task = Task.Run(WriteFrameData);
