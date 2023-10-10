@@ -80,6 +80,13 @@ namespace SimpleActionFramework.Implements
             _velocity += tr.up * currentVerticalSpeed;
 
             //Save current velocity for next frame;
+            if (isGrounded)
+            {
+	            if (_velocity.y < 0f)
+		            _velocity.y = 0f;
+	            if (overridenVelocity.y < 0f)
+		            overridenVelocity.y = 0f;
+            }
             
             _velocity += innerVelocity;
             lastVelocity = _velocity;

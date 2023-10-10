@@ -281,7 +281,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 586065798349722102}
-  - component: {fileID: 3530133740120602924}
+  - component: {fileID: 9051941583058486721}
   - component: {fileID: 9062735408026339385}
   - component: {fileID: 868540737618247302}
   - component: {fileID: 3264186122418266219}
@@ -311,14 +311,14 @@ Transform:
   - {fileID: 1867590005582756168}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &3530133740120602924
-BoxCollider:
+--- !u!136 &9051941583058486721
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7740229622451298325}
-  m_Material: {fileID: 13400000, guid: e22c35a45fac28e4eb8a295407e775b7, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -329,8 +329,10 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.6, y: 2.25, z: 1}
+  serializedVersion: 2
+  m_Radius: 0.25
+  m_Height: 2.25
+  m_Direction: 1
   m_Center: {x: 0, y: 1.875, z: 0}
 --- !u!114 &9062735408026339385
 MonoBehaviour:
@@ -344,9 +346,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 219ea7b3eb6cd9c40996b4748f2ae163, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ActorIndex: 0
+  _color: {r: 0, g: 0, b: 0, a: 0}
   ActionStateMachine: {fileID: 11400000, guid: c08008054254e9447b9e84cd640ffd54, type: 2}
   SpriteRenderer: {fileID: 8285347137796838297}
-  PhysicsCollider: {fileID: 0}
+  PhysicsCollider: {fileID: 9051941583058486721}
   CurrentState: 
   CurrentActantName: 
   CurrentFrame: 0
@@ -355,6 +359,8 @@ MonoBehaviour:
   LockDirection: 0
   IsLeft: 0
   HitMaskIds: 
+  IsInvulnerable: 0
+  DeathCount: 0
   _debugText: {fileID: 0}
 --- !u!114 &868540737618247302
 MonoBehaviour:
@@ -370,7 +376,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stepHeightRatio: 0.25
   colliderHeight: 3
-  colliderThickness: 1
+  colliderThickness: 0.5
   colliderOffset: {x: 0, y: 0.5, z: 0}
   sensorType: 0
   isInDebugMode: 0

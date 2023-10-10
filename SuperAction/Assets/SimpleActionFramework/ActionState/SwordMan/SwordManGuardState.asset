@@ -26,7 +26,7 @@ MonoBehaviour:
   - rid: 8629600874899701764
   - rid: 8629600874899701766
   actantWrapper:
-  - rid: 8629600870051348629
+  - rid: 8629600870051348652
   references:
     version: 2
     RefIds:
@@ -130,6 +130,7 @@ MonoBehaviour:
           KnockbackPower: 0
           GuardCrash: 0
           Point: {x: 0, y: 0}
+          Color: {r: 0, g: 0, b: 0, a: 0}
           NextStateOnSuccessToSelf: 
           NextStateOnSuccessToReceiver: 
     - rid: 8629600870051348639
@@ -154,6 +155,7 @@ MonoBehaviour:
           KnockbackPower: 0
           GuardCrash: 0
           Point: {x: 0, y: 0}
+          Color: {r: 0, g: 0, b: 0, a: 0}
           NextStateOnSuccessToSelf: GuardSuccess
           NextStateOnSuccessToReceiver: HitFailed
     - rid: 8629600870051348651

@@ -36,7 +36,7 @@ namespace SimpleActionFramework.Core
     
         public SpriteRenderer SpriteRenderer;
         public Material SpriteMaterial => SpriteRenderer ? SpriteRenderer.material : null;
-        public BoxCollider PhysicsCollider;
+        public Collider PhysicsCollider;
     
         public string CurrentState;
         public string CurrentActantName;
@@ -224,7 +224,6 @@ namespace SimpleActionFramework.Core
             "button2",
             "button3",
             "button4",
-            "jump",
             "forward",
             "backward",
             "up",
