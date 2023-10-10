@@ -174,7 +174,7 @@ MonoBehaviour:
           Key: Inputs
           ValueType: 4
           ConditionType: 6
-          StringValue: down+,jump+
+          StringValue: down+,button2+
           NumberValue: 0
           ConsumeInput: 1
         - JointType: 1

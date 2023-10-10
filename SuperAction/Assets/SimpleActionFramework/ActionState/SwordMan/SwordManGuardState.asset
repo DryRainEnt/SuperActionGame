@@ -191,7 +191,7 @@ MonoBehaviour:
           Key: Inputs
           ValueType: 4
           ConditionType: 6
-          StringValue: jump
+          StringValue: button2+
           NumberValue: 0
           ConsumeInput: 0
     - rid: 8629600870051348653
