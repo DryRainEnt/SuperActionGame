@@ -1,0 +1,13 @@
+{
+    "level": 0,
+    "net_a_fc1_weight": [],
+    "net_a_fc2_weight": [],
+    "net_a_fc3_weight": [],
+    "net_a_fc1_bias": [],
+    "net_a_fc2_bias": [],
+    "net_a_fc3_bias": [],
+    "net_b_fc1_weight": [],
+    "net_b_fc2_weight": [],
+    "net_b_fc1_bias": [],
+    "net_b_fc2_bias": []
+}
