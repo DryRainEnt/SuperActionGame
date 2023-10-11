@@ -2164,14 +2164,25 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7740229622451298325, guid: 7623768a0e61e454d83abb5e9d50e9d3, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 566251130}
+      addedObject: {fileID: 566251137}
   m_SourcePrefab: {fileID: 100100000, guid: 7623768a0e61e454d83abb5e9d50e9d3, type: 3}
 --- !u!1 &566251129 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7740229622451298325, guid: 7623768a0e61e454d83abb5e9d50e9d3, type: 3}
   m_PrefabInstance: {fileID: 566251128}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &566251130
+--- !u!114 &566251134 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9062735408026339385, guid: 7623768a0e61e454d83abb5e9d50e9d3, type: 3}
+  m_PrefabInstance: {fileID: 566251128}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 566251129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 219ea7b3eb6cd9c40996b4748f2ae163, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &566251137
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2180,14 +2191,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 566251129}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffad03c34bb6aaf459f8ab324a86e7e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 15ec32d459654195ae52a360128558fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   prevInputAxis: {x: 0, y: 0}
   inputAxis: {x: 0, y: 0}
   prevCommandAxis: {x: 0, y: 0}
   commandAxis: {x: 0, y: 0}
-  intention: []
+  intention:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   movementDirection: {x: 0, y: 0}
 --- !u!1 &619394800
 GameObject:
@@ -4001,6 +4017,7 @@ GameObject:
   - component: {fileID: 1098655798}
   - component: {fileID: 1098655801}
   - component: {fileID: 1098655802}
+  - component: {fileID: 1098655803}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -4051,6 +4068,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 2038493069}
+  Learner: {fileID: 566251134}
   _debugText: {fileID: 1642583447}
   _timerText: {fileID: 72367536}
   _fpsText: {fileID: 1658552369}
@@ -4093,6 +4111,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f1615d08e452e042911bca1b9976270, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1098655803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1098655796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab9f12f7989f40178b6f6110a4d586b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FileName: ALPS.exe
+  isActive: 0
+  NeuralNetwork:
+    level: 0
+    net_a_fc1_bias: []
+    net_a_fc1_weight: []
+    net_a_fc2_bias: []
+    net_a_fc2_weight: []
+    net_a_fc3_bias: []
+    net_a_fc3_weight: []
+    net_b_fc1_bias: []
+    net_b_fc1_weight: []
+    net_b_fc2_bias: []
+    net_b_fc2_weight: []
 --- !u!1 &1109317612
 GameObject:
   m_ObjectHideFlags: 0
@@ -4225,7 +4269,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: AI
+  m_text: NN
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5795,7 +5839,7 @@ MonoBehaviour:
   m_Placeholder: {fileID: 0}
   m_ItemText: {fileID: 543212928}
   m_ItemImage: {fileID: 0}
-  m_Value: 2
+  m_Value: 3
   m_Options:
     m_Options:
     - m_Text: None

@@ -13,7 +13,7 @@ namespace Resources.Scripts
 {
 	public class NeuralNetworkInput : CharacterInput
 	{
-		public CustomNeuralNetwork NeuralNetwork;
+		public CustomNeuralNetwork NeuralNetwork => NetworkManager.Instance.NeuralNetwork;
 		
 		public Vector2 movementDirection = Vector2.zero;
 
@@ -24,12 +24,9 @@ namespace Resources.Scripts
 		private bool _useAI = false;
 		public bool UseAI => _useAI;
 
-		private string WeightsPath(int level) => Utils.BuildString('/', Application.streamingAssetsPath, "Weights", $"weights_{level}.json");
-		
 		private void OnEnable()
 		{
-			var json = File.ReadAllText(WeightsPath(5));
-			NeuralNetwork.FromJson(json);
+			Game.Instance.Learner = GetComponent<Actor>();
 		}
 
 		public override float GetHorizontalMovementInput()

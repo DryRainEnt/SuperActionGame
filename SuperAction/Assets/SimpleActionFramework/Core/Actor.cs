@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using CMF;
@@ -35,6 +36,7 @@ namespace SimpleActionFramework.Core
         private ActorController _actorController;
     
         public SpriteRenderer SpriteRenderer;
+        public Animator Animator;
         public Material SpriteMaterial => SpriteRenderer ? SpriteRenderer.material : null;
         public Collider PhysicsCollider;
     
@@ -90,6 +92,7 @@ namespace SimpleActionFramework.Core
             {
                 _prevPosition = Position;
                 _positionCache = value;
+                transform.position = _positionCache;
             }
             get => _positionCache;
         }
@@ -118,14 +121,18 @@ namespace SimpleActionFramework.Core
             Game.Instance.RegisteredActors.Add(ActorIndex, this);
             
             ActionStateMachine.UpdateData(Constants.DefaultDataKeys[DefaultKeys.INTERACTION], "Neutral");
-
-            _initialPosition ??= Position;
         }
 
         public void UpdateController()
         {
             _actorController = GetComponent<ActorController>();
             _actorController.CharacterInput = GetComponent<CharacterInput>();
+        }
+
+        private void Start()
+        {
+            _initialPosition = Position;
+            Revive();
         }
 
         private void OnEnable()
@@ -152,7 +159,7 @@ namespace SimpleActionFramework.Core
 
         public void ResetPosition()
         {
-            transform.position = _initialPosition.Value;
+            Position = _initialPosition.Value;
             SetVelocity(Vector2.zero);
             HP = MaxHP;
         }
@@ -218,6 +225,9 @@ namespace SimpleActionFramework.Core
         void Update()
         {
             var dt = StateSpeed * Time.deltaTime;
+
+            if (!Game.IsPlayable)
+                return;
 
             InputUpdate();
         

@@ -49,6 +49,18 @@ namespace Resources.Scripts.Core
 
 		public float[] ActorDataSet;
 
+		public float Validation;
+
+		[NonSerialized]
+		public float[] Intention;
+		
+		public float Aggressiveness => Intention[0] * 1f + Intention[1] * 0.8f + Intention[2] * -0.3f + Intention[3] * -0.6f + Intention[4] * -0.9f;
+
+		public void AddValidation(float v)
+		{
+			Validation += v;
+		}
+
 		public FrameData(int frame)
 		{
 			Frame = frame;
@@ -70,6 +82,10 @@ namespace Resources.Scripts.Core
 
 				i++;
 			}
+
+			Validation = 0;
+			
+			Intention = NetworkManager.Instance.NeuralNetwork.ForwardA(ActorDataSet);
 		}
 		
 		public FrameData(FrameData copy)
@@ -87,6 +103,10 @@ namespace Resources.Scripts.Core
 			{
 				ActorDataSet[i] = copy.ActorDataSet[i];
 			}
+
+			Validation = copy.Validation;
+			
+			copy.Intention.CopyTo(Intention = new float[copy.Intention.Length], 0);
 		}
 		
 		public FrameData CopyFrom(FrameData copy)
@@ -104,6 +124,9 @@ namespace Resources.Scripts.Core
 			{
 				ActorDataSet[i] = copy.ActorDataSet[i];
 			}
+			
+			Validation = copy.Validation;
+			copy.Intention.CopyTo(Intention = new float[copy.Intention.Length], 0);
 
 			return this;
 		}

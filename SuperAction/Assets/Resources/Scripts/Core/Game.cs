@@ -14,6 +14,7 @@ public class Game : MonoBehaviour, IEventListener
     public static Game Instance => _instance ? _instance : FindObjectOfType<Game>();
     
     public Actor Player;
+    public Actor Learner;
     
     public Dictionary<int, Actor> RegisteredActors = new Dictionary<int, Actor>();
     
@@ -33,12 +34,17 @@ public class Game : MonoBehaviour, IEventListener
     private bool _isWriting = false;
     public static bool IsWriting => Instance._isWriting;
     
+    private bool _isPlayable = false;
+    public static bool IsPlayable => Instance._isPlayable;
+
     // Start is called before the first frame update
-    void Start()
+    async void Start()
     {
         Application.targetFrameRate = 60;
         
         MessageSystem.Subscribe(typeof(OnDeathEvent), this);
+
+        await Task.Run(NetworkManager.Instance.RunPython);
     }
 
     private void OnDisable()
@@ -77,7 +83,12 @@ public class Game : MonoBehaviour, IEventListener
     private void FixedUpdate()
     {
         MaskManager.Instance.Update();
+
+        _isPlayable = false;
         
+        if (RegisteredActors.Count < 2 || !NetworkManager.Instance.isActive) return;
+        
+        _isPlayable = true;
         _frameDataChunk.Append(new FrameData(Time.frameCount));
     }
 
@@ -86,6 +97,19 @@ public class Game : MonoBehaviour, IEventListener
         if (e is OnDeathEvent { ActorIndex: 1 })
         {
             WriteFrameDataExternal();
+            return true;
+        }
+        
+        if (e is OnAttackHitEvent ahe)
+        {
+            var healthDiff = ahe.info.Damage * (ahe.takerMask.Owner == Learner ? -1 : 1);
+            var currentFrame = Time.frameCount;
+            foreach (var frame in _frameDataChunk.Frames)
+            {
+                var elapsed = currentFrame - frame.Frame;
+                var valid = frame.Aggressiveness * healthDiff / (30 + elapsed);
+                frame.AddValidation(valid);
+            }
             return true;
         }
         
@@ -99,6 +123,7 @@ public class Game : MonoBehaviour, IEventListener
 
     public async void WriteFrameDataExternal()
     {
+        _isWriting = true;
         var task = Task.Run(WriteFrameData);
         
         // 함수를 리턴하고 태스크가 종료될 때까지 기다린다.
@@ -108,23 +133,43 @@ public class Game : MonoBehaviour, IEventListener
 
         // 태스크가 끝나면 await 바로 다음 줄로 돌아와서 나머지가 실행되고 함수가 종료된다.
         //Debug.Log("Result : " + result);
+
+        await NetworkManager.Instance.StartLearning();
+        
+        _isWriting = false;
     }
 
     private async Task<int> WriteFrameData()
     {
         int result = 0;
+
+        Debug.Log("Writing...");
+        string dir = Application.streamingAssetsPath + $"/FrameData/{DateTime.Now:yyMMdd-hhmm}";
+        if (!Directory.Exists(dir))
+        {
+            Directory.CreateDirectory(dir);
+        }
         
-        FileStream fileStream
-            = new FileStream(Application.streamingAssetsPath + $"/frameData[{_frameDataChunk.ChunkId}]_({DateTime.Now:yyMMdd-HHmm}).json", 
+        FileStream saveStream
+            = new FileStream(dir + $"/frameData_{NetworkManager.Instance.NeuralNetwork.level}.json", 
                 FileMode.OpenOrCreate, FileAccess.Write);
         
-        _isWriting = true;
+        await using StreamWriter saveWriter = new StreamWriter(saveStream);
+        await saveWriter.WriteAsync(_frameDataChunk.ToJson());
+        saveWriter.Close();
+        Debug.Log("Backup Done");
+        
+        FileStream fileStream
+            = new FileStream(Application.streamingAssetsPath + "/data.json", 
+                FileMode.Create, FileAccess.Write);
+        
         await using StreamWriter writer = new StreamWriter(fileStream);
         await writer.WriteAsync(_frameDataChunk.ToJson());
         _frameDataChunk.Clear();
         writer.Close();
+        Debug.Log("Writing Complete!");
+        
         result = 1;
-        _isWriting = false;
 
         return result;
     }
