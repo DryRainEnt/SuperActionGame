@@ -225,10 +225,7 @@ namespace SimpleActionFramework.Core
         void Update()
         {
             var dt = StateSpeed * Time.deltaTime;
-
-            if (!Game.IsPlayable)
-                return;
-
+            
             InputUpdate();
         
             ActionStateMachine.OnUpdate(this, dt);

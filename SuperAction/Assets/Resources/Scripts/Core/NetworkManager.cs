@@ -23,13 +23,14 @@ namespace Resources.Scripts.Core
 
         public string WeightsPath => Utils.BuildString('/', Application.streamingAssetsPath, "Weights", "weights.json");
         
-        public bool isActive = false;
         public CustomNeuralNetwork NeuralNetwork;
 
         private bool hasMessage = false;
         private string message = "";
         
-        private bool isLearning = false;
+        public bool isActive = false;
+        public bool isConnected = false;
+        public bool isLearning = false;
 
         private void Awake()
         {
@@ -39,6 +40,9 @@ namespace Resources.Scripts.Core
 
         public async Task<bool> StartLearning()
         {
+			if (!isConnected)
+				return false;
+
 	        SendPyMessage("start");
 	        isLearning = true;
 
@@ -65,6 +69,9 @@ namespace Resources.Scripts.Core
         
         public async void SendPyMessage(string m)
 		{
+			if (!isConnected)
+				return;
+
 			hasMessage = true;
 			this.message = m;
 
@@ -108,6 +115,7 @@ namespace Resources.Scripts.Core
 	        
 			while (bytesRead != 0)
 			{
+				isConnected = true;
 				Debug.Log("Learn: Running...");
 				
 				bytesRead = stream.Read(buffer, 0, buffer.Length);
@@ -133,6 +141,7 @@ namespace Resources.Scripts.Core
 			}
 			
 			Debug.Log("Learn: Finished");
+			isConnected = false;
         }
 
         public bool OnEvent(IEvent e)
