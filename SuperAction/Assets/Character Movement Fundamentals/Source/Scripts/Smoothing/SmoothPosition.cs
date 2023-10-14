@@ -1,14 +1,25 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
+using Proto.EventSystem;
+using Resources.Scripts.Events;
+using SimpleActionFramework.Core;
+using Sirenix.Utilities;
 
 namespace CMF
 {
 	//This script smoothes the position of a gameobject;
-	public class SmoothPosition : MonoBehaviour {
-
+	public class SmoothPosition : MonoBehaviour, IEventListener
+	{
 		//The target transform, whose position values will be copied and smoothed;
+		public Vector3 defaultPosition;
 		public Transform target;
 		Transform tr;
+
+		private Actor targetActor;
+
+		public Vector3 MinLimit;
+		public Vector3 MaxLimit;
 
 		Vector3 currentPosition;
 		
@@ -42,6 +53,15 @@ namespace CMF
 		Vector3 localPositionOffset;
 
 		Vector3 refVelocity;
+
+		private enum ActiveState
+		{
+			Default,
+			Active,
+			Inactive,
+		}
+
+		ActiveState activeState = ActiveState.Default;
 		
 		//Awake;
 		void Awake () {
@@ -52,6 +72,9 @@ namespace CMF
 
 			tr = transform;
 			currentPosition = transform.position;
+			
+			if (target.GetComponent<Actor>() is { } actor)
+				targetActor = actor;
 
 			localPositionOffset = tr.localPosition;
 		}
@@ -63,13 +86,27 @@ namespace CMF
 			ResetCurrentPosition();
 		}
 
-		void Update () {
+		private void Start()
+		{
+			MessageSystem.Subscribe(typeof(OnDeathEvent), this);
+			MessageSystem.Subscribe(typeof(OnReviveEvent), this);
+		}
+
+		void Update ()
+		{
+			if (activeState == ActiveState.Inactive)
+				return;
+			
 			if(updateType == UpdateType.LateUpdate)
 				return;
 			SmoothUpdate();
 		}
 
-		void LateUpdate () {
+		void LateUpdate ()
+		{
+			if (activeState == ActiveState.Inactive)
+				return;
+			
 			if(updateType == UpdateType.Update)
 				return;
 			SmoothUpdate();
@@ -77,8 +114,14 @@ namespace CMF
 
 		void SmoothUpdate()
 		{
+			var targetPosition = activeState switch
+			{
+				ActiveState.Default => defaultPosition,
+				ActiveState.Inactive => currentPosition,
+				_ => target.position
+			};
 			//Smooth current position;
-			currentPosition = Smooth (currentPosition, target.position, lerpSpeed);
+			currentPosition = Smooth (currentPosition, targetPosition, lerpSpeed).Clamp(MinLimit, MaxLimit);
 
 			//Set position;
 			tr.position = currentPosition;
@@ -118,6 +161,27 @@ namespace CMF
 			Vector3 _offset = tr.localToWorldMatrix * localPositionOffset;
 			//Add position offset and set current position;
 			currentPosition = target.position + _offset;
+		}
+
+		public bool OnEvent(IEvent e)
+		{
+			if (e is OnDeathEvent de)
+			{
+				if (targetActor && targetActor.ActorIndex == de.ActorIndex)
+				{
+					activeState = ActiveState.Inactive;
+					return true;
+				}
+			}
+			if (e is OnReviveEvent re)
+			{
+				if (targetActor && targetActor.ActorIndex == re.ActorIndex)
+				{
+					activeState = ActiveState.Active;
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 }

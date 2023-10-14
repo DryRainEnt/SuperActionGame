@@ -50,7 +50,8 @@ namespace SimpleActionFramework.Core
         public bool LockDirection;
         public bool IsLeft;
 
-        private Vector2? _initialPosition;
+        [SerializeField]
+        private Vector2 _initialPosition;
         
         public List<InputRecord> RecordedInputs = new List<InputRecord>();
         
@@ -104,10 +105,11 @@ namespace SimpleActionFramework.Core
 
         public float[] Intention => _actorController.CharacterInput ? _actorController.CharacterInput.intention : new []{0f};
 
-        private void Initiate()
+        public void Initiate()
         {
             _actorController = GetComponent<ActorController>();
             SpriteRenderer.color = Color;
+            _initialPosition = transform.position;
         
             ActionStateMachine = Instantiate(ActionStateMachine);
             ActionStateMachine.Init(this);
@@ -117,10 +119,10 @@ namespace SimpleActionFramework.Core
                 RecordedInputs.Clear();
             };
             
-            //TODO: ActorIndex가 겹치지 않도록 고유화 단계를 분리해줘야 함.
-            Game.Instance.RegisteredActors.Add(ActorIndex, this);
-            
             ActionStateMachine.UpdateData(Constants.DefaultDataKeys[DefaultKeys.INTERACTION], "Neutral");
+            
+            MessageSystem.Subscribe(typeof(OnAttackHitEvent), this);
+            MessageSystem.Subscribe(typeof(OnAttackGuardEvent), this);
         }
 
         public void UpdateController()
@@ -129,37 +131,24 @@ namespace SimpleActionFramework.Core
             _actorController.CharacterInput = GetComponent<CharacterInput>();
         }
 
-        private void Start()
-        {
-            _initialPosition = Position;
-            Revive();
-        }
-
         private void OnEnable()
         {
-            Initiate();
-
             ObjectPoolController.GetOrCreate("DamageTextFX", "Effects");
             ObjectPoolController.GetOrCreate("SlashFX", "Effects");
             ObjectPoolController.GetOrCreate("GuardFX", "Effects");
             ObjectPoolController.GetOrCreate("DeathFX", "Effects");
             ObjectPoolController.GetOrCreate("ReviveFX", "Effects");
-            
-            MessageSystem.Subscribe(typeof(OnAttackHitEvent), this);
-            MessageSystem.Subscribe(typeof(OnAttackGuardEvent), this);
         }
         
-        private void OnDisable()
+        private void OnDestroy()
         {
             MessageSystem.Unsubscribe(typeof(OnAttackHitEvent), this);
             MessageSystem.Unsubscribe(typeof(OnAttackGuardEvent), this);
-            
-            Game.Instance?.RegisteredActors?.Remove(ActorIndex);
         }
 
         public void ResetPosition()
         {
-            Position = _initialPosition.Value;
+            Position = _initialPosition;
             SetVelocity(Vector2.zero);
             HP = MaxHP;
         }
@@ -190,7 +179,7 @@ namespace SimpleActionFramework.Core
             Game.Instance.StartCoroutine(OnRevive());
         }
         
-        private IEnumerator OnRevive()
+        public IEnumerator OnRevive()
         {
             while (Game.IsWriting)
             {
@@ -199,13 +188,16 @@ namespace SimpleActionFramework.Core
 
             ResetPosition();
             var fx = ObjectPoolController.InstantiateObject("ReviveFX", 
-                new PoolParameters(_initialPosition.Value)) as DeathFX;
+                new PoolParameters(_initialPosition)) as DeathFX;
             fx.Initialize(Color);
+
+            MessageSystem.Publish(OnReviveEvent.Create(ActorIndex, DeathCount));
 
             yield return new WaitForSeconds(0.6f);
             
             gameObject.SetActive(true);
-
+            
+            ActionStateMachine.SetState("Idle");
             IsInvulnerable = true;
             var originColor = Color;
             var flash = 0;
@@ -224,6 +216,9 @@ namespace SimpleActionFramework.Core
         // Update is called once per frame
         void Update()
         {
+            if (!Game.IsPlayable)
+                return;
+
             var dt = StateSpeed * Time.deltaTime;
             
             InputUpdate();

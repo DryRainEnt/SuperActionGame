@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using CMF;
 using Proto.EventSystem;
 using Resources.Scripts;
@@ -28,18 +29,29 @@ public class ActorUIField : MonoBehaviour, IEventListener
 
     public TMPro.TMP_Text IntentionText;
     
-    private void Start()
+    private async void Start()
     {
         MessageSystem.Subscribe(typeof(OnHealthUpdatedEvent), this);
         MessageSystem.Subscribe(typeof(OnDeathEvent), this);
-
-        _targetActor = Game.Instance.RegisteredActors[TargetActorIndex] ?? Game.Instance.Player;
         AxisStickOrigin = AxisStick.transform.localPosition;
+
+        await Task.Run(() =>
+        {
+            while (_targetActor == null)
+            {
+                if (Game.Instance.RegisteredActors.ContainsKey(TargetActorIndex))
+                    _targetActor = Game.Instance.RegisteredActors[TargetActorIndex];
+            }
+        });
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!_targetActor)
+            return;
+        
         var dt = Time.deltaTime;
         PrevBar.fillAmount = Mathf.Lerp(PrevBar.fillAmount, HPBar.fillAmount, dt);
 

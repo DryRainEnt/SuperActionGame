@@ -37,19 +37,44 @@ public class Game : MonoBehaviour, IEventListener
     private bool _isPlayable = false;
     public static bool IsPlayable => Instance._isPlayable;
 
+    private void Awake()
+    {
+        _instance = this;
+    }
+
     // Start is called before the first frame update
     async void Start()
     {
         Application.targetFrameRate = 60;
         
         MessageSystem.Subscribe(typeof(OnDeathEvent), this);
+        MessageSystem.Subscribe(typeof(OnReviveEvent), this);
+        
+        RegisteredActors.Add(0, Player);
+        RegisteredActors.Add(1, Learner);
+        
+        Player.Initiate();
+        Learner.Initiate();
+        
+        Player.gameObject.SetActive(false);
+        Learner.gameObject.SetActive(false);
 
+        AudienceController.Instance.SummonAudience();
+
+        await Task.Delay(5000);
+
+        _isPlayable = true;
+        
+        StartCoroutine(Player.OnRevive());
+        StartCoroutine(Learner.OnRevive());
+        
         await Task.Run(NetworkManager.Instance.RunPython);
     }
 
     private void OnDisable()
     {
         MessageSystem.Unsubscribe(typeof(OnDeathEvent), this);
+        MessageSystem.Unsubscribe(typeof(OnReviveEvent), this);
     }
 
     // Update is called once per frame
@@ -83,12 +108,9 @@ public class Game : MonoBehaviour, IEventListener
     private void FixedUpdate()
     {
         MaskManager.Instance.Update();
-
-        _isPlayable = false;
         
         if (RegisteredActors.Count < 2 || !NetworkManager.Instance.isActive) return;
         
-        _isPlayable = true;
         _frameDataChunk.Append(new FrameData(Time.frameCount));
     }
 

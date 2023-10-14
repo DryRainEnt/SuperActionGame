@@ -38,6 +38,9 @@ namespace SimpleActionFramework.Implements
 
         void FixedUpdate()
         {
+	        if (!Game.IsPlayable)
+		        return;
+	        
             //Run initial mover ground check;
             mover.CheckForGround();
 
