@@ -182,7 +182,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a4483ea754ca6043a5118a42cf7f9fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultPosition: {x: 0, y: 0, z: 0}
   target: {fileID: 586065798349722102}
+  MinLimit: {x: 0, y: 0, z: 0}
+  MaxLimit: {x: 0, y: 0, z: 0}
   lerpSpeed: 20
   smoothDampTime: 0.04
   extrapolatePosition: 0
@@ -330,7 +333,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.25
+  m_Radius: 0.5
   m_Height: 2.25
   m_Direction: 1
   m_Center: {x: 0, y: 1.875, z: 0}
@@ -350,6 +353,7 @@ MonoBehaviour:
   _color: {r: 0, g: 0, b: 0, a: 0}
   ActionStateMachine: {fileID: 11400000, guid: c08008054254e9447b9e84cd640ffd54, type: 2}
   SpriteRenderer: {fileID: 8285347137796838297}
+  Animator: {fileID: 0}
   PhysicsCollider: {fileID: 9051941583058486721}
   CurrentState: 
   CurrentActantName: 
@@ -358,6 +362,7 @@ MonoBehaviour:
   LastDirection: {x: 0, y: 0}
   LockDirection: 0
   IsLeft: 0
+  _initialPosition: {x: 0, y: 0}
   HitMaskIds: 
   IsInvulnerable: 0
   DeathCount: 0
@@ -376,7 +381,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stepHeightRatio: 0.25
   colliderHeight: 3
-  colliderThickness: 0.5
+  colliderThickness: 1
   colliderOffset: {x: 0, y: 0.5, z: 0}
   sensorType: 0
   isInDebugMode: 0
@@ -449,6 +454,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9819db9f56d8ad4c83e05807a209fc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prevInputAxis: {x: 0, y: 0}
+  inputAxis: {x: 0, y: 0}
+  prevCommandAxis: {x: 0, y: 0}
+  commandAxis: {x: 0, y: 0}
+  intention:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   horizontalInputAxis: Horizontal
   verticalInputAxis: Vertical
   jumpKey: 32
