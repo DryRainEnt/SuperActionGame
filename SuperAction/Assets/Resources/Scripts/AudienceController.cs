@@ -87,7 +87,7 @@ public class AudienceController : MonoBehaviour
         
         yield return new WaitForSeconds(UnityEngine.Random.Range(0.2f, 1.3f));
         
-        var randomColor = UnityEngine.Random.ColorHSV(0f, 1f, 0.8f, 0.8f, 0.8f, 1f);
+        var randomColor = UnityEngine.Random.ColorHSV(0f, 1f, 0.8f, 1f, 0.8f, 1f);
         
         line.enabled = true;
         line.startColor = randomColor;
@@ -96,7 +96,7 @@ public class AudienceController : MonoBehaviour
         line.endWidth = 0.2f;
         
         sprite.enabled = true;
-        sprite.color = randomColor * 0.84f;
+        sprite.color = randomColor;
         Audiences[index].Play("Aud" + animId);
         AnimIds[index] = animId;
 

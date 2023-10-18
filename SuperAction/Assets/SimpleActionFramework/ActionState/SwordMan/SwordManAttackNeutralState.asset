@@ -34,7 +34,7 @@ MonoBehaviour:
   - rid: 8629601031791312907
   - rid: 8629601031791312936
   actantWrapper:
-  - rid: 8629600936846426118
+  - rid: 8629600936846426120
   references:
     version: 2
     RefIds:
@@ -380,8 +380,8 @@ MonoBehaviour:
           actionId: 0
           actantId: 0
           timeStamp: 0
-        StartFrame: 14
-        Duration: 10
+        StartFrame: 18
+        Duration: 6
         InterpolationType: 0
         Idx: 17
         StateKey: AttackNeutral

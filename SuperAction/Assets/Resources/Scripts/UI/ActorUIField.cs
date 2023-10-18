@@ -40,7 +40,9 @@ public class ActorUIField : MonoBehaviour, IEventListener
             while (_targetActor == null)
             {
                 if (Game.Instance.RegisteredActors.ContainsKey(TargetActorIndex))
+                {
                     _targetActor = Game.Instance.RegisteredActors[TargetActorIndex];
+                }
             }
         });
         
@@ -69,6 +71,8 @@ public class ActorUIField : MonoBehaviour, IEventListener
         CommandButtonB.color = _targetActor.CommandAxis.y > 0.5f ? Color.grey : Color.white;
         
         IntentionText.text = string.Join(" | ", _targetActor.Intention);
+        
+        DeathCountText.color = _targetActor.OriginColor;
     }
 
     public void OnControllerChange(int index)

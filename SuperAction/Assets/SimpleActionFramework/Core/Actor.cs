@@ -9,6 +9,7 @@ using Resources.Scripts;
 using Resources.Scripts.Events;
 using SimpleActionFramework.Implements;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace SimpleActionFramework.Core
 {
@@ -18,6 +19,7 @@ namespace SimpleActionFramework.Core
         [SerializeField]
         private Color _color;
 
+        public Color OriginColor;
         public Color Color
         {
             get => _color;
@@ -60,7 +62,8 @@ namespace SimpleActionFramework.Core
         
         public int[] HitMaskIds;
 
-        public bool IsInvulnerable = false;
+        public bool isInvulnerable = false;
+        public int lastHitFrame = -0;
 
         public bool isAlive => HP > 0;
         
@@ -109,6 +112,7 @@ namespace SimpleActionFramework.Core
         {
             _actorController = GetComponent<ActorController>();
             SpriteRenderer.color = Color;
+            OriginColor = Color;
             _initialPosition = transform.position;
         
             ActionStateMachine = Instantiate(ActionStateMachine);
@@ -198,7 +202,7 @@ namespace SimpleActionFramework.Core
             gameObject.SetActive(true);
             
             ActionStateMachine.SetState("Idle");
-            IsInvulnerable = true;
+            isInvulnerable = true;
             var originColor = Color;
             var flash = 0;
 
@@ -210,7 +214,7 @@ namespace SimpleActionFramework.Core
 
             Color = originColor;
 
-            IsInvulnerable = false;
+            isInvulnerable = false;
         }
 
         // Update is called once per frame
@@ -265,13 +269,15 @@ namespace SimpleActionFramework.Core
             RecordedInputs.Sort();
             
             if (_actorController.CharacterInput is CharacterKeyboardInput)
-                Color = Color.cyan;
+                OriginColor = Color.cyan;
             else if (_actorController.CharacterInput is CharacterArtificialInput)
-                Color = Color.red;
+                OriginColor = Color.red;
             else if (_actorController.CharacterInput is NeuralNetworkInput)
-                Color = Color.yellow;
+                OriginColor = Color.yellow;
             else
-                Color = Color.grey;
+                OriginColor = Color.grey;
+            
+            Color = OriginColor;
             
             foreach (var key in ActionKeys)
             {
@@ -390,7 +396,10 @@ namespace SimpleActionFramework.Core
                 // 공격이 맞았고 피격자가 자신일 때
                 if (taker == this)
                 {
-                    if (IsInvulnerable)
+                    if (lastHitFrame + 2 >= Time.frameCount)
+                        return false;
+                    
+                    if (isInvulnerable)
                     {
                         var guardfx = ObjectPoolController.InstantiateObject("GuardFX", new PoolParameters(info.Point)) as GuardFX;
                         guardfx.Initialize(Color.white);
@@ -421,6 +430,8 @@ namespace SimpleActionFramework.Core
                             Time.timeScale = 1f;
                         }
                     };
+                    
+                    lastHitFrame = Time.frameCount;
                     return true;
                 }
             }
