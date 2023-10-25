@@ -37,6 +37,8 @@ public class Game : MonoBehaviour, IEventListener
     private bool _isPlayable = false;
     public static bool IsPlayable => Instance._isPlayable;
 
+    private float _startTime = 0f;
+
     private void Awake()
     {
         _instance = this;
@@ -61,9 +63,10 @@ public class Game : MonoBehaviour, IEventListener
 
         AudienceController.Instance.SummonAudience();
 
-        await Task.Delay(5000);
+        await Task.Delay(3000);
 
         _isPlayable = true;
+        _startTime = Time.realtimeSinceStartup;
         
         StartCoroutine(Player.OnRevive());
         StartCoroutine(Learner.OnRevive());
@@ -102,7 +105,9 @@ public class Game : MonoBehaviour, IEventListener
         }
         
         _fpsText.text = $"{Mathf.Round((Time.unscaledDeltaTime > 0f ? 1f / Time.unscaledDeltaTime : 0f) * 100f) * 0.01f : 00.00} fps";
-        _timerText.text = $"{Time.realtimeSinceStartup:##00.00}";
+
+        if (_isPlayable)
+            _timerText.text = $"{Time.realtimeSinceStartup - _startTime:##00.00}";
     }
 
     private void FixedUpdate()
