@@ -122,7 +122,7 @@ public class ActorUIField : MonoBehaviour, IEventListener
         }
         if (e is OnDeathEvent de)
         {
-            if (de.ActorIndex != TargetActorIndex)
+            if (de.ActorIndex == TargetActorIndex)
                 return false;
             
             DeathCountText.text = $"{de.NewDeathCount}";
