@@ -6,11 +6,16 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class DebugDrawer : MonoBehaviour
 {
+    public static DebugDrawer Instance => _instance ? _instance : FindObjectOfType<DebugDrawer>();
+    private static DebugDrawer _instance;
+
     public List<Dictionary<string, object>> DrawGizmoData = new List<Dictionary<string, object>>();
     
     private Color _color;
 
 	public Material mat;
+
+    public bool UseDebug = false;
 
 	private void Awake()
 	{
@@ -30,6 +35,8 @@ public class DebugDrawer : MonoBehaviour
 
     private void OnPostRender()
 	{
+        if (!UseDebug) return;
+        
 		foreach (var mask in MaskManager.HitMaskList)
 		{
 			var c = mask.Type.GetColor();
