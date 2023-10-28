@@ -15,7 +15,7 @@ namespace SimpleActionFramework.Core
 		[SerializeReference]
 		public List<SingleActant> actantWrapper = new();
 
-		public int TotalDuration => (Actants.Count > 0 ? Actants.Max(actant => actant.EndFrame) : 0);
+		public int TotalDuration => (Actants.Count > 0 ? Actants.Max(actant => actant.EndFrame) - 1 : 0);
 		
 		public int GetId => GetInstanceID();
 		

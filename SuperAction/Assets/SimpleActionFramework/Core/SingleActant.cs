@@ -12,13 +12,15 @@ namespace SimpleActionFramework.Core
     }
     
     [Serializable]
-    public class SingleActant : IDisposable
+    public class SingleActant
     {
         public CombinedIdKey id;
         
+        [Min(0)]
         public int StartFrame;
+        [Min(0)]
         public int Duration;
-        public bool UsedOnce => Duration == 0;
+        
         public int EndFrame => StartFrame + Duration;
         public int DrawnFrame => Mathf.Max(StartFrame + 1, StartFrame + Duration);
 
@@ -59,11 +61,6 @@ namespace SimpleActionFramework.Core
             StartFrame = actant.StartFrame;
             Duration = actant.Duration;
             InterpolationType = actant.InterpolationType;
-        }
-
-        public virtual void Dispose()
-        {
-            // TODO release managed resources here
         }
     }
 }

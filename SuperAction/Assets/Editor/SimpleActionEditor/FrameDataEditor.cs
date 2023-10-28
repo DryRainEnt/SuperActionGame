@@ -415,6 +415,7 @@ namespace SimpleActionFramework.Core.Editor
 
 				var swapTarget = (0, 0);
 				EditorGUILayout.BeginVertical(GUILayout.Width(headerBaseWidth + 2f));
+				
 					if (GUILayout.Button(">>", GUILayout.Width(headerBaseWidth - 4f)))
 					{
 						GenericMenu menu = new GenericMenu();
@@ -428,6 +429,15 @@ namespace SimpleActionFramework.Core.Editor
 					for (var index = 0; index < selectedActionState.Actants.Count; index++)
 					{
 						var act = selectedActionState.Actants[index];
+						
+						// 이전과 동일한 타입의 Actant이고 시작 프레임이 이전 종료 프레임 이후일 때 같은 줄에 표시합니다.
+						if (index > 0)
+						{
+							var prev = selectedActionState.Actants[index-1];
+							if (act.GetType() == prev.GetType() && act.StartFrame >= prev.EndFrame)
+								continue;
+						}
+						
 						EditorGUILayout.BeginHorizontal();
 
 						GUI.backgroundColor = Color.red;
@@ -504,17 +514,46 @@ namespace SimpleActionFramework.Core.Editor
             
 	            GUI.skin.horizontalScrollbar = horizontalScrollbar;
 	            GUI.skin.verticalScrollbar = verticalScrollbar;
+
+	            void fill_space(int end)
+	            {
+		            for (int i = end + 1; i <= totalDuration; i++)
+			            if (GUILayout.Button(" ", GUILayout.Width(frameBoxBaseWidth), GUILayout.Height(30f)))
+			            {
+				            selectedFrame = i;
+				            selectedActant = null;
+				            selectedActantIndex = -1;
+			            }
+	            }
 	            
 				// 스크롤뷰 시작
 				timelineScroll = EditorGUILayout.BeginScrollView(timelineScroll, true, true , 
 					GUILayout.Width(position.width - (320f + headerBaseWidth + 8f)), GUILayout.Height(timelineHeight - 30f));
 
+						EditorGUILayout.BeginHorizontal();
 			            for (var index = 0; index < selectedActionState.Actants.Count; index++)
 			            {
 				            var act = selectedActionState.Actants[index];
-				            EditorGUILayout.BeginHorizontal();
+				            var sFrame = 0;
 				            
-				            for (int i = 0; i <= totalDuration; i++)
+				            // 이전과 동일한 타입의 Actant이고 시작 프레임이 이전 종료 프레임 이후일 때 같은 줄에 표시합니다.
+				            if (index > 0)
+				            {
+					            var prev = selectedActionState.Actants[index-1];
+					            if (act.GetType() == prev.GetType() && act.StartFrame >= prev.EndFrame)
+					            {
+						            sFrame = prev.EndFrame;
+					            }
+					            else
+					            {
+						            fill_space(prev.EndFrame);
+						            
+						            EditorGUILayout.EndHorizontal();
+						            EditorGUILayout.BeginHorizontal();
+					            }
+				            }
+				            
+				            for (int i = sFrame; i <= totalDuration; i++)
 				            {
 					            if (i == act.StartFrame)
 					            {
@@ -530,19 +569,22 @@ namespace SimpleActionFramework.Core.Editor
 
 						            GUI.backgroundColor = DefaultGUIColor;
 					            }
-					            else if (i < act.StartFrame || i > act.DrawnFrame)
+					            else if (i < act.StartFrame)
 					            {
-						            if (GUILayout.Button("X", GUILayout.Width(frameBoxBaseWidth), GUILayout.Height(30f)))
+						            if (GUILayout.Button(" ", GUILayout.Width(frameBoxBaseWidth), GUILayout.Height(30f)))
 						            {
 							            selectedFrame = i;
 							            selectedActant = null;
 							            selectedActantIndex = -1;
 						            }
 					            }
+					            else
+						            break;
 				            }
-
-				            EditorGUILayout.EndHorizontal();
 			            }
+			            
+			            fill_space(selectedActionState.Actants[^1].EndFrame);
+			            EditorGUILayout.EndHorizontal();
 
 			            if (swapTarget.Item1 != swapTarget.Item2)
 				            (selectedActionState.Actants[swapTarget.Item1], selectedActionState.Actants[swapTarget.Item2])
