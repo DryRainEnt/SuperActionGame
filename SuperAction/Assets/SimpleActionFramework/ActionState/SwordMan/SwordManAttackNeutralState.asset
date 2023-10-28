@@ -34,7 +34,7 @@ MonoBehaviour:
   - rid: 8629601031791312907
   - rid: 8629601031791312936
   actantWrapper:
-  - rid: 8629600936846426120
+  - rid: 8629600936846426114
   references:
     version: 2
     RefIds:
@@ -161,7 +161,7 @@ MonoBehaviour:
         Idx: 7
         MaskType: 4
         Position: {x: 1.25, y: 1.62}
-        Size: {x: 1.85, y: 1.24}
+        Size: {x: 3.23, y: 1.45}
         Info:
           Damage: 0
           GuardDamage: 0
@@ -185,8 +185,8 @@ MonoBehaviour:
         InterpolationType: 0
         Idx: 8
         MaskType: 1
-        Position: {x: 1.29, y: 1.63}
-        Size: {x: 3.35, y: 1.78}
+        Position: {x: 1.49, y: 1.63}
+        Size: {x: 3.11, y: 0.96}
         Info:
           Damage: 5
           GuardDamage: 0

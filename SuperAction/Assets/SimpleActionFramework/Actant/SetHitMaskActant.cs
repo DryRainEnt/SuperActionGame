@@ -58,7 +58,20 @@ public class SetHitMaskActant : SingleActant
 	{
 		actor.ActionStateMachine.DisposeDisposable(this);
 	}
-	
+
+	public override void CopyFrom(SingleActant actant)
+	{
+		if (actant is not SetHitMaskActant hit)
+			return;
+		
+		StartFrame = hit.StartFrame;
+		Duration = hit.Duration;
+		MaskType = hit.MaskType;
+		Position = hit.Position;
+		Size = hit.Size;
+		Info = hit.Info;
+	}
+
 	public override void OnGUI(Rect position, float scale, float progress)
 	{
 	#if UNITY_EDITOR
@@ -73,5 +86,10 @@ public class SetHitMaskActant : SingleActant
 				Mask.Bounds.size * (scale * 16f)), EditorGUIUtility.whiteTexture, ScaleMode.StretchToFill);
 		GUI.color = Color.white; // GUI 색상을 기본값으로 돌려놓기
 	#endif
+	}
+
+	public override string ToString()
+	{
+		return Utils.BuildString(MaskType.ToString(), " Mask");
 	}
 }

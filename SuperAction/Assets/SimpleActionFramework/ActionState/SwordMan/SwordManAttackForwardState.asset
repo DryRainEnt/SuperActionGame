@@ -25,20 +25,46 @@ MonoBehaviour:
   - rid: 8629600936846426132
   - rid: 8629600936846426133
   - rid: 8629600936846426134
+  - rid: 1345007933427810304
   - rid: 8629600936846426135
   - rid: 8629600936846426136
   - rid: 8629600936846426137
-  - rid: 8629600936846426138
   - rid: 8629600936846426139
+  - rid: 8629600936846426138
   - rid: 8629600936846426140
   - rid: 4433509540630364162
   - rid: 8629601031791312938
   - rid: 4433509540630364163
   actantWrapper:
-  - rid: 4433509540630364163
+  - rid: 1345007933427810304
   references:
     version: 2
     RefIds:
+    - rid: 1345007933427810304
+      type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 18
+        Duration: 6
+        InterpolationType: 0
+        Idx: 12
+        MaskType: 1
+        Position: {x: 1.44, y: 1.66}
+        Size: {x: 4.32, y: 0.7}
+        Info:
+          Damage: 0
+          GuardDamage: 0
+          Direction: {x: 0, y: 0}
+          KnockbackPower: 0
+          GuardCrash: 0
+          Point: {x: 0, y: 0}
+          Color: {r: 0, g: 0, b: 0, a: 0}
+          NextStateOnSuccessToSelf: 
+          NextStateOnSuccessToReceiver: 
     - rid: 4433509540630364162
       type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
@@ -50,7 +76,7 @@ MonoBehaviour:
         StartFrame: 24
         Duration: 21
         InterpolationType: 0
-        Idx: 18
+        Idx: 19
         StateKey: AttackUp
         ConditionStates:
         - JointType: 0
@@ -80,7 +106,7 @@ MonoBehaviour:
         StartFrame: 39
         Duration: 6
         InterpolationType: 0
-        Idx: 20
+        Idx: 21
         StateKey: Move
         ConditionStates:
         - JointType: 0
@@ -263,8 +289,8 @@ MonoBehaviour:
         InterpolationType: 0
         Idx: 10
         MaskType: 4
-        Position: {x: -0.24, y: 1.19}
-        Size: {x: 4.36, y: 2.31}
+        Position: {x: 0.93, y: 1.19}
+        Size: {x: 4.26, y: 2.26}
         Info:
           Damage: 0
           GuardDamage: 0
@@ -284,12 +310,12 @@ MonoBehaviour:
           actantId: 0
           timeStamp: 0
         StartFrame: 15
-        Duration: 9
+        Duration: 3
         InterpolationType: 0
         Idx: 11
         MaskType: 1
         Position: {x: 0.36, y: 1.33}
-        Size: {x: 7.23, y: 1.44}
+        Size: {x: 5.52, y: 1.44}
         Info:
           Damage: 8
           GuardDamage: 0
@@ -311,7 +337,7 @@ MonoBehaviour:
         StartFrame: 15
         Duration: 10
         InterpolationType: 5
-        Idx: 12
+        Idx: 13
         Velocity: {x: 32, y: 0}
         RelativeToActor: 1
     - rid: 8629600936846426136
@@ -325,7 +351,7 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 0
         InterpolationType: 0
-        Idx: 13
+        Idx: 14
     - rid: 8629600936846426137
       type: {class: ToggleInput, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
@@ -337,7 +363,7 @@ MonoBehaviour:
         StartFrame: 0
         Duration: 27
         InterpolationType: 0
-        Idx: 14
+        Idx: 15
         useCharacterInput: 0
     - rid: 8629600936846426138
       type: {class: ToggleInput, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
@@ -350,7 +376,7 @@ MonoBehaviour:
         StartFrame: 36
         Duration: 9
         InterpolationType: 0
-        Idx: 15
+        Idx: 17
         useCharacterInput: 1
     - rid: 8629600936846426139
       type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
@@ -393,7 +419,7 @@ MonoBehaviour:
         StartFrame: 24
         Duration: 21
         InterpolationType: 0
-        Idx: 17
+        Idx: 18
         StateKey: Dodge
         ConditionStates:
         - JointType: 0
@@ -423,7 +449,7 @@ MonoBehaviour:
         StartFrame: 45
         Duration: 0
         InterpolationType: 0
-        Idx: 19
+        Idx: 20
         DefaultKey: 5
         Key: InteractionState
         ValueType: 1
