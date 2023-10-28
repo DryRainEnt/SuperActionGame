@@ -464,7 +464,7 @@ namespace SimpleActionFramework.Core.Editor
 							// 선택한 타입의 Actant를 추가합니다.
 							var newActant = (SingleActant)Activator.CreateInstance(act.GetType());
 							newActant.CopyFrom(act);
-							selectedActionState.Actants.Add(newActant);
+							selectedActionState.Actants.Insert(index+1, newActant);
 							EditorUtility.SetDirty(ASM);
 							AssetDatabase.SaveAssets();
 							selectedActant = newActant;
