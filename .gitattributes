@@ -1,1 +1,2 @@
 SuperAction/Assets/StreamingAssets/ALPS.exe filter=lfs diff=lfs merge=lfs -text
+ActionLearningProgram/dist/ALPS.exe filter=lfs diff=lfs merge=lfs -text
