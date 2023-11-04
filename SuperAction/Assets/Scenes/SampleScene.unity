@@ -29070,7 +29070,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mat: {fileID: 0}
-  UseDebug: 0
+  UseDebug: 1
 --- !u!114 &1753061501
 MonoBehaviour:
   m_ObjectHideFlags: 0

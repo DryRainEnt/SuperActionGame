@@ -218,7 +218,7 @@ MonoBehaviour:
           Point: {x: 0, y: 0}
           Color: {r: 0, g: 0, b: 0, a: 0}
           NextStateOnSuccessToSelf: GuardSuccess
-          NextStateOnSuccessToReceiver: HitSmall
+          NextStateOnSuccessToReceiver: HitMedium
     - rid: 8629601031791312900
       type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:

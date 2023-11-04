@@ -28,14 +28,40 @@ MonoBehaviour:
   - rid: 8629601031791312926
   - rid: 8629601031791312957
   - rid: 8629601031791312958
+  - rid: 1345007933427810305
   - rid: 4433509540630364160
   - rid: 8629601031791313001
   - rid: 8629601031791313002
   actantWrapper:
-  - rid: 8629601031791313002
+  - rid: 8629601031791312958
   references:
     version: 2
     RefIds:
+    - rid: 1345007933427810305
+      type: {class: SetHitMaskActant, ns: , asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 15
+        Duration: 9
+        InterpolationType: 0
+        Idx: 15
+        MaskType: 1
+        Position: {x: 0.46, y: 1.86}
+        Size: {x: 2.71, y: 2.25}
+        Info:
+          Damage: 6
+          GuardDamage: 0
+          Direction: {x: 0, y: 1}
+          KnockbackPower: 11
+          GuardCrash: 0
+          Point: {x: 0, y: 0}
+          Color: {r: 0, g: 0, b: 0, a: 0}
+          NextStateOnSuccessToSelf: HitSuccess
+          NextStateOnSuccessToReceiver: HitMedium
     - rid: 4433509540630364160
       type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
@@ -47,7 +73,7 @@ MonoBehaviour:
         StartFrame: 30
         Duration: 12
         InterpolationType: 0
-        Idx: 15
+        Idx: 16
         StateKey: AirAttackDown
         ConditionStates:
         - JointType: 0
@@ -272,22 +298,22 @@ MonoBehaviour:
           actantId: 0
           timeStamp: 0
         StartFrame: 12
-        Duration: 9
+        Duration: 3
         InterpolationType: 0
         Idx: 14
         MaskType: 1
-        Position: {x: 1, y: 2}
-        Size: {x: 2, y: 4}
+        Position: {x: 1.36, y: 0.63}
+        Size: {x: 1.11, y: 2.66}
         Info:
-          Damage: 9
+          Damage: 4
           GuardDamage: 0
           Direction: {x: 0, y: 1}
-          KnockbackPower: 12
+          KnockbackPower: 3
           GuardCrash: 0
           Point: {x: 0, y: 0}
           Color: {r: 0, g: 0, b: 0, a: 0}
           NextStateOnSuccessToSelf: HitSuccess
-          NextStateOnSuccessToReceiver: HitMedium
+          NextStateOnSuccessToReceiver: HitSmall
     - rid: 8629601031791313001
       type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
@@ -299,7 +325,7 @@ MonoBehaviour:
         StartFrame: 30
         Duration: 12
         InterpolationType: 0
-        Idx: 16
+        Idx: 17
         StateKey: AirAttackNeutral
         ConditionStates:
         - JointType: 0
@@ -329,7 +355,7 @@ MonoBehaviour:
         StartFrame: 38
         Duration: 4
         InterpolationType: 0
-        Idx: 17
+        Idx: 18
         StateKey: Jump
         ConditionStates:
         - JointType: 0

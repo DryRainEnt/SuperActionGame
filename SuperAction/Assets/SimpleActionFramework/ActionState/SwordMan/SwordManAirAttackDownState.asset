@@ -34,7 +34,7 @@ MonoBehaviour:
   - rid: 8629601031791312964
   - rid: 8629601031791312990
   actantWrapper:
-  - rid: 8629601031791312964
+  - rid: 8629601031791312962
   references:
     version: 2
     RefIds:
@@ -346,7 +346,7 @@ MonoBehaviour:
           actantId: 0
           timeStamp: 0
         StartFrame: 15
-        Duration: 9
+        Duration: 3
         InterpolationType: 0
         Idx: 18
         MaskType: 1

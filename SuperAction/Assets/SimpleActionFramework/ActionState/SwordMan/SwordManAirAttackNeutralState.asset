@@ -33,7 +33,7 @@ MonoBehaviour:
   - rid: 8629601031791312996
   - rid: 8629601031791312997
   actantWrapper:
-  - rid: 8629601031791312955
+  - rid: 8629601031791312954
   references:
     version: 2
     RefIds:
@@ -232,7 +232,7 @@ MonoBehaviour:
         Position: {x: 0.13, y: 0.2}
         Size: {x: 3, y: 1.11}
         Info:
-          Damage: 6
+          Damage: 5
           GuardDamage: 0
           Direction: {x: 2, y: 3}
           KnockbackPower: 5
@@ -257,7 +257,7 @@ MonoBehaviour:
         Position: {x: 0.96, y: 0.9}
         Size: {x: 2.24, y: 2}
         Info:
-          Damage: 6
+          Damage: 3
           GuardDamage: 0
           Direction: {x: 2, y: 3}
           KnockbackPower: 5
