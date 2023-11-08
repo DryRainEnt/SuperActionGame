@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Proto.EventSystem;
+using Proto.PoolingSystem;
 using Resources.Scripts.Core;
 using Resources.Scripts.Events;
 using SimpleActionFramework.Core;
@@ -47,16 +49,48 @@ public class Game : MonoBehaviour, IEventListener
     // Start is called before the first frame update
     async void Start()
     {
+        ObjectPoolController.GetOrCreate("Actor", "Characters");
         Application.targetFrameRate = 60;
-        
+
+        // Out game scene
+    }
+
+    public void RegisterActor(Actor actor)
+    {
+        var id = RegisteredActors.Count;
+        RegisteredActors.Add(id, actor);
+        actor.ActorIndex = id;
+    }
+
+    public void UnregisterActor(Actor actor)
+    {
+        RegisteredActors.Remove(actor.ActorIndex);
+    }
+
+    public void UnregisterActor(int id)
+    {
+        RegisteredActors.Remove(id);
+    }
+    
+    public async Task StartGame()
+    {
         MessageSystem.Subscribe(typeof(OnDeathEvent), this);
         MessageSystem.Subscribe(typeof(OnReviveEvent), this);
+
+        Player = ObjectPoolController.InstantiateObject("Actor",
+            new PoolParameters(new Vector2(-6, 12))) as Actor;
+        Learner = ObjectPoolController.InstantiateObject("Actor",
+            new PoolParameters(new Vector2(6, 12))) as Actor;
         
-        RegisteredActors.Add(0, Player);
-        RegisteredActors.Add(1, Learner);
+        CameraTracker.Instance.Track(Vector2.up * 24f);
         
+        Player.ChangeActorControl(1);
         Player.Initiate();
+        RegisterActor(Player);
+        
+        Learner.ChangeActorControl(2);
         Learner.Initiate();
+        RegisterActor(Learner);
         
         Player.gameObject.SetActive(false);
         Learner.gameObject.SetActive(false);
@@ -68,16 +102,22 @@ public class Game : MonoBehaviour, IEventListener
         _isPlayable = true;
         _startTime = Time.realtimeSinceStartup;
         
+        CameraTracker.Instance.Track(Player.transform, Vector2.up * 24f);
         StartCoroutine(Player.OnRevive());
         StartCoroutine(Learner.OnRevive());
         
         await Task.Run(NetworkManager.Instance.RunPython);
     }
 
-    private void OnDisable()
+    public async Task EndGame()
     {
         MessageSystem.Unsubscribe(typeof(OnDeathEvent), this);
         MessageSystem.Unsubscribe(typeof(OnReviveEvent), this);
+    }
+
+    private async void OnDisable()
+    {
+        await EndGame();
     }
 
     // Update is called once per frame
@@ -146,6 +186,13 @@ public class Game : MonoBehaviour, IEventListener
     public Actor GetEnemy(int self)
     {
         return RegisteredActors[self == 0 ? 1 : 0];
+    }
+
+    public Actor GetClosestEnemy(int self)
+    {
+        return RegisteredActors.Where(i => i.Key != self)
+            .OrderBy(j => Vector2.Distance(RegisteredActors[self].Position, j.Value.Position))
+            .First().Value;
     }
 
     public async void WriteFrameDataExternal()

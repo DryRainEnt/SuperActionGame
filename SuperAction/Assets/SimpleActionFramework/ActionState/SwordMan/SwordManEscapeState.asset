@@ -32,11 +32,39 @@ MonoBehaviour:
   - rid: 8629601031791312970
   - rid: 8629601144650072066
   - rid: 8629601144650072067
+  - rid: 1808971689840869376
+  - rid: 1808971689840869377
   actantWrapper:
-  - rid: 8629601144650072067
+  - rid: 1808971689840869377
   references:
     version: 2
     RefIds:
+    - rid: 1808971689840869376
+      type: {class: ToggleInput, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 0
+        Duration: 3
+        InterpolationType: 0
+        Idx: 0
+        useCharacterInput: 1
+    - rid: 1808971689840869377
+      type: {class: ToggleInput, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
+      data:
+        id:
+          machineId: 0
+          actionId: 0
+          actantId: 0
+          timeStamp: 0
+        StartFrame: 3
+        Duration: 1
+        InterpolationType: 0
+        Idx: 0
+        useCharacterInput: 0
     - rid: 8629600870051348601
       type: {class: SetSpriteActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
@@ -318,6 +346,6 @@ MonoBehaviour:
         StartFrame: 15
         Duration: 12
         InterpolationType: 2
-        Idx: 0
+        Idx: 18
         Velocity: {x: 32, y: 0}
         RelativeToActor: 1

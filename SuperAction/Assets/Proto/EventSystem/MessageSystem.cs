@@ -123,6 +123,13 @@ namespace Proto.EventSystem
             //구독한 청취자들에게 발행된 이벤트 전달
             foreach (var pe in _publishedThisFrame)
             {
+                //대상이 특정되면 이벤트 전달
+                if (pe.target != null)
+                {
+                    pe.target.OnEvent(pe.e);
+                    continue;
+                }
+                
                 var eventType = pe.e.GetType();
                 if (!_eventSubscriptions.ContainsKey(eventType)) continue;
                 //전체 발행용 이벤트
@@ -133,11 +140,6 @@ namespace Proto.EventSystem
                         target.callback.Invoke(pe.e);
                     }
 
-                }
-                //대상이 특정되면 이벤트 전달
-                else
-                {
-                    pe.target.OnEvent(pe.e);
                 }
                 //발행된 이벤트들이 다시 이벤트를 발행하는 경우가 있어, 목록이 변조되고있다.
                 //이벤트 내에서 이벤트 발행을 지양해야 하지만, 안전을 위해 옮겨두고 처리한다.

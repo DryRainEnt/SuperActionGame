@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -9025390970422906611, guid: 049b8632633d71d48abcc0ca16e82f3b, type: 3}
+  m_Sprite: {fileID: -4345398297093585983, guid: 9a4855e6158c8be41843cb51ac4e5588, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -159,7 +159,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ActorIndex: 0
   _color: {r: 0, g: 0, b: 0, a: 0}
-  ActionStateMachine: {fileID: 11400000, guid: c08008054254e9447b9e84cd640ffd54, type: 2}
+  OriginColor: {r: 0, g: 0, b: 0, a: 0}
+  ActionStateMachine: {fileID: 11400000, guid: 9cf62c3f71830f04babcc24f27197094, type: 2}
   SpriteRenderer: {fileID: 8285347137796838297}
   Animator: {fileID: 0}
   PhysicsCollider: {fileID: 9051941583058486721}
@@ -172,7 +173,8 @@ MonoBehaviour:
   IsLeft: 0
   _initialPosition: {x: 0, y: 0}
   HitMaskIds: 
-  IsInvulnerable: 0
+  isInvulnerable: 0
+  lastHitFrame: 0
   DeathCount: 0
   _debugText: {fileID: 0}
 --- !u!114 &868540737618247302
@@ -274,7 +276,7 @@ MonoBehaviour:
   - 0
   horizontalInputAxis: Horizontal
   verticalInputAxis: Vertical
-  jumpKey: 32
+  jumpKey: 107
   useRawInput: 1
 --- !u!1 &8999023154823047150
 GameObject:

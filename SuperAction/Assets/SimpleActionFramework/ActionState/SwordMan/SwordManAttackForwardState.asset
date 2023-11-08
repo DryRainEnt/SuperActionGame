@@ -36,7 +36,7 @@ MonoBehaviour:
   - rid: 8629601031791312938
   - rid: 4433509540630364163
   actantWrapper:
-  - rid: 1345007933427810304
+  - rid: 8629600936846426134
   references:
     version: 2
     RefIds:
@@ -56,15 +56,15 @@ MonoBehaviour:
         Position: {x: 1.44, y: 1.66}
         Size: {x: 4.32, y: 0.7}
         Info:
-          Damage: 0
+          Damage: 2
           GuardDamage: 0
-          Direction: {x: 0, y: 0}
-          KnockbackPower: 0
+          Direction: {x: -1, y: 0}
+          KnockbackPower: 4
           GuardCrash: 0
           Point: {x: 0, y: 0}
           Color: {r: 0, g: 0, b: 0, a: 0}
-          NextStateOnSuccessToSelf: 
-          NextStateOnSuccessToReceiver: 
+          NextStateOnSuccessToSelf: HitSuccess
+          NextStateOnSuccessToReceiver: HitMedium
     - rid: 4433509540630364162
       type: {class: SetActionStateActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:
@@ -325,7 +325,7 @@ MonoBehaviour:
           Point: {x: 0, y: 0}
           Color: {r: 0, g: 0, b: 0, a: 0}
           NextStateOnSuccessToSelf: HitSuccess
-          NextStateOnSuccessToReceiver: HitMedium
+          NextStateOnSuccessToReceiver: HitSmall
     - rid: 8629600936846426135
       type: {class: SetVelocityActant, ns: SimpleActionFramework.Actant, asm: Assembly-CSharp}
       data:

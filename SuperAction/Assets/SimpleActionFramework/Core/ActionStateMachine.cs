@@ -17,7 +17,6 @@ namespace SimpleActionFramework.Core
         public Dictionary<SingleActant, ActantState> ActantStates = new Dictionary<SingleActant, ActantState>();
         
         private Dictionary<SingleActant, IDisposable> _disposables = new Dictionary<SingleActant, IDisposable>();
-        public Dictionary<SingleActant, IDisposable> Disposables => _disposables;
 
         public string CurrentStateName = "null";
 
@@ -104,6 +103,8 @@ namespace SimpleActionFramework.Core
         
         public void DisposeDisposable(SingleActant key)
         {
+            if (!_disposables.ContainsKey(key))
+                return;
             var disposable = _disposables[key];
             _disposables.Remove(key);
             disposable.Dispose();

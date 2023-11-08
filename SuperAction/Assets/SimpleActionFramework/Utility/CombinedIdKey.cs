@@ -33,5 +33,12 @@ namespace SimpleActionFramework.Utility
 			       actionId == key.actionId &&
 			       timeStamp == key.timeStamp;
 		}
+		
+		public bool IsSameMove(CombinedIdKey key)
+		{
+			return
+				actionId == key.actionId &&
+				actantId == key.actantId;
+		}
 	}
 }

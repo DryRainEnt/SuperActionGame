@@ -77,36 +77,10 @@ public class ActorUIField : MonoBehaviour, IEventListener
 
     public void OnControllerChange(int index)
     {
-        var control = _targetActor.GetComponent<CharacterInput>();
-        switch (index)
-        {
-            case 0:
-                DestroyImmediate(control);
-                _targetActor.gameObject.AddComponent<CharacterInput>();
-                break;
-            case 1:
-                // Keyboard
-                if (control is CharacterKeyboardInput)
-                    return;
-                DestroyImmediate(control);
-                _targetActor.gameObject.AddComponent<CharacterKeyboardInput>();
-                break;
-            case 2:
-                // AI
-                if (control is CharacterArtificialInput)
-                    return;
-                DestroyImmediate(control);
-                _targetActor.gameObject.AddComponent<CharacterArtificialInput>();
-                break;
-            case 3:
-                // NN
-                if (control is NeuralNetworkInput)
-                    return;
-                DestroyImmediate(control);
-                _targetActor.gameObject.AddComponent<NeuralNetworkInput>();
-                break;
-        }
-        _targetActor.UpdateController();
+        if (!_targetActor)
+            return;
+        
+        _targetActor.ChangeActorControl(index);
     }
 
     public bool OnEvent(IEvent e)

@@ -13,7 +13,7 @@ using UnityEngine.Serialization;
 
 namespace SimpleActionFramework.Core
 {
-    public class Actor : MonoBehaviour, IEventListener
+    public class Actor : MonoBehaviour, IPooledObject, IEventListener
     {
         public int ActorIndex;
         [SerializeField]
@@ -129,7 +129,34 @@ namespace SimpleActionFramework.Core
             MessageSystem.Subscribe(typeof(OnAttackGuardEvent), this);
         }
 
-        public void UpdateController()
+        public void ChangeActorControl(int index)
+        {
+            var control = GetComponent<CharacterInput>();
+            if (control)
+                DestroyImmediate(control);
+            
+            switch (index)
+            {
+                case 0:
+                    gameObject.AddComponent<CharacterInput>();
+                    break;
+                case 1:
+                    // Keyboard
+                    gameObject.AddComponent<CharacterKeyboardInput>();
+                    break;
+                case 2:
+                    // AI
+                    gameObject.AddComponent<CharacterArtificialInput>();
+                    break;
+                case 3:
+                    // NN
+                    gameObject.AddComponent<NeuralNetworkInput>();
+                    break;
+            }
+            UpdateController();
+        }
+        
+        private void UpdateController()
         {
             _actorController = GetComponent<ActorController>();
             _actorController.CharacterInput = GetComponent<CharacterInput>();
@@ -457,6 +484,16 @@ namespace SimpleActionFramework.Core
                 }
             }
             return false;
+        }
+
+        public string Name { get; set; } = "Actor";
+        
+        public void OnPooled()
+        {
+        }
+
+        public void Dispose()
+        {
         }
     }
 }
