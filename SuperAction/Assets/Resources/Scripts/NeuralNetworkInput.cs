@@ -26,7 +26,7 @@ namespace Resources.Scripts
 
 		private void OnEnable()
 		{
-			Game.Instance.Learner = GetComponent<Actor>();
+			// Game.Instance.Learner = GetComponent<Actor>();
 		}
 
 		public override float GetHorizontalMovementInput()

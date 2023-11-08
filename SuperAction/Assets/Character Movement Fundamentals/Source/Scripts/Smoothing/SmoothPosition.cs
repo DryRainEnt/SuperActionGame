@@ -54,14 +54,14 @@ namespace CMF
 
 		Vector3 refVelocity;
 
-		private enum ActiveState
+		public enum CameraFollowActiveState
 		{
 			Default,
 			Active,
 			Inactive,
 		}
 
-		ActiveState activeState = ActiveState.Default;
+		public CameraFollowActiveState _cameraFollowActiveState = CameraFollowActiveState.Active;
 		
 		//Awake;
 		void Awake () {
@@ -94,7 +94,7 @@ namespace CMF
 
 		void Update ()
 		{
-			if (activeState == ActiveState.Inactive)
+			if (_cameraFollowActiveState == CameraFollowActiveState.Inactive)
 				return;
 			
 			if(updateType == UpdateType.LateUpdate)
@@ -104,7 +104,7 @@ namespace CMF
 
 		void LateUpdate ()
 		{
-			if (activeState == ActiveState.Inactive)
+			if (_cameraFollowActiveState == CameraFollowActiveState.Inactive)
 				return;
 			
 			if(updateType == UpdateType.Update)
@@ -114,10 +114,10 @@ namespace CMF
 
 		void SmoothUpdate()
 		{
-			var targetPosition = activeState switch
+			var targetPosition = _cameraFollowActiveState switch
 			{
-				ActiveState.Default => defaultPosition,
-				ActiveState.Inactive => currentPosition,
+				CameraFollowActiveState.Default => defaultPosition,
+				CameraFollowActiveState.Inactive => currentPosition,
 				_ => target.position
 			};
 			//Smooth current position;
@@ -169,7 +169,7 @@ namespace CMF
 			{
 				if (targetActor && targetActor.ActorIndex == de.ActorIndex)
 				{
-					activeState = ActiveState.Inactive;
+					_cameraFollowActiveState = CameraFollowActiveState.Inactive;
 					return true;
 				}
 			}
@@ -177,7 +177,7 @@ namespace CMF
 			{
 				if (targetActor && targetActor.ActorIndex == re.ActorIndex)
 				{
-					activeState = ActiveState.Active;
+					_cameraFollowActiveState = CameraFollowActiveState.Active;
 					return true;
 				}
 			}
