@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 3264186122418266219}
   - component: {fileID: 181662500842700556}
   - component: {fileID: 4001303613713842572}
+  - component: {fileID: 7981455509904983176}
   m_Layer: 0
   m_Name: Actor
   m_TagString: Untagged
@@ -163,7 +164,6 @@ MonoBehaviour:
   DefaultActionStateMachine: {fileID: 11400000, guid: 9cf62c3f71830f04babcc24f27197094, type: 2}
   ActionStateMachine: {fileID: 11400000, guid: 9cf62c3f71830f04babcc24f27197094, type: 2}
   SpriteRenderer: {fileID: 8285347137796838297}
-  Animator: {fileID: 0}
   PhysicsCollider: {fileID: 9051941583058486721}
   CurrentState: 
   CurrentActantName: 
@@ -173,7 +173,7 @@ MonoBehaviour:
   LockDirection: 0
   IsLeft: 0
   _initialPosition: {x: 0, y: 0}
-  HitMaskIds: 
+  controllerType: 0
   isInvulnerable: 0
   lastHitFrame: 0
   DeathCount: 0
@@ -281,6 +281,22 @@ MonoBehaviour:
   verticalInputAxis: Vertical
   jumpKey: 107
   useRawInput: 1
+--- !u!114 &7981455509904983176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7740229622451298325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &8999023154823047150
 GameObject:
   m_ObjectHideFlags: 0
