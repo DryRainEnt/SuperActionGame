@@ -28,16 +28,3 @@ public class StageLoader : MonoBehaviour
         }
     }
 }
-
-public enum StageType
-{
-    Survival,
-    Raid,
-    Lobby,
-    Test,
-}
-
-public class StageData
-{
-    public StageType StageType;
-}

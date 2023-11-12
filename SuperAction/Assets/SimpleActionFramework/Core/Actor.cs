@@ -8,12 +8,13 @@ using Proto.PoolingSystem;
 using Resources.Scripts;
 using Resources.Scripts.Events;
 using SimpleActionFramework.Implements;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace SimpleActionFramework.Core
 {
-    public class Actor : MonoBehaviour, IPooledObject, IEventListener
+    public class Actor : NetworkBehaviour, IPooledObject, IEventListener
     {
         public int ActorIndex;
         [SerializeField]
@@ -31,6 +32,8 @@ namespace SimpleActionFramework.Core
         }
         
         [SerializeField]
+        public ActionStateMachine DefaultActionStateMachine;
+        [SerializeField]
         public ActionStateMachine ActionStateMachine;
         
         public Dictionary<string, object> Data => ActionStateMachine ? ActionStateMachine.Data : null;
@@ -38,7 +41,6 @@ namespace SimpleActionFramework.Core
         private ActorController _actorController;
     
         public SpriteRenderer SpriteRenderer;
-        public Animator Animator;
         public Material SpriteMaterial => SpriteRenderer ? SpriteRenderer.material : null;
         public Collider PhysicsCollider;
     
@@ -59,9 +61,9 @@ namespace SimpleActionFramework.Core
         
         public Vector2 InputAxis => _actorController.CharacterInput.inputAxis;
         public Vector2 CommandAxis => _actorController.CharacterInput.commandAxis;
-        
-        public int[] HitMaskIds;
 
+        public int controllerType = 0;
+        
         public bool isInvulnerable = false;
         public int lastHitFrame = -0;
 
@@ -105,6 +107,8 @@ namespace SimpleActionFramework.Core
         public Vector2 Velocity => Position - _prevPosition;
 
         public int DeathCount;
+        public int MaxLifeCount = 5;
+        public int LifeCount = 5;
 
         public float[] Intention => _actorController.CharacterInput ? _actorController.CharacterInput.intention : new []{0f};
 
@@ -115,7 +119,7 @@ namespace SimpleActionFramework.Core
             OriginColor = Color;
             _initialPosition = transform.position;
         
-            ActionStateMachine = Instantiate(ActionStateMachine);
+            ActionStateMachine = Instantiate(DefaultActionStateMachine);
             ActionStateMachine.Init(this);
             
             _actorController.OnJump = (v) =>
@@ -127,6 +131,9 @@ namespace SimpleActionFramework.Core
             
             MessageSystem.Subscribe(typeof(OnAttackHitEvent), this);
             MessageSystem.Subscribe(typeof(OnAttackGuardEvent), this);
+
+            DeathCount = 0;
+            LifeCount = MaxLifeCount;
         }
 
         public void ChangeActorControl(int index)
@@ -154,6 +161,8 @@ namespace SimpleActionFramework.Core
                     break;
             }
             UpdateController();
+            
+            controllerType = index;
         }
         
         private void UpdateController()
@@ -170,12 +179,6 @@ namespace SimpleActionFramework.Core
             ObjectPoolController.GetOrCreate("DeathFX", "Effects");
             ObjectPoolController.GetOrCreate("ReviveFX", "Effects");
         }
-        
-        private void OnDestroy()
-        {
-            MessageSystem.Unsubscribe(typeof(OnAttackHitEvent), this);
-            MessageSystem.Unsubscribe(typeof(OnAttackGuardEvent), this);
-        }
 
         public void ResetPosition()
         {
@@ -190,12 +193,25 @@ namespace SimpleActionFramework.Core
                 yield return null;
             
             DeathCount++;
+            LifeCount = MaxLifeCount - DeathCount;
 
             MessageSystem.Publish(OnDeathEvent.Create(ActorIndex, DeathCount));
+            
+            if (LifeCount < 0)
+            {
+                yield return new WaitForSeconds(1.2f);
+                
+                MessageSystem.Publish(OnGameEndEvent.Create(ActorIndex));
+                
+                yield break;
+            }
+            
+            CameraTracker.Instance.Track(Position);
             
             var fx = ObjectPoolController.InstantiateObject("DeathFX", 
                 new PoolParameters(Position)) as DeathFX;
             fx.Initialize(Color);
+
             
             gameObject.SetActive(false);
             
@@ -216,7 +232,9 @@ namespace SimpleActionFramework.Core
             {
                 yield return null;
             }
-
+            
+            CameraTracker.Instance.Track(transform, Vector2.up * 24f);
+            
             ResetPosition();
             var fx = ObjectPoolController.InstantiateObject("ReviveFX", 
                 new PoolParameters(_initialPosition)) as DeathFX;
@@ -494,6 +512,11 @@ namespace SimpleActionFramework.Core
 
         public void Dispose()
         {
+            MessageSystem.Unsubscribe(typeof(OnAttackHitEvent), this);
+            MessageSystem.Unsubscribe(typeof(OnAttackGuardEvent), this);
+            
+            Destroy(ActionStateMachine);
+            
         }
     }
 }

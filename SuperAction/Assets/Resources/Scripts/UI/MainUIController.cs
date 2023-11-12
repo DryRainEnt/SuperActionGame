@@ -29,6 +29,15 @@ public class MainUIController : MonoBehaviour
         StageLoader.Instance.LoadStage(new StageData()
         {
             StageType = StageType.Test,
+            Participants = new[]
+            {
+                new ParticipantData()
+                {
+                    Owner = playerData,
+                    Color = Color.cyan,
+                    ControllerType = 1,
+                },
+            },
         });
         
         await Game.Instance.StartGame();

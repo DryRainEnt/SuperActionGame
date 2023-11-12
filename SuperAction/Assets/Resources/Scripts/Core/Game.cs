@@ -15,9 +15,6 @@ public class Game : MonoBehaviour, IEventListener
     private static Game _instance;
     public static Game Instance => _instance ? _instance : FindObjectOfType<Game>();
     
-    public Actor Player;
-    public Actor Learner;
-    
     public Dictionary<int, Actor> RegisteredActors = new Dictionary<int, Actor>();
     
     [SerializeField]
@@ -27,6 +24,9 @@ public class Game : MonoBehaviour, IEventListener
     private TMPro.TMP_Text _timerText;
     [SerializeField]
     private TMPro.TMP_Text _fpsText;
+    
+    [SerializeField]
+    private UnityEngine.UI.Slider _cpuCountSlider;
     
     private FrameDataChunk _frameDataChunk = new FrameDataChunk(1);
 
@@ -76,24 +76,27 @@ public class Game : MonoBehaviour, IEventListener
     {
         MessageSystem.Subscribe(typeof(OnDeathEvent), this);
         MessageSystem.Subscribe(typeof(OnReviveEvent), this);
+        MessageSystem.Subscribe(typeof(OnGameEndEvent), this);
 
-        Player = ObjectPoolController.InstantiateObject("Actor",
-            new PoolParameters(new Vector2(-6, 12))) as Actor;
-        Learner = ObjectPoolController.InstantiateObject("Actor",
-            new PoolParameters(new Vector2(6, 12))) as Actor;
-        
         CameraTracker.Instance.Track(Vector2.up * 24f);
-        
-        Player.ChangeActorControl(1);
-        Player.Initiate();
-        RegisterActor(Player);
-        
-        Learner.ChangeActorControl(2);
-        Learner.Initiate();
-        RegisterActor(Learner);
-        
-        Player.gameObject.SetActive(false);
-        Learner.gameObject.SetActive(false);
+
+        // Test use
+        var participants = new []
+        {
+            new ParticipantData(){ControllerType = 1},
+            new ParticipantData(){ControllerType = 2},
+            new ParticipantData(){ControllerType = 2},
+        };
+
+        foreach (var data in participants)
+        {
+            var player = ObjectPoolController.InstantiateObject("Actor",
+                new PoolParameters(new Vector2(-6, 12))) as Actor;
+            player.ChangeActorControl(data.ControllerType);
+            player.Initiate();
+            RegisterActor(player);
+            player.gameObject.SetActive(false);
+        }
 
         AudienceController.Instance.SummonAudience();
 
@@ -101,10 +104,12 @@ public class Game : MonoBehaviour, IEventListener
 
         _isPlayable = true;
         _startTime = Time.realtimeSinceStartup;
-        
-        CameraTracker.Instance.Track(Player.transform, Vector2.up * 24f);
-        StartCoroutine(Player.OnRevive());
-        StartCoroutine(Learner.OnRevive());
+
+        foreach (var pair in RegisteredActors)
+        {
+            var actor = pair.Value;
+            StartCoroutine(actor.OnRevive());
+        }
         
         await Task.Run(NetworkManager.Instance.RunPython);
     }
@@ -113,6 +118,7 @@ public class Game : MonoBehaviour, IEventListener
     {
         MessageSystem.Unsubscribe(typeof(OnDeathEvent), this);
         MessageSystem.Unsubscribe(typeof(OnReviveEvent), this);
+        MessageSystem.Unsubscribe(typeof(OnGameEndEvent), this);
     }
 
     private async void OnDisable()
@@ -169,7 +175,8 @@ public class Game : MonoBehaviour, IEventListener
         
         if (e is OnAttackHitEvent ahe)
         {
-            var healthDiff = ahe.info.Damage * (ahe.takerMask.Owner == Learner ? -1 : 1);
+            var healthDiff = ahe.info.Damage 
+                             * (ahe.takerMask.Owner.controllerType == 3 ? -1 : 1);
             var currentFrame = Time.frameCount;
             foreach (var frame in _frameDataChunk.Frames)
             {
@@ -177,6 +184,20 @@ public class Game : MonoBehaviour, IEventListener
                 var valid = frame.Aggressiveness * healthDiff / (30 + elapsed);
                 frame.AddValidation(valid);
             }
+            return true;
+        }
+        
+        if (e is OnGameEndEvent oge)
+        {
+            _isPlayable = false;
+            Debug.Log($"Winner is : {oge.WinnerIndex}");
+            
+            foreach (var actor in RegisteredActors.Values)
+            {
+                actor.gameObject.SetActive(false);
+                
+            }
+            
             return true;
         }
         

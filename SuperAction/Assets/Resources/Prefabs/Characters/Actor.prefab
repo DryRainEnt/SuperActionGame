@@ -160,6 +160,7 @@ MonoBehaviour:
   ActorIndex: 0
   _color: {r: 0, g: 0, b: 0, a: 0}
   OriginColor: {r: 0, g: 0, b: 0, a: 0}
+  DefaultActionStateMachine: {fileID: 11400000, guid: 9cf62c3f71830f04babcc24f27197094, type: 2}
   ActionStateMachine: {fileID: 11400000, guid: 9cf62c3f71830f04babcc24f27197094, type: 2}
   SpriteRenderer: {fileID: 8285347137796838297}
   Animator: {fileID: 0}
@@ -176,6 +177,8 @@ MonoBehaviour:
   isInvulnerable: 0
   lastHitFrame: 0
   DeathCount: 0
+  MaxLifeCount: 5
+  LifeCount: 5
   _debugText: {fileID: 0}
 --- !u!114 &868540737618247302
 MonoBehaviour:
