@@ -52,7 +52,8 @@ namespace Proto.PoolingSystem
             var obj = GetOrCreate();
             obj.Name = _name;
             obj.gameObject.SetActive(true);
-            obj.gameObject.transform.SetParent(param.Parent);
+            if (param.Parent is not null)
+                obj.gameObject.transform.SetParent(param.Parent);
             obj.gameObject.transform.position = param.Position;
             
             obj.OnPooled();

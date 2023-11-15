@@ -85,7 +85,7 @@ namespace Resources.Scripts.Core
 
 			Validation = 0;
 			
-			Intention = NetworkManager.Instance.NeuralNetwork.ForwardA(ActorDataSet);
+			Intention = NN_Manager.Instance.NeuralNetwork.ForwardA(ActorDataSet);
 		}
 		
 		public FrameData(FrameData copy)

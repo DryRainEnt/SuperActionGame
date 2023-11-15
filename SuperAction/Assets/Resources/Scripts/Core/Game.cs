@@ -8,6 +8,7 @@ using Proto.PoolingSystem;
 using Resources.Scripts.Core;
 using Resources.Scripts.Events;
 using SimpleActionFramework.Core;
+using TMPro;
 using UnityEngine;
 
 public class Game : MonoBehaviour, IEventListener
@@ -40,6 +41,20 @@ public class Game : MonoBehaviour, IEventListener
     public static bool IsPlayable => Instance._isPlayable;
 
     private float _startTime = 0f;
+    
+    public List<int> survivedPlayers = new List<int>();
+    
+    public TMP_Text LifeCountText;
+    public TMP_Text KillCountText;
+
+    public int playerLifeCount
+    {
+        set => LifeCountText.text = $"{value}";
+    }
+    public int playerKillCount
+    {
+        set => KillCountText.text = $"{value}";
+    }
 
     private void Awake()
     {
@@ -55,11 +70,13 @@ public class Game : MonoBehaviour, IEventListener
         // Out game scene
     }
 
-    public void RegisterActor(Actor actor)
+    public int RegisterActor(Actor actor)
     {
         var id = RegisteredActors.Count;
         RegisteredActors.Add(id, actor);
         actor.ActorIndex = id;
+
+        return id;
     }
 
     public void UnregisterActor(Actor actor)
@@ -72,7 +89,7 @@ public class Game : MonoBehaviour, IEventListener
         RegisteredActors.Remove(id);
     }
     
-    public async Task StartGame()
+    public async Task StartGame(StageData stage)
     {
         MessageSystem.Subscribe(typeof(OnDeathEvent), this);
         MessageSystem.Subscribe(typeof(OnReviveEvent), this);
@@ -81,21 +98,20 @@ public class Game : MonoBehaviour, IEventListener
         CameraTracker.Instance.Track(Vector2.up * 24f);
 
         // Test use
-        var participants = new []
-        {
-            new ParticipantData(){ControllerType = 1},
-            new ParticipantData(){ControllerType = 2},
-            new ParticipantData(){ControllerType = 2},
-        };
+        var participants = stage.Participants;
 
         foreach (var data in participants)
         {
             var player = ObjectPoolController.InstantiateObject("Actor",
-                new PoolParameters(new Vector2(-6, 12))) as Actor;
+                new PoolParameters(new Vector2(6 * UnityEngine.Random.Range(-3, 4), 12))) as Actor;
             player.ChangeActorControl(data.ControllerType);
+            player.OriginColor = data.Color;
             player.Initiate();
+            player.networkObject.Spawn();
             RegisterActor(player);
             player.gameObject.SetActive(false);
+
+            survivedPlayers.Add(player.ActorIndex);
         }
 
         AudienceController.Instance.SummonAudience();
@@ -111,7 +127,12 @@ public class Game : MonoBehaviour, IEventListener
             StartCoroutine(actor.OnRevive());
         }
         
-        await Task.Run(NetworkManager.Instance.RunPython);
+        await Task.Run(NN_Manager.Instance.RunPython);
+    }
+
+    public async Task JoinGame()
+    {
+        //TODO: Join game
     }
 
     public async Task EndGame()
@@ -132,14 +153,6 @@ public class Game : MonoBehaviour, IEventListener
         while (TimerUtils.Alarms.Count > 0)
             if (!TimerUtils.Alarms[0].AlarmCheck())
                 break;
-        
-        if (GlobalInputController.Instance.GetInput("reset"))
-        {
-            foreach (var actor in RegisteredActors.Values)
-            {
-                actor.ResetPosition();
-            }
-        }
 
         if (GlobalInputController.Instance.GetPressed("resize"))
         {
@@ -160,7 +173,7 @@ public class Game : MonoBehaviour, IEventListener
     {
         MaskManager.Instance.Update();
         
-        if (RegisteredActors.Count < 2 || !NetworkManager.Instance.isActive) return;
+        if (RegisteredActors.Count < 2 || !NN_Manager.Instance.isActive) return;
         
         _frameDataChunk.Append(new FrameData(Time.frameCount));
     }
@@ -212,7 +225,8 @@ public class Game : MonoBehaviour, IEventListener
     public Actor GetClosestEnemy(int self)
     {
         return RegisteredActors.Where(i => i.Key != self)
-            .OrderBy(j => Vector2.Distance(RegisteredActors[self].Position, j.Value.Position))
+            .OrderBy(j => Vector2.Distance(
+                RegisteredActors[self].Position, j.Value.Position))
             .First().Value;
     }
 
@@ -229,7 +243,7 @@ public class Game : MonoBehaviour, IEventListener
         // 태스크가 끝나면 await 바로 다음 줄로 돌아와서 나머지가 실행되고 함수가 종료된다.
         //Debug.Log("Result : " + result);
 
-        await NetworkManager.Instance.StartLearning();
+        await NN_Manager.Instance.StartLearning();
         
         _isWriting = false;
     }
@@ -246,7 +260,7 @@ public class Game : MonoBehaviour, IEventListener
         }
         
         FileStream saveStream
-            = new FileStream(dir + $"/frameData_{NetworkManager.Instance.NeuralNetwork.level}.json", 
+            = new FileStream(dir + $"/frameData_{NN_Manager.Instance.NeuralNetwork.level}.json", 
                 FileMode.OpenOrCreate, FileAccess.Write);
         
         await using StreamWriter saveWriter = new StreamWriter(saveStream);

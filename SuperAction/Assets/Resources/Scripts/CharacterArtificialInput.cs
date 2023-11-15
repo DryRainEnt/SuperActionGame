@@ -3,6 +3,7 @@ using CMF;
 using Proto.BasicExtensionUtils;
 using SimpleActionFramework.Core;
 using Sirenix.Utilities;
+using Unity.Netcode;
 using UnityEngine;
 using Constants = Proto.BasicExtensionUtils.Constants;
 
@@ -24,12 +25,12 @@ namespace Resources.Scripts
 
 		public override float GetHorizontalMovementInput()
 		{
-			return inputAxis.x;
+			return inputAxis.Value.x;
 		}
 
 		public override float GetVerticalMovementInput()
 		{
-			return inputAxis.y;
+			return inputAxis.Value.y;
 		}
 
 		// 점프 인풋을 발생시키는 위치
@@ -37,9 +38,17 @@ namespace Resources.Scripts
 		{
 			return _isJumpKeyPressed;
 		}
-        
+		
+		public override void InputCheck(Actor actor)
+		{
+			foreach (var key in ActionKeys)
+			{
+				InputCheck(actor, key);
+			}
+		}
+
 		// 커맨드 인풋을 발생시키는 위치
-		public override void InputCheck(Actor actor, string key)
+		public void InputCheck(Actor actor, string key)
 		{
 			var aKey = key switch
 			{
@@ -50,8 +59,8 @@ namespace Resources.Scripts
 
 			if (!_useAI)
 			{
-				inputAxis = Vector2.zero;
-				commandAxis = Vector2.zero;
+				inputAxis.Value = Vector2.zero;
+				commandAxis.Value = Vector2.zero;
 				return;
 			}
 			
@@ -59,10 +68,16 @@ namespace Resources.Scripts
 			{
 				_innerTimer += Time.deltaTime;
 
-				prevInputAxis = inputAxis;
-				prevCommandAxis = commandAxis;
+				prevInputAxis.Value = inputAxis.Value;
+				prevCommandAxis.Value = commandAxis.Value;
+				
+				var iAxis = inputAxis.Value;
+				var cAxis = commandAxis.Value;
 
-				AiState.Execute(ref inputAxis, ref commandAxis);
+				AiState.Execute(ref iAxis, ref cAxis);
+				
+				inputAxis.Value = iAxis;
+				commandAxis.Value = cAxis;
 			}
 
 			var plus = Utils.BuildString(aKey, "+");
@@ -72,18 +87,18 @@ namespace Resources.Scripts
 			switch (aKey)
 			{
                 case "button1":
-	                if (commandAxis.x > 0 && prevCommandAxis.x.Abs() <= Constants.Epsilon)
+	                if (commandAxis.Value.x > 0 && prevCommandAxis.Value.x.Abs() <= Constants.Epsilon)
 		                condition = 1;
-	                if (prevCommandAxis.x > 0 && commandAxis.x.Abs() <= Constants.Epsilon)
+	                if (prevCommandAxis.Value.x > 0 && commandAxis.Value.x.Abs() <= Constants.Epsilon)
 		                condition = -1;
 	                break;
                 case "button2": 
-	                if (commandAxis.y > 0 && prevCommandAxis.y.Abs() <= Constants.Epsilon)
+	                if (commandAxis.Value.y > 0 && prevCommandAxis.Value.y.Abs() <= Constants.Epsilon)
 	                {
 		                condition = 1;
 		                _isJumpKeyPressed = true;
 	                }
-	                if (prevCommandAxis.y > 0 && commandAxis.y.Abs() <= Constants.Epsilon)
+	                if (prevCommandAxis.Value.y > 0 && commandAxis.Value.y.Abs() <= Constants.Epsilon)
 	                {
 		                condition = -1;
 		                _isJumpKeyPressed = false;
@@ -92,27 +107,27 @@ namespace Resources.Scripts
                 case "button3": break;
                 case "button4": break;
                 case "right": 
-	                if (inputAxis.x > 0 && prevInputAxis.x.Abs() <= Constants.Epsilon)
+	                if (inputAxis.Value.x > 0 && prevInputAxis.Value.x.Abs() <= Constants.Epsilon)
 		                condition = 1;
-	                if (prevInputAxis.x > 0 && inputAxis.x.Abs() <= Constants.Epsilon)
+	                if (prevInputAxis.Value.x > 0 && inputAxis.Value.x.Abs() <= Constants.Epsilon)
 		                condition = -1;
 	                break;
                 case "left":
-	                if (inputAxis.x < 0 && prevInputAxis.x.Abs() <= Constants.Epsilon)
+	                if (inputAxis.Value.x < 0 && prevInputAxis.Value.x.Abs() <= Constants.Epsilon)
 		                condition = 1;
-	                if (prevInputAxis.x < 0 && inputAxis.x.Abs() <= Constants.Epsilon)
+	                if (prevInputAxis.Value.x < 0 && inputAxis.Value.x.Abs() <= Constants.Epsilon)
 		                condition = -1;
 	                break;
                 case "up":
-	                if (inputAxis.y > 0 && prevInputAxis.y.Abs() <= Constants.Epsilon)
+	                if (inputAxis.Value.y > 0 && prevInputAxis.Value.y.Abs() <= Constants.Epsilon)
 		                condition = 1;
-	                if (prevInputAxis.y > 0 && inputAxis.y.Abs() <= Constants.Epsilon)
+	                if (prevInputAxis.Value.y > 0 && inputAxis.Value.y.Abs() <= Constants.Epsilon)
 		                condition = -1;
 	                break;
                 case "down": 
-	                if (inputAxis.y < 0 && prevInputAxis.y.Abs() <= Constants.Epsilon)
+	                if (inputAxis.Value.y < 0 && prevInputAxis.Value.y.Abs() <= Constants.Epsilon)
 		                condition = 1;
-	                if (prevInputAxis.y < 0 && inputAxis.y.Abs() <= Constants.Epsilon)
+	                if (prevInputAxis.Value.y < 0 && inputAxis.Value.y.Abs() <= Constants.Epsilon)
 		                condition = -1;
 	                break;
 			}
@@ -162,6 +177,8 @@ namespace Resources.Scripts
 			get => _currentState;
 			set
 			{
+				_enemy = Game.Instance.GetClosestEnemy(_parent.ActorIndex);
+
 				// Debug.Log($"[{_innerTimer:0.0000}]state reset: {_currentState} => {value} | {Distance}\n" +
 				//           $"Input: {_lastInput}\n" + $"Command: {_lastCommand}\n");
 				_innerTimer = 0f;

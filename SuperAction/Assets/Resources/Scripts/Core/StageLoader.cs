@@ -10,7 +10,7 @@ public class StageLoader : MonoBehaviour
 
     public GameObject MapParent;
 
-    public void LoadStage(StageData stageData)
+    public StageData LoadStage(StageData stageData)
     {
         switch (stageData.StageType)
         {
@@ -26,5 +26,7 @@ public class StageLoader : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException();
         }
+
+        return stageData;
     }
 }

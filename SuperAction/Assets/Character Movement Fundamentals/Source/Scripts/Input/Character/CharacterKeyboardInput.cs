@@ -36,8 +36,20 @@ namespace CMF
 			var isKey = GlobalInputController.Instance.GetInput("button2");
 			return isKey;
 		}
-        
-		public override void InputCheck(Actor actor, string key)
+
+		public override void InputCheck(Actor actor)
+		{
+			Game.Instance.playerLifeCount = actor.LifeCount;
+			Game.Instance.playerKillCount = actor.KillCount;
+			
+			inputAxis.Value = Vector2.zero;
+			foreach (var key in ActionKeys)
+			{
+				InputCheck(actor, key);
+			}
+		}
+
+		public void InputCheck(Actor actor, string key)
 		{
 			var aKey = key switch
 			{
@@ -46,30 +58,35 @@ namespace CMF
 				_ => key
 			};
             
+			var iAxis = inputAxis.Value;
+			var cAxis = commandAxis.Value;
+			
 			switch (aKey)
 			{
 				case "button1":
-					commandAxis.x = GlobalInputController.Instance.GetInput(aKey) ? 1 : 0;
-					inputAxis = Vector2.zero;
+					cAxis.x = GlobalInputController.Instance.GetInput(aKey) ? 1 : 0;
 					break;
 				case "button2":
-					commandAxis.y = GlobalInputController.Instance.GetInput(aKey) ? 1 : 0;
+					cAxis.y = GlobalInputController.Instance.GetInput(aKey) ? 1 : 0;
 					break;
 				case "right":
-					inputAxis.x += GlobalInputController.Instance.GetInput(aKey) ? 1 : 0;
+					iAxis.x += GlobalInputController.Instance.GetInput(aKey) ? 1 : 0;
 					break;
 				case "left":
-					inputAxis.x += GlobalInputController.Instance.GetInput(aKey) ? -1 : 0;
+					iAxis.x += GlobalInputController.Instance.GetInput(aKey) ? -1 : 0;
 					break;
 				case "up":
-					inputAxis.y += GlobalInputController.Instance.GetInput(aKey) ? 0 : -1;
+					iAxis.y += GlobalInputController.Instance.GetInput(aKey) ? 0 : -1;
 					break;
 				case "down":
-					inputAxis.y += GlobalInputController.Instance.GetInput(aKey) ? 0 : 1;
+					iAxis.y += GlobalInputController.Instance.GetInput(aKey) ? 0 : 1;
 					break;
 				default:
 					break;
 			}
+			
+			commandAxis.Value = cAxis;
+			inputAxis.Value = iAxis;
 			
 			if (GlobalInputController.Instance.GetPressed(aKey))
 			{

@@ -57,7 +57,16 @@ namespace CMF
 			return Input.GetKey(jumpKey);
 		}
         
-		public override void InputCheck(Actor actor, string key)
+
+		public override void InputCheck(Actor actor)
+		{
+			foreach (var key in ActionKeys)
+			{
+				InputCheck(actor, key);
+			}
+		}
+
+		public void InputCheck(Actor actor, string key)
 		{
 			var aKey = key switch
 			{

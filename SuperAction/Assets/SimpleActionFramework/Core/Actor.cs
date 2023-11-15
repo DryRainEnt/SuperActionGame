@@ -39,7 +39,8 @@ namespace SimpleActionFramework.Core
         public Dictionary<string, object> Data => ActionStateMachine ? ActionStateMachine.Data : null;
     
         private ActorController _actorController;
-    
+
+        private Transform _spriteRoot;
         public SpriteRenderer SpriteRenderer;
         public Material SpriteMaterial => SpriteRenderer ? SpriteRenderer.material : null;
         public Collider PhysicsCollider;
@@ -59,13 +60,17 @@ namespace SimpleActionFramework.Core
         
         public List<InputRecord> RecordedInputs = new List<InputRecord>();
         
-        public Vector2 InputAxis => _actorController.CharacterInput.inputAxis;
-        public Vector2 CommandAxis => _actorController.CharacterInput.commandAxis;
+        public Vector2 InputAxis => _actorController.CharacterInput.inputAxis.Value;
+        public Vector2 CommandAxis => _actorController.CharacterInput.commandAxis.Value;
 
         public int controllerType = 0;
         
         public bool isInvulnerable = false;
         public int lastHitFrame = -0;
+        
+        public NetworkObject networkObject;
+
+        public float shakeDuration = 0f;
 
         public bool isAlive => HP > 0;
         
@@ -109,15 +114,19 @@ namespace SimpleActionFramework.Core
         public int DeathCount;
         public int MaxLifeCount = 5;
         public int LifeCount = 5;
+        public int KillCount = 0;
 
         public float[] Intention => _actorController.CharacterInput ? _actorController.CharacterInput.intention : new []{0f};
 
         public void Initiate()
         {
             _actorController = GetComponent<ActorController>();
-            SpriteRenderer.color = Color;
-            OriginColor = Color;
+            SpriteRenderer.color = OriginColor;
+            Color = OriginColor;
             _initialPosition = transform.position;
+            _spriteRoot = SpriteRenderer.transform;
+            
+            networkObject = GetComponent<NetworkObject>();
         
             ActionStateMachine = Instantiate(DefaultActionStateMachine);
             ActionStateMachine.Init(this);
@@ -159,6 +168,10 @@ namespace SimpleActionFramework.Core
                     // NN
                     gameObject.AddComponent<NeuralNetworkInput>();
                     break;
+                case 4:
+                    // Net
+                    gameObject.AddComponent<NetworkPlayerInput>();
+                    break;
             }
             UpdateController();
             
@@ -197,23 +210,26 @@ namespace SimpleActionFramework.Core
 
             MessageSystem.Publish(OnDeathEvent.Create(ActorIndex, DeathCount));
             
-            if (LifeCount < 0)
-            {
-                yield return new WaitForSeconds(1.2f);
-                
-                MessageSystem.Publish(OnGameEndEvent.Create(ActorIndex));
-                
-                yield break;
-            }
-            
-            CameraTracker.Instance.Track(Position);
+            if (_actorController.CharacterInput is CharacterKeyboardInput)
+                CameraTracker.Instance.Track(Position);
             
             var fx = ObjectPoolController.InstantiateObject("DeathFX", 
                 new PoolParameters(Position)) as DeathFX;
             fx.Initialize(Color);
-
             
             gameObject.SetActive(false);
+            
+            if (LifeCount < 0)
+            {
+                yield return new WaitForSeconds(1.2f);
+
+                Game.Instance.survivedPlayers.Remove(ActorIndex);
+                
+                if (Game.Instance.survivedPlayers.Count == 1)
+                    MessageSystem.Publish(OnGameEndEvent.Create(Game.Instance.survivedPlayers[0]));
+                
+                yield break;
+            }
             
             Timer timer = new Timer(2f)
             {
@@ -233,7 +249,8 @@ namespace SimpleActionFramework.Core
                 yield return null;
             }
             
-            CameraTracker.Instance.Track(transform, Vector2.up * 24f);
+            if (_actorController.CharacterInput is CharacterKeyboardInput)
+                CameraTracker.Instance.Track(transform, Vector2.up * 24f);
             
             ResetPosition();
             var fx = ObjectPoolController.InstantiateObject("ReviveFX", 
@@ -270,6 +287,12 @@ namespace SimpleActionFramework.Core
 
             var dt = StateSpeed * Time.deltaTime;
             
+        
+            if (GlobalInputController.Instance.GetPressed("reset"))
+            {
+                ResetPosition();
+            }
+            
             InputUpdate();
         
             ActionStateMachine.OnUpdate(this, dt);
@@ -280,19 +303,25 @@ namespace SimpleActionFramework.Core
             Position = transform.position;
         }
 
-        private readonly string[] ActionKeys = new[]
+        private void LateUpdate()
         {
-            "button1",
-            "button2",
-            "button3",
-            "button4",
-            "forward",
-            "backward",
-            "up",
-            "down",
-            "debug",
-        };
-        
+            var dt = Time.deltaTime;
+
+            if (shakeDuration > 0)
+            {
+                shakeDuration -= dt;
+
+                var offsetToken = ((shakeDuration * 100f) % 2) - 0.5f;
+                _spriteRoot.localPosition = Vector3.left * (offsetToken * shakeDuration * 8f);
+            }
+            else
+            {
+                shakeDuration = 0f;
+                _spriteRoot.localPosition = Vector3.zero;
+            }
+            
+        }
+
         public readonly Dictionary<string, bool> CurrentInputs = new ()
         {
             {"button1", false},
@@ -313,21 +342,10 @@ namespace SimpleActionFramework.Core
         {
             RecordedInputs.Sort();
             
-            if (_actorController.CharacterInput is CharacterKeyboardInput)
-                OriginColor = Color.cyan;
-            else if (_actorController.CharacterInput is CharacterArtificialInput)
-                OriginColor = Color.red;
-            else if (_actorController.CharacterInput is NeuralNetworkInput)
-                OriginColor = Color.yellow;
-            else
-                OriginColor = Color.grey;
-            
             Color = OriginColor;
             
-            foreach (var key in ActionKeys)
-            {
-                _actorController.CharacterInput.InputCheck(this, key);
-            }
+            _actorController.CharacterInput.InputCheck(this);
+            
             
             RecordedInputs.Sort();
 
@@ -454,6 +472,8 @@ namespace SimpleActionFramework.Core
                     var isLeft = giver.IsLeft;
                     var knockBack = info.Direction.normalized.doFlipX(isLeft) * 4f;
 
+                    var prevHP = HP;
+                    
                     HP -= info.Damage;
                     ActionStateMachine.SetState(HP > 0 ? info.NextStateOnSuccessToReceiver : "HitLarge");
                     SetVelocity(Vector2.zero);
@@ -467,12 +487,21 @@ namespace SimpleActionFramework.Core
                     var slashfx = ObjectPoolController.InstantiateObject("SlashFX", new PoolParameters(info.Point)) as SlashFX;
                     slashfx.Initialize(info.Damage * 0.03f, knockBack, info.Color);
 
-                    Time.timeScale = 0.1f;
-                    var _ = new Timer(0.1f)
+                    if (prevHP > 0f && HP <= 0f)
+                    {
+                        giver.KillCount++;
+                    }
+
+                    shakeDuration = 0.2f;
+                    
+                    StateSpeed = 0.1f;
+                    giver.StateSpeed = 0.3f;
+                    var _ = new Timer(0.2f)
                     {
                         Alarm = () =>
                         {
-                            Time.timeScale = 1f;
+                            StateSpeed = 1f;
+                            giver.StateSpeed = 1f;
                         }
                     };
                     
@@ -508,6 +537,7 @@ namespace SimpleActionFramework.Core
         
         public void OnPooled()
         {
+            
         }
 
         public void Dispose()

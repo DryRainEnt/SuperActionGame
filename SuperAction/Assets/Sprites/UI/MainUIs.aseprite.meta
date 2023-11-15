@@ -23,7 +23,7 @@ ScriptedImporter:
     normalMapFilter: 0
     flipGreenChannel: 0
     swizzle: 50462976
-    isReadable: 0
+    isReadable: 1
     streamingMipmaps: 0
     streamingMipmapsPriority: 0
     vTOnly: 0
@@ -32,7 +32,7 @@ ScriptedImporter:
     sRGBTexture: 1
     spriteMode: 2
     spriteExtrude: 1
-    spriteMeshType: 1
+    spriteMeshType: 0
     alignment: 0
     spritePivot: {x: 0.5, y: 0.5}
     spritePixelsToUnits: 16
@@ -95,7 +95,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638350481489354252
+  platformSettingsDirtyTick: 638355595384392367
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -132,9 +132,21 @@ ScriptedImporter:
       height: 320
     spriteID: f3a27b7d3057679429a2a7d066be8b3b
     spriteBone: []
-    spriteOutline: []
+    spriteOutline:
+    - outline:
+      - {x: -320, y: 160}
+      - {x: -320, y: -160}
+      - {x: -314, y: -160}
+      - {x: 320, y: 157}
+      - {x: 320, y: 160}
     vertices: []
-    spritePhysicsOutline: []
+    spritePhysicsOutline:
+    - outline:
+      - {x: -320, y: 160}
+      - {x: -320, y: -160}
+      - {x: -314, y: -160}
+      - {x: 320, y: 157}
+      - {x: 320, y: 160}
     indices: 
     edges: []
     tessellationDetail: 0
@@ -152,9 +164,21 @@ ScriptedImporter:
       height: 320
     spriteID: 7bddc0715ac12b54ba421a5ac1113baf
     spriteBone: []
-    spriteOutline: []
+    spriteOutline:
+    - outline:
+      - {x: 314, y: 160}
+      - {x: -320, y: -157}
+      - {x: -320, y: -160}
+      - {x: 320, y: -160}
+      - {x: 320, y: 160}
     vertices: []
-    spritePhysicsOutline: []
+    spritePhysicsOutline:
+    - outline:
+      - {x: 314, y: 160}
+      - {x: -320, y: -157}
+      - {x: -320, y: -160}
+      - {x: 320, y: -160}
+      - {x: 320, y: 160}
     indices: 
     edges: []
     tessellationDetail: 0

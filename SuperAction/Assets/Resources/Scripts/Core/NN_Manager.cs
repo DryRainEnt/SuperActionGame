@@ -10,10 +10,10 @@ using Debug = UnityEngine.Debug;
 
 namespace Resources.Scripts.Core
 {
-	public class NetworkManager : MonoBehaviour, IEventListener
+	public class NN_Manager : MonoBehaviour, IEventListener
 	{
-		private static NetworkManager _instance;
-        public static NetworkManager Instance => _instance ? _instance : _instance = FindObjectOfType<NetworkManager>();
+		private static NN_Manager _instance;
+        public static NN_Manager Instance => _instance ? _instance : _instance = FindObjectOfType<NN_Manager>();
 		
         private TcpClient client;
         private NetworkStream stream;

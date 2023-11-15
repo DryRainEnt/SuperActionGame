@@ -176,9 +176,11 @@ MonoBehaviour:
   controllerType: 0
   isInvulnerable: 0
   lastHitFrame: 0
+  networkObject: {fileID: 0}
+  shakeDuration: 0
   DeathCount: 0
-  MaxLifeCount: 5
-  LifeCount: 5
+  MaxLifeCount: 3
+  LifeCount: 3
   _debugText: {fileID: 0}
 --- !u!114 &868540737618247302
 MonoBehaviour:
@@ -267,10 +269,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9819db9f56d8ad4c83e05807a209fc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prevInputAxis: {x: 0, y: 0}
-  inputAxis: {x: 0, y: 0}
-  prevCommandAxis: {x: 0, y: 0}
-  commandAxis: {x: 0, y: 0}
+  prevInputAxis:
+    m_InternalValue: {x: 0, y: 0}
+  inputAxis:
+    m_InternalValue: {x: 0, y: 0}
+  prevCommandAxis:
+    m_InternalValue: {x: 0, y: 0}
+  commandAxis:
+    m_InternalValue: {x: 0, y: 0}
   intention:
   - 0
   - 0
