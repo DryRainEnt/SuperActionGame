@@ -26,7 +26,9 @@ public class Game : MonoBehaviour, IEventListener
     [SerializeField]
     private TMPro.TMP_Text _fpsText;
     
+    [SerializeField]
     private FrameDataChunk _frameDataChunk = new FrameDataChunk(1);
+    public FrameDataChunk FrameDataChunk => _frameDataChunk;
 
     public Vector2Int ScreenResolution => new Vector2Int(1280, 720) * ScreenResolutionFactor;
     public int ScreenResolutionFactor = 1;
@@ -51,6 +53,8 @@ public class Game : MonoBehaviour, IEventListener
         
         MessageSystem.Subscribe(typeof(OnDeathEvent), this);
         MessageSystem.Subscribe(typeof(OnReviveEvent), this);
+        MessageSystem.Subscribe(typeof(OnAttackHitEvent), this);
+        MessageSystem.Subscribe(typeof(OnAttackGuardEvent), this);
         
         RegisteredActors.Add(0, Player);
         RegisteredActors.Add(1, Learner);
@@ -78,6 +82,8 @@ public class Game : MonoBehaviour, IEventListener
     {
         MessageSystem.Unsubscribe(typeof(OnDeathEvent), this);
         MessageSystem.Unsubscribe(typeof(OnReviveEvent), this);
+        MessageSystem.Unsubscribe(typeof(OnAttackHitEvent), this);
+        MessageSystem.Unsubscribe(typeof(OnAttackGuardEvent), this);
     }
 
     // Update is called once per frame
@@ -116,7 +122,16 @@ public class Game : MonoBehaviour, IEventListener
         
         if (RegisteredActors.Count < 2 || !NetworkManager.Instance.isActive) return;
         
-        _frameDataChunk.Append(new FrameData(Time.frameCount));
+        AppendFrameData(new FrameData(Time.frameCount));
+    }
+    
+    public void AppendFrameData(FrameData data)
+    {
+        var idx = _frameDataChunk.FindIndex(data.Frame);
+        if (idx < 0)
+            _frameDataChunk.Append(data);
+        else
+            _frameDataChunk[idx] = data;
     }
 
     public bool OnEvent(IEvent e)
@@ -129,20 +144,64 @@ public class Game : MonoBehaviour, IEventListener
         
         if (e is OnAttackHitEvent ahe)
         {
-            var healthDiff = ahe.info.Damage * (ahe.takerMask.Owner == Learner ? -1 : 1);
-            var currentFrame = Time.frameCount;
-            foreach (var frame in _frameDataChunk.Frames)
-            {
-                var elapsed = currentFrame - frame.Frame;
-                var valid = frame.Aggressiveness * healthDiff / (30 + elapsed);
-                frame.AddValidation(valid);
-            }
-            return true;
+            return OnAttackHitEvent(ahe);
+        }
+        
+        if (e is OnAttackGuardEvent age)
+        {
+            return OnAttackGuardEvent(age);
         }
         
         return false;
     }
+    
+    private float hitRewardFactor = 3f;
+    private float guardRewardFactor = 2f;
 
+    // 공격 히트 이벤트 처리
+    public bool OnAttackHitEvent(OnAttackHitEvent ahe)
+    {
+        float reward = CalculateHitReward(ahe);
+        ApplyRewardToRecentFrames(reward);
+        return true;
+    }
+
+    // 공격 가드 이벤트 처리
+    public bool OnAttackGuardEvent(OnAttackGuardEvent age)
+    {
+        float reward = CalculateGuardReward(age);
+        ApplyRewardToRecentFrames(reward);
+        return true;
+    }
+
+    // 보상 계산 및 적용
+    private void ApplyRewardToRecentFrames(float reward)
+    {
+        int currentFrame = Time.frameCount;
+        for (int i = 0; i < _frameDataChunk.Frames.Count; i++)
+        {
+            var frame = _frameDataChunk.Frames[i];
+            var elapsed = currentFrame - frame.Frame;
+            frame.AddValidation(reward / (60 + elapsed)); // 시간에 따라 감소하는 보상 적용
+            _frameDataChunk.Frames[i] = frame; // 수정된 FrameData를 다시 할당
+        }
+        // Debug.Log($"+> {reward}");
+    }
+
+    // 히트 보상 계산
+    private float CalculateHitReward(OnAttackHitEvent ahe)
+    {
+        // 보상 계산 로직
+        return ahe.info.Damage * (ahe.takerMask.Owner == Learner ? -0.7f : 1.2f) * hitRewardFactor;
+    }
+
+    // 가드 보상 계산
+    private float CalculateGuardReward(OnAttackGuardEvent age)
+    {
+        // 보상 계산 로직
+        return age.info.GuardDamage * (age.giverMask.Owner == Learner ? -0.7f : 1) * guardRewardFactor;
+    }
+    
     public Actor GetEnemy(int self)
     {
         return RegisteredActors[self == 0 ? 1 : 0];

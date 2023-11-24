@@ -27,6 +27,18 @@ namespace Resources.Scripts.Core
 		{
 			return JsonUtility.FromJson<FrameDataChunk>(json);
 		}
+		
+		public void Modify(int frame, FrameData data)
+		{
+			var index = FindIndex(frame);
+			if (index == -1)
+			{
+				Append(data);
+				return;
+			}
+
+			Frames[index] = data;
+		}
 
 		public void Append(FrameData data)
 		{
@@ -37,6 +49,26 @@ namespace Resources.Scripts.Core
 		{
 			Frames.Clear();
 			ChunkId++;
+		}
+		
+		public int FindIndex(int frame)
+		{
+			return Frames.FindIndex(f => f.Frame == frame);
+		}
+		
+		public FrameData Last()
+		{
+			return Frames.Last();
+		}
+
+		public FrameData this[int frame]
+		{
+			get
+			{
+				var idx = FindIndex(frame);
+				return Frames[(idx < 0) ? Frames.Count - 1 : idx];
+			}
+			set => Modify(frame, value);
 		}
 	}
 	
@@ -51,7 +83,6 @@ namespace Resources.Scripts.Core
 
 		public float Validation;
 
-		[NonSerialized]
 		public float[] Intention;
 		
 		public float Aggressiveness => Intention[0] * 1f + Intention[1] * 0.8f + Intention[2] * -0.3f + Intention[3] * -0.6f + Intention[4] * -0.9f;
@@ -73,19 +104,19 @@ namespace Resources.Scripts.Core
 			{
 				ActorIds[i] = id;
 				
-				ActorDataSet[i * 6 + 0] = actor.HP;
-				ActorDataSet[i * 6 + 1] = actor.CurrentState.GetHashCode();
-				ActorDataSet[i * 6 + 2] = actor.Position.x;
-				ActorDataSet[i * 6 + 3] = actor.Position.y;
-				ActorDataSet[i * 6 + 4] = actor.Velocity.x;
-				ActorDataSet[i * 6 + 5] = actor.Velocity.y;
+				ActorDataSet[i * 6 + 0] = actor.HP / 100f;
+				ActorDataSet[i * 6 + 1] = actor.CurrentState.GetHashCode() / (float)int.MaxValue;
+				ActorDataSet[i * 6 + 2] = actor.Position.x / 16f;
+				ActorDataSet[i * 6 + 3] = actor.Position.y / 16f;
+				ActorDataSet[i * 6 + 4] = actor.Velocity.x / 16f;
+				ActorDataSet[i * 6 + 5] = actor.Velocity.y / 16f;
 
 				i++;
 			}
 
 			Validation = 0;
 			
-			Intention = NetworkManager.Instance.NeuralNetwork.ForwardA(ActorDataSet);
+			NetworkManager.Instance.NeuralNetwork.ForwardA(out Intention, ActorDataSet);
 		}
 		
 		public FrameData(FrameData copy)

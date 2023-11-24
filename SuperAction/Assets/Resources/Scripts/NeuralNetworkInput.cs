@@ -21,8 +21,12 @@ namespace Resources.Scripts
 
 		private float _innerTimer = 0;
 
-		private bool _useAI = false;
+		private bool _useAI = true;
 		public bool UseAI => _useAI;
+
+		public string TargetAction = "Idle";
+
+		private bool _forceNeutral = false;
 
 		private void OnEnable()
 		{
@@ -56,28 +60,53 @@ namespace Resources.Scripts
 				"backward" => actor.IsLeft ? "right" : "left",
 				_ => key
 			};
-
-			if (GlobalInputController.Instance.GetPressed("debug"))
-			{
-				_useAI = !_useAI;
-				actor.Color = UseAI ? Color.white : Color.grey;
-			}
-
-			if (!_useAI)
-			{
-				inputAxis = Vector2.zero;
-				commandAxis = Vector2.zero;
-				return;
-			}
-			
 			prevInputAxis = inputAxis;
 			prevCommandAxis = commandAxis;
 			
-			intention = NeuralNetwork.ForwardA(new FrameData(Time.frameCount).ActorDataSet);
+			inputAxis = Vector2.zero;
+			commandAxis = Vector2.zero;
+			
+			var data = Game.Instance.FrameDataChunk.Last();
+			string istr = "|";
+			
+			for (int i = 0; i < data.Intention.Length; i++)
+			{
+				intention[i] = data.Intention[i];
+				istr += intention[i] + "|";
+			}
+
+			// Debug.Log(istr);
+
+			if (_forceNeutral)
+			{
+				inputAxis = Vector2.zero;
+				commandAxis = Vector2.zero;
+			
+				if (_innerTimer > 0.1f)
+				{
+					_innerTimer = 0;
+					_forceNeutral = false;
+				}
+				
+				return;
+			}
+			
+			
 			var action = NN_ActionMap.FindMostSimilarObject(intention);
-            var input = NN_ActionMap.ActionInputPairs.Find(x => x.ActionName == action.ActionName).InputLayer;
+            var input = NN_ActionMap.ActionInputPairs.Find(
+	            x => x.ActionName == action.ActionName).InputLayer;
             
-            inputAxis = new Vector2(input.x, input.y);
+            TargetAction = action.ActionName;
+            if (TargetAction != "Idle" && _innerTimer > 0.2f)
+            {
+	            _innerTimer = 0;
+	            _forceNeutral = true;
+            }
+
+            var enemy = Game.Instance.GetEnemy(actor.ActorIndex);
+            var hDir = (enemy.Position.x - actor.Position.x).Sign();
+            
+            inputAxis = new Vector2(hDir * input.x, input.y);
             commandAxis = new Vector2(input.z, input.w);
 
 			var plus = Utils.BuildString(aKey, "+");
@@ -147,7 +176,7 @@ namespace Resources.Scripts
 		{
 			new NN_ActionIntendPair("Idle", new []{0f, 0f, 0f, 0f, 1f}),
 			new NN_ActionIntendPair("Approach", new []{0f, 1f, -0.5f, -0.5f, 0f}),
-			new NN_ActionIntendPair("Retreat", new []{-1f, 0f, 0.5f, 0f, 0f}),
+			new NN_ActionIntendPair("Retreat", new []{0f, -1f, 0.5f, 0f, 0f}),
 			new NN_ActionIntendPair("Dodge", new []{-1f, -0.5f, 1f, 0f, 0f}),
 			new NN_ActionIntendPair("Guard", new []{-0.5f, 0f, -0.2f, 1f, 0.5f}),
 			new NN_ActionIntendPair("Jump", new []{0.2f, 0.1f, 0.3f, -0.7f, -0.5f}),
@@ -186,24 +215,17 @@ namespace Resources.Scripts
 
 			foreach (NN_ActionIntendPair obj in ActionIntendPairs)
 			{
-				float dotProduct = 0;
-				float magnitudeA = 0;
-				float magnitudeB = 0;
-            
+				var layer = obj.IntendLayer;
+				var similarity = 0f;
+
 				for (int i = 0; i < targetFactors.Length; i++)
 				{
-					dotProduct += targetFactors[i] * obj.IntendLayer[i];
-					magnitudeA += Mathf.Pow(targetFactors[i], 2);
-					magnitudeB += Mathf.Pow(obj.IntendLayer[i], 2);
+					similarity += Mathf.Pow(targetFactors[i] - layer[i], 2);
 				}
-
-				float similarity = dotProduct / (Mathf.Sqrt(magnitudeA) * Mathf.Sqrt(magnitudeB));
-
-				if (similarity > maxSimilarity)
-				{
-					maxSimilarity = similarity;
-					mostSimilarObject = obj;
-				}
+				
+				maxSimilarity = Mathf.Max(maxSimilarity, similarity);
+				
+				mostSimilarObject = Math.Abs(maxSimilarity - similarity) < Constants.Epsilon ? obj : mostSimilarObject;
 			}
         
 			return mostSimilarObject ?? ActionIntendPairs[0];

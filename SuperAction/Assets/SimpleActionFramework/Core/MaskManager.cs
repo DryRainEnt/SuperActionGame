@@ -89,6 +89,7 @@ namespace SimpleActionFramework.Core
 						data.DamageInfo = other.Info;
 						data.DamageInfo.Point = (mask.Bounds.center + other.Bounds.center) / 2f;
 						data.DamageInfo.Color = other.Owner.Color;
+						data.DamageInfo.GuardDamage = mask.Info.Damage;
 						e = OnAttackGuardEvent.Create(data);
 						break;
 					// 중복된 Hit판정에 대해 하나만 남기는 경우

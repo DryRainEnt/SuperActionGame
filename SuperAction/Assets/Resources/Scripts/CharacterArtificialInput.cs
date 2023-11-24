@@ -195,6 +195,12 @@ namespace Resources.Scripts
 			switch (CurrentState)
 			{
 				case AIStatePreset.Parry:
+					_parent.Intention[0] = 0.2f;
+					_parent.Intention[1] = 0.0f;
+					_parent.Intention[2] = -0.3f;
+					_parent.Intention[3] = 0.3f;
+					_parent.Intention[4] = -0.5f;
+					
 					commandAxis.x = 1;
 					if (_innerTimer > 0.3f)
 					{
@@ -207,6 +213,12 @@ namespace Resources.Scripts
 						CurrentState = AIStatePreset.Wait;
 					break;
 				case AIStatePreset.Combo1:
+					_parent.Intention[0] = 0.8f;
+					_parent.Intention[1] = 0.1f;
+					_parent.Intention[2] = -1.0f;
+					_parent.Intention[3] = -0.8f;
+					_parent.Intention[4] = -0.7f;
+
 					inputAxis.x = 0;
 					inputAxis.y = 1;
 					
@@ -227,6 +239,12 @@ namespace Resources.Scripts
 						CurrentState = AIStatePreset.Combo2;
 					break;
 				case AIStatePreset.Combo2:
+					_parent.Intention[0] = 0.2f;
+					_parent.Intention[1] = 0.1f;
+					_parent.Intention[2] = 0.3f;
+					_parent.Intention[3] = -0.7f;
+					_parent.Intention[4] = -0.5f;
+
 					inputAxis.x = 0;
 					inputAxis.y = 0;
 					commandAxis.x = 0;
@@ -246,6 +264,12 @@ namespace Resources.Scripts
 						CurrentState = AIStatePreset.Combo3;
 					break;
 				case AIStatePreset.Combo3:
+					_parent.Intention[0] = 0.5f;
+					_parent.Intention[1] = 0.2f;
+					_parent.Intention[2] = 0.0f;
+					_parent.Intention[3] = -0.3f;
+					_parent.Intention[4] = -0.3f;
+
 					inputAxis.x = 0;
 					inputAxis.y = 0;
 					commandAxis.x = 1;
@@ -262,6 +286,12 @@ namespace Resources.Scripts
 						CurrentState = AIStatePreset.Combo4;
 					break;
 				case AIStatePreset.Combo4:
+					_parent.Intention[0] = 0.9f;
+					_parent.Intention[1] = 0.1f;
+					_parent.Intention[2] = -0.4f;
+					_parent.Intention[3] = -0.8f;
+					_parent.Intention[4] = -0.9f;
+
 					inputAxis.x = 0;
 					inputAxis.y = 1;
 					if (_innerTimer > 0.06f)
@@ -281,6 +311,12 @@ namespace Resources.Scripts
 						CurrentState = AIStatePreset.Combo5;
 					break;
 				case AIStatePreset.Combo5:
+					_parent.Intention[0] = 0.7f;
+					_parent.Intention[1] = 0.4f;
+					_parent.Intention[2] = -0.7f;
+					_parent.Intention[3] = -0.5f;
+					_parent.Intention[4] = -0.6f;
+					
 					inputAxis.x = 0;
 					inputAxis.y = -1;
 					if (_innerTimer > 0.1f)
@@ -299,6 +335,12 @@ namespace Resources.Scripts
 					}
 					break;
 				case AIStatePreset.Fork:
+					_parent.Intention[0] = 0.6f;
+					_parent.Intention[1] = 0.7f;
+					_parent.Intention[2] = -0.7f;
+					_parent.Intention[3] = -0.4f;
+					_parent.Intention[4] = -0.6f;
+					
 					inputAxis.x = Direction.x;
 					inputAxis.y = 0;
 					commandAxis.x = 1;
@@ -314,6 +356,12 @@ namespace Resources.Scripts
 					}
 					break;
 				case AIStatePreset.Approach:
+					_parent.Intention[0] = 0.0f;
+					_parent.Intention[1] = 1.0f;
+					_parent.Intention[2] = -0.5f;
+					_parent.Intention[3] = -0.5f;
+					_parent.Intention[4] = 0.0f;
+					
 					inputAxis.x = Direction.x;
 					inputAxis.y = 0;
 					commandAxis.x = 0;
@@ -329,6 +377,12 @@ namespace Resources.Scripts
 					}
 					break;
 				case AIStatePreset.RunAway:
+					_parent.Intention[0] = -1.0f;
+					_parent.Intention[1] = -1.0f;
+					_parent.Intention[2] = 0.5f;
+					_parent.Intention[3] = -0.0f;
+					_parent.Intention[4] = -0.0f;
+					
 					inputAxis.x = -Direction.x;
 					inputAxis.y = 0;
 					commandAxis.x = 0;
@@ -360,6 +414,12 @@ namespace Resources.Scripts
 					}
 					break;
 				case AIStatePreset.Counter:
+					_parent.Intention[0] = 0.2f;
+					_parent.Intention[1] = 0.0f;
+					_parent.Intention[2] = -0.3f;
+					_parent.Intention[3] = 0.3f;
+					_parent.Intention[4] = -0.7f;
+					
 					inputAxis.x = 0;
 					inputAxis.y = -1;
 					commandAxis.x = 1;
@@ -374,6 +434,12 @@ namespace Resources.Scripts
 					}
 					break;
 				case AIStatePreset.Guard:
+					_parent.Intention[0] = -0.5f;
+					_parent.Intention[1] = 0.0f;
+					_parent.Intention[2] = -0.2f;
+					_parent.Intention[3] = 1.0f;
+					_parent.Intention[4] = 0.5f;
+					
 					inputAxis.x = 0;
 					inputAxis.y = -1;
 					
@@ -403,6 +469,12 @@ namespace Resources.Scripts
 					}
 					break;
 				case AIStatePreset.Avoid:
+					_parent.Intention[0] = -1.0f;
+					_parent.Intention[1] = -0.5f;
+					_parent.Intention[2] = 1.0f;
+					_parent.Intention[3] = 0.0f;
+					_parent.Intention[4] = 0.0f;
+					
 					inputAxis.x = -Direction.x;
 					inputAxis.y = -1;
 					commandAxis.x = 0;
@@ -418,6 +490,12 @@ namespace Resources.Scripts
 					}
 					break;
 				case AIStatePreset.Wait:
+					_parent.Intention[0] = 0.0f;
+					_parent.Intention[1] = 0.0f;
+					_parent.Intention[2] = 0.0f;
+					_parent.Intention[3] = 0.0f;
+					_parent.Intention[4] = 1.0f;
+					
 					if (_innerTimer < 1f)
 						break;
 					

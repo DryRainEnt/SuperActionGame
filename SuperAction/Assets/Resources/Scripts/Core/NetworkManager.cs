@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using Proto.BasicExtensionUtils;
 using Proto.EventSystem;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
@@ -57,7 +58,7 @@ namespace Resources.Scripts.Core
 	        Debug.Log("NeuralNetwork: Loading...");
 	        if (File.Exists(WeightsPath))
 	        {
-		        NeuralNetwork = NeuralNetwork.FromJson(await File.ReadAllTextAsync(WeightsPath));
+		        NeuralNetwork = CustomNeuralNetwork.FromJson(await File.ReadAllTextAsync(WeightsPath));
 		        Debug.Log("NeuralNetwork: Loaded.");
 		        isActive = true;
 	        }
@@ -159,7 +160,7 @@ namespace Resources.Scripts.Core
 	{
 		public static float ReLU(float x)
 		{
-			return Mathf.Max(0, x);
+			return Mathf.Max(0f, x);
 		}
     
 		public static float Tanh(float x)
@@ -169,7 +170,42 @@ namespace Resources.Scripts.Core
 			return (eToX - eToNegX) / (eToX + eToNegX);
 		}
 
-		public static float[] ForwardA(this CustomNeuralNetwork nn, float[] input)
+		public static float[,] HeInitialization(int inputSize, int outputSize)
+		{
+			float[,] weights = new float[inputSize, outputSize];
+			float stdDev = Mathf.Sqrt(2f / inputSize);
+
+			for (int i = 0; i < inputSize; i++)
+			{
+				for (int j = 0; j < outputSize; j++)
+				{
+					weights[i, j] = GaussianRandom(0f, stdDev);
+				}
+			}
+
+			return weights;
+		}
+		
+		public static float MeanSquaredError(float[] predicted, float[] actual)
+		{
+			float sumSquaredError = 0f;
+			for (int i = 0; i < predicted.Length; i++)
+			{
+				sumSquaredError += Mathf.Pow(predicted[i] - actual[i], 2);
+			}
+
+			return sumSquaredError / predicted.Length;
+		}
+		
+		private static float GaussianRandom(float mean, float stdDev)
+		{
+			float u1 = 1.0f - UnityEngine.Random.value;
+			float u2 = 1.0f - UnityEngine.Random.value;
+			float randStdNormal = Mathf.Sqrt(-2.0f * Mathf.Log(u1)) * Mathf.Sin(2.0f * Mathf.PI * u2);
+			return mean + stdDev * randStdNormal;
+		}
+		
+		public static float[] ForwardA(this CustomNeuralNetwork nn, out float[] output, params float[] input)
 		{
 			try
 			{
@@ -179,9 +215,11 @@ namespace Resources.Scripts.Core
 				{
 					for (int j = 0; j < 12; j++)
 					{
-						hidden1[i] += input[j] * nn.net_a_fc1_weight[i];
+						hidden1[i] += input[j] * nn.net_a_fc1_weight[i,j];
+						// Debug.Log($"hidden1[{i}_{j}] = {hidden1[i]} + {input[j]} * {nn.net_a_fc1_weight[i]}");
 					}
 					hidden1[i] = ReLU(hidden1[i] + nn.net_a_fc1_bias[i]);
+					// Debug.Log($"hidden1[{i}] = ReLU({hidden1[i]} + {nn.net_a_fc1_bias[i]})");
 				}
 	        
 				// 두 번째 레이어
@@ -190,22 +228,44 @@ namespace Resources.Scripts.Core
 				{
 					for (int j = 0; j < 60; j++)
 					{
-						hidden2[i] += hidden1[j] * nn.net_a_fc2_weight[i];
+						hidden2[i] += hidden1[j] * nn.net_a_fc2_weight[i,j];
 					}
 					hidden2[i] = ReLU(hidden2[i] + nn.net_a_fc2_bias[i]);
+					// Debug.Log($"hidden2[{i}] = ReLU({hidden2[i]} + {nn.net_a_fc2_bias[i]})");
 				}
-	        
+				
 				// 출력 레이어
-				float[] output = new float[5];
+				output = new float[5];
 				for (int i = 0; i < 5; i++)
 				{
 					for (int j = 0; j < 24; j++)
 					{
-						output[i] += hidden2[j] * nn.net_a_fc3_weight[i];
+						output[i] += hidden2[j] * nn.net_a_fc3_weight[i,j];
 					}
 					output[i] = Tanh(output[i] + nn.net_a_fc3_bias[i]);
+					// Debug.Log($"output[{i}] = ReLU({output[i]} + {nn.net_a_fc3_bias[i]})");
 				}
 	        
+				/*
+				Debug.Log($"H1: {hidden1[0]}, {hidden1[1]}, {hidden1[2]}, {hidden1[3]}, {hidden1[4]}, {hidden1[5]},\n" +
+				          $" {hidden1[6]}, {hidden1[7]}, {hidden1[8]}, {hidden1[9]}, {hidden1[10]}, {hidden1[11]},\n" +
+				          $" {hidden1[12]}, {hidden1[13]}, {hidden1[14]}, {hidden1[15]}, {hidden1[16]}, {hidden1[17]},\n" +
+				          $" {hidden1[18]}, {hidden1[19]}, {hidden1[20]}, {hidden1[21]}, {hidden1[22]}, {hidden1[23]},\n" +
+				          $" {hidden1[24]}, {hidden1[25]}, {hidden1[26]}, {hidden1[27]}, {hidden1[28]}, {hidden1[29]},\n" +
+				          $" {hidden1[30]}, {hidden1[31]}, {hidden1[32]}, {hidden1[33]}, {hidden1[34]}, {hidden1[35]},\n" +
+				          $" {hidden1[36]}, {hidden1[37]}, {hidden1[38]}, {hidden1[39]}, {hidden1[40]}, {hidden1[41]},\n" +
+				          $" {hidden1[42]}, {hidden1[43]}, {hidden1[44]}, {hidden1[45]}, {hidden1[46]}, {hidden1[47]},\n" +
+				          $" {hidden1[48]}, {hidden1[49]}, {hidden1[50]}, {hidden1[51]}, {hidden1[52]}, {hidden1[53]},\n" +
+				          $" {hidden1[54]}, {hidden1[55]}, {hidden1[56]}, {hidden1[57]}, {hidden1[58]}, {hidden1[59]}" +
+				          $"\nH2: {hidden2[0]}, {hidden2[1]}, {hidden2[2]}, {hidden2[3]}, {hidden2[4]}, {hidden2[5]},\n" +
+				          $" {hidden2[6]}, {hidden2[7]}, {hidden2[8]}, {hidden2[9]}, {hidden2[10]}, {hidden2[11]},\n" +
+				          $" {hidden2[12]}, {hidden2[13]}, {hidden2[14]}, {hidden2[15]}, {hidden2[16]}, {hidden2[17]},\n" +
+				          $" {hidden2[18]}, {hidden2[19]}, {hidden2[20]}, {hidden2[21]}, {hidden2[22]}, {hidden2[23]}" +
+				          $"\nOutput: {output[0]}, {output[1]}, {output[2]}, {output[3]}, {output[4]}\n" +
+				          $"Input1: {input[0]}, {input[1]}, {input[2]}, {input[3]}, {input[4]}, {input[5]}\n" +
+				          $"Input2: {input[6]}, {input[7]}, {input[8]}, {input[9]}, {input[10]}, {input[11]}\n");
+				          */
+				
 				return output;
 			}
 			catch (IndexOutOfRangeException e)
@@ -230,7 +290,7 @@ namespace Resources.Scripts.Core
 			{
 				for (int j = 0; j < 5; j++)
 				{
-					hidden1[i] += input[j] * nn.net_b_fc1_weight[i];
+					hidden1[i] += input[j] * nn.net_b_fc1_weight[i,j];
 				}
 				hidden1[i] = ReLU(hidden1[i] + nn.net_b_fc1_bias[i]);
 			}
@@ -241,7 +301,7 @@ namespace Resources.Scripts.Core
 			{
 				for (int j = 0; j < 24; j++)
 				{
-					output[i] += hidden1[j] * nn.net_b_fc2_weight[i];
+					output[i] += hidden1[j] * nn.net_b_fc2_weight[i,j];
 				}
 				output[i] = Tanh(output[i] + nn.net_b_fc2_bias[i]);
 			}
