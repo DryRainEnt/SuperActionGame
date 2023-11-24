@@ -195,7 +195,7 @@ namespace Resources.Scripts
 			new NN_ActionInputPair("Idle", new Vector4(0f, 0f, 0f, 0f)),
 			new NN_ActionInputPair("Approach", new Vector4(1f, 0f, 0f, 0f)),
 			new NN_ActionInputPair("Retreat", new Vector4(-1f, 0f, 0f, 0f)),
-			new NN_ActionInputPair("Dodge", new Vector4(0f, -1f, 0f, 1f)),
+			new NN_ActionInputPair("Dodge", new Vector4(-1f, -1f, 0f, 1f)),
 			new NN_ActionInputPair("Guard", new Vector4(0f, -1f, 0f, 0f)),
 			new NN_ActionInputPair("Jump", new Vector4(0f, 0f, 0f, 1f)),
 			new NN_ActionInputPair("5A", new Vector4(0f, 0f, 1f, 0f)),
