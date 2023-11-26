@@ -46,6 +46,9 @@ public class Game : MonoBehaviour, IEventListener
     
     public TMP_Text LifeCountText;
     public TMP_Text KillCountText;
+    public TMP_Text WinnerText;
+
+    public static Actor Player;
 
     public int playerLifeCount
     {
@@ -55,6 +58,9 @@ public class Game : MonoBehaviour, IEventListener
     {
         set => KillCountText.text = $"{value}";
     }
+
+    public bool isGameEnd = false;
+
 
     private void Awake()
     {
@@ -95,6 +101,8 @@ public class Game : MonoBehaviour, IEventListener
         MessageSystem.Subscribe(typeof(OnReviveEvent), this);
         MessageSystem.Subscribe(typeof(OnGameEndEvent), this);
 
+        WinnerText.text = "";
+
         CameraTracker.Instance.Track(Vector2.up * 24f);
 
         // Test use
@@ -107,7 +115,7 @@ public class Game : MonoBehaviour, IEventListener
             player.ChangeActorControl(data.ControllerType);
             player.OriginColor = data.Color;
             player.Initiate();
-            player.networkObject.Spawn();
+            // player.networkObject.Spawn();
             RegisterActor(player);
             player.gameObject.SetActive(false);
 
@@ -127,7 +135,7 @@ public class Game : MonoBehaviour, IEventListener
             StartCoroutine(actor.OnRevive());
         }
         
-        await Task.Run(NN_Manager.Instance.RunPython);
+        // await Task.Run(NN_Manager.Instance.RunPython);
     }
 
     public async Task JoinGame()
@@ -167,6 +175,15 @@ public class Game : MonoBehaviour, IEventListener
 
         if (_isPlayable)
             _timerText.text = $"{Time.realtimeSinceStartup - _startTime:##00.00}";
+
+        if (isGameEnd){
+            if (GlobalInputController.Instance.GetPressed("reset"))
+            {
+                StageLoader.Instance.UnloadStage();
+                
+                MainUIController.Instance.MainUI.SetActive(true);
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -202,15 +219,27 @@ public class Game : MonoBehaviour, IEventListener
         
         if (e is OnGameEndEvent oge)
         {
+            CameraTracker.Instance.Track(Vector2.up * 36f);
+
+            var winner = RegisteredActors[oge.WinnerIndex];
             _isPlayable = false;
             Debug.Log($"Winner is : {oge.WinnerIndex}");
             
-            foreach (var actor in RegisteredActors.Values)
+            var aCount = RegisteredActors.Values.Count;
+
+            for (int i = 0; i < aCount; i++)
             {
-                actor.gameObject.SetActive(false);
-                
+                var actor = RegisteredActors[i];
+                UnregisterActor(actor);
+                actor.Dispose();
             }
+
+            var hex = ColorUtility.ToHtmlStringRGB(winner.OriginColor);
+
+            WinnerText.text = $"Winner is \n<b><color=#{hex}>Player{oge.WinnerIndex + 1}</color></b>!";
             
+            isGameEnd = true;
+
             return true;
         }
         

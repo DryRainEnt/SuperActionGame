@@ -191,6 +191,7 @@ namespace SimpleActionFramework.Core
             ObjectPoolController.GetOrCreate("GuardFX", "Effects");
             ObjectPoolController.GetOrCreate("DeathFX", "Effects");
             ObjectPoolController.GetOrCreate("ReviveFX", "Effects");
+            ObjectPoolController.GetOrCreate("PlayerMarker", "Effects");
         }
 
         public void ResetPosition()
@@ -217,24 +218,25 @@ namespace SimpleActionFramework.Core
                 new PoolParameters(Position)) as DeathFX;
             fx.Initialize(Color);
             
-            gameObject.SetActive(false);
-            
-            if (LifeCount < 0)
+            if (LifeCount <= 0)
             {
+                Game.Instance.survivedPlayers.Remove(ActorIndex);
+             
                 yield return new WaitForSeconds(1.2f);
 
-                Game.Instance.survivedPlayers.Remove(ActorIndex);
-                
                 if (Game.Instance.survivedPlayers.Count == 1)
                     MessageSystem.Publish(OnGameEndEvent.Create(Game.Instance.survivedPlayers[0]));
-                
-                yield break;
-            }
             
-            Timer timer = new Timer(2f)
-            {
-                Alarm = Revive
-            };
+            }
+            else{
+                Timer timer = new Timer(2f)
+                {
+                    Alarm = Revive
+                };
+            }
+
+            gameObject.SetActive(false);
+            
         }
 
         public void Revive()
@@ -250,7 +252,13 @@ namespace SimpleActionFramework.Core
             }
             
             if (_actorController.CharacterInput is CharacterKeyboardInput)
+            {
                 CameraTracker.Instance.Track(transform, Vector2.up * 24f);
+                Game.Player = this;
+
+                var _ = ObjectPoolController.InstantiateObject("PlayerMarker", 
+                    new PoolParameters(_initialPosition)) as PlayerMarker;
+            }
             
             ResetPosition();
             var fx = ObjectPoolController.InstantiateObject("ReviveFX", 
@@ -546,7 +554,8 @@ namespace SimpleActionFramework.Core
             MessageSystem.Unsubscribe(typeof(OnAttackGuardEvent), this);
             
             Destroy(ActionStateMachine);
-            
+
+            ObjectPoolController.Dispose(this);
         }
     }
 }

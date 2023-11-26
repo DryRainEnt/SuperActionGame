@@ -29,4 +29,11 @@ public class StageLoader : MonoBehaviour
 
         return stageData;
     }
+
+    public void UnloadStage()
+    {
+        AudienceController.Instance.DisposeAudience();
+
+        MapParent.SetActive(false);
+    }
 }

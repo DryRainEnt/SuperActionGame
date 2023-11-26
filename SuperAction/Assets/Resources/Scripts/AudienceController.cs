@@ -77,6 +77,16 @@ public class AudienceController : MonoBehaviour
         return result;
     }
 
+    public void DisposeAudience()
+    {
+        for (int i = 0; i < 64; i++)
+        {
+            var index = Audiences[i];
+            var sprite = Sprites[i];
+            sprite.enabled = false;
+        }
+    }
+
     private IEnumerator SetAudience(int index, int animId = -1)
     {
         var anim = Audiences[index];
