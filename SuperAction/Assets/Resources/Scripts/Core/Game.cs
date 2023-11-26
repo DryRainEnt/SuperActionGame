@@ -143,10 +143,9 @@ public class Game : MonoBehaviour, IEventListener
 
     public bool OnEvent(IEvent e)
     {
-        if (e is OnDeathEvent { ActorIndex: 1 })
+        if (e is OnDeathEvent ode)
         {
-            WriteFrameDataExternal();
-            return true;
+            return OnDeathEvent(ode);
         }
         
         if (e is OnAttackHitEvent ahe)
@@ -164,6 +163,20 @@ public class Game : MonoBehaviour, IEventListener
     
     private float hitRewardFactor = 3f;
     private float guardRewardFactor = 2f;
+    private float killRewardFactor = 5f;
+
+    // 캐릭터 사망시 이벤트 처리
+    public bool OnDeathEvent(OnDeathEvent ode)
+    {
+        if (ode.ActorIndex == 1)
+            WriteFrameDataExternal();
+        else
+        {
+            var reward = CalculateKillReward(ode);
+            ApplyRewardToRecentFrames(reward);
+        }
+        return true;
+    }
 
     // 공격 히트 이벤트 처리
     public bool OnAttackHitEvent(OnAttackHitEvent ahe)
@@ -195,6 +208,14 @@ public class Game : MonoBehaviour, IEventListener
         }
         // Debug.Log($"+> {reward}");
     }
+
+    // 히트 보상 계산
+    private float CalculateKillReward(OnDeathEvent ode)
+    {
+        // 보상 계산 로직
+        return (ode.ActorIndex == Learner.ActorIndex ? -1f : 2f) * killRewardFactor;
+    }
+
 
     // 히트 보상 계산
     private float CalculateHitReward(OnAttackHitEvent ahe)
