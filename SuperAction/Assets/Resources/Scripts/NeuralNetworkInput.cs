@@ -202,9 +202,9 @@ namespace Resources.Scripts
 			new NN_ActionInputPair("6A", new Vector4(1f, 0f, 1f, 0f)),
 			new NN_ActionInputPair("2A", new Vector4(0f, -1f, 1f, 0f)),
 			new NN_ActionInputPair("8A", new Vector4(0f, 1f, 1f, 0f)),
-			new NN_ActionInputPair("J5A", new Vector4(0f, 0f, 1f, 0f)),
-			new NN_ActionInputPair("J6A", new Vector4(1f, 0f, 1f, 0f)),
-			new NN_ActionInputPair("J2A", new Vector4(0f, -1f, 1f, 0f)),
+			new NN_ActionInputPair("J5A", new Vector4(0f, 0f, 1f, 1f)),
+			new NN_ActionInputPair("J6A", new Vector4(1f, 0f, 1f, 1f)),
+			new NN_ActionInputPair("J2A", new Vector4(0f, -1f, 1f, 1f)),
 			new NN_ActionInputPair("J8A", new Vector4(0f, 1f, 1f, 0f)),
 		};
 		

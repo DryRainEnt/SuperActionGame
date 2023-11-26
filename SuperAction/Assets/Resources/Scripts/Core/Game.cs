@@ -116,13 +116,20 @@ public class Game : MonoBehaviour, IEventListener
             _timerText.text = $"{Time.realtimeSinceStartup - _startTime:##00.00}";
     }
 
+    private int _frameCount = 0;
+
     private void FixedUpdate()
     {
         MaskManager.Instance.Update();
         
         if (RegisteredActors.Count < 2 || !NetworkManager.Instance.isActive) return;
         
-        AppendFrameData(new FrameData(Time.frameCount));
+        _frameCount++;
+        if (_frameCount >= 6f && _frameDataChunk.FindIndex(Time.frameCount) < 0)
+        {
+            AppendFrameData(new FrameData(Time.frameCount));
+            _frameCount = 0;
+        }
     }
     
     public void AppendFrameData(FrameData data)
@@ -178,6 +185,7 @@ public class Game : MonoBehaviour, IEventListener
     private void ApplyRewardToRecentFrames(float reward)
     {
         int currentFrame = Time.frameCount;
+        AppendFrameData(new FrameData(currentFrame));
         for (int i = 0; i < _frameDataChunk.Frames.Count; i++)
         {
             var frame = _frameDataChunk.Frames[i];
@@ -192,14 +200,14 @@ public class Game : MonoBehaviour, IEventListener
     private float CalculateHitReward(OnAttackHitEvent ahe)
     {
         // 보상 계산 로직
-        return ahe.info.Damage * (ahe.takerMask.Owner == Learner ? -0.7f : 1.2f) * hitRewardFactor;
+        return ahe.info.Damage * (ahe.takerMask.Owner == Learner ? -0.3f : 1.2f) * hitRewardFactor;
     }
 
     // 가드 보상 계산
     private float CalculateGuardReward(OnAttackGuardEvent age)
     {
         // 보상 계산 로직
-        return age.info.GuardDamage * (age.giverMask.Owner == Learner ? -0.7f : 1) * guardRewardFactor;
+        return age.info.GuardDamage * (age.giverMask.Owner == Learner ? -0.1f : 0.3f) * guardRewardFactor;
     }
     
     public Actor GetEnemy(int self)
