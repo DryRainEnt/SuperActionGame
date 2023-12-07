@@ -79,8 +79,8 @@ namespace Resources.Scripts
 
 			if (_forceNeutral)
 			{
-				inputAxis = Vector2.zero;
-				commandAxis = Vector2.zero;
+				// inputAxis = Vector2.zero;
+				// commandAxis = Vector2.zero;
 			
 				if (_innerTimer > 0.1f)
 				{
@@ -157,12 +157,15 @@ namespace Resources.Scripts
 			
 			switch (condition)
 			{
-				case > 0:
+				case 1:
 					actor.RecordedInputs.Add(new InputRecord(plus, Time.realtimeSinceStartup));
 					actor.CurrentInputs[key] = true;
 					break;
-				case < 0:
+				case -1:
 					actor.RecordedInputs.Add(new InputRecord(minus, Time.realtimeSinceStartup));
+					actor.CurrentInputs[key] = false;
+					break;
+				default:
 					actor.CurrentInputs[key] = false;
 					break;
 			}
